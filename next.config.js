@@ -1,7 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ['media.duffleup.in', 'duffleup-media.s3.ap-south-1.amazonaws.com'],
+    remotePatterns: [
+      { protocol: 'https', hostname: 'media.duffleup.in' },
+      { protocol: 'https', hostname: 'duffleup-media.s3.ap-south-1.amazonaws.com' },
+      { protocol: 'https', hostname: 'images.unsplash.com' },
+    ],
   },
   async headers() {
     return [
