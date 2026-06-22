@@ -2,17 +2,18 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { CheckCircle, TrendingUp, Shield, Users, ArrowRight, Star } from 'lucide-react'
+import EarlyAccessForm from '@/components/ui/EarlyAccessForm'
 
 export const metadata: Metadata = {
   title: 'List Your Property',
   description:
-    'Join Duffleup and list your offbeat property in Maharashtra. 12% commission only on bookings — no monthly fees. Founding Partner offer available.',
+    'Join Duffleup and list your offbeat property in Maharashtra. 7% commission only on bookings — no monthly fees. Founding Partner offer available.',
 }
 
 const benefits = [
   {
     icon: <TrendingUp size={24} className="text-terracotta" />,
-    title: '12% only on bookings',
+    title: '7% only on bookings',
     desc: 'We earn when you earn. No monthly fees, no listing charges, no hidden costs. Simple.',
   },
   {
@@ -139,17 +140,17 @@ export default function ListYourPropertyPage() {
                 Pricing Model
               </p>
               <h2 className="font-playfair text-4xl font-bold mb-6">
-                12% and nothing else
+                7% and nothing else
               </h2>
               <p className="text-cream/70 text-lg font-dm leading-relaxed mb-6">
-                We charge a 12% commission on each successful booking. That's
+                We charge a 7% commission on each successful booking. That's
                 it. No monthly subscription. No setup fees. No listing charges.
               </p>
               <ul className="space-y-4">
                 {[
                   'No booking = No fee',
                   'Transparent payout every 15 days',
-                  'You keep 88% of every booking',
+                  'You keep 93% of every booking',
                   'No lock-in contracts',
                   'Cancel your listing anytime',
                 ].map((item) => (
@@ -171,12 +172,12 @@ export default function ListYourPropertyPage() {
                   <span className="text-cream font-playfair text-xl font-bold">₹8,000</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-cream/70 font-dm text-sm">Duffleup commission (12%)</span>
-                  <span className="text-cream/60 font-dm">₹960</span>
+                  <span className="text-cream/70 font-dm text-sm">Duffleup commission (7%)</span>
+                  <span className="text-cream/60 font-dm">₹560</span>
                 </div>
                 <div className="border-t border-cream/20 pt-4 flex justify-between items-center">
                   <span className="text-sand font-dm font-semibold">You receive</span>
-                  <span className="text-sand font-playfair text-3xl font-bold">₹7,040</span>
+                  <span className="text-sand font-playfair text-3xl font-bold">₹7,440</span>
                 </div>
               </div>
               <p className="text-cream/40 text-xs font-dm mt-6 text-center">
@@ -236,74 +237,11 @@ export default function ListYourPropertyPage() {
           </div>
 
           <div className="bg-white rounded-2xl p-8 shadow-sm">
-            <form className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-forest font-dm text-sm font-medium mb-2">
-                    Your Name
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Full name"
-                    className="w-full border border-sand/50 rounded-xl px-4 py-3 font-dm text-sm text-forest placeholder:text-stone/40 focus:outline-none focus:ring-2 focus:ring-forest/30 bg-cream/50"
-                  />
-                </div>
-                <div>
-                  <label className="block text-forest font-dm text-sm font-medium mb-2">
-                    Phone / WhatsApp
-                  </label>
-                  <input
-                    type="tel"
-                    placeholder="+91 98765 43210"
-                    className="w-full border border-sand/50 rounded-xl px-4 py-3 font-dm text-sm text-forest placeholder:text-stone/40 focus:outline-none focus:ring-2 focus:ring-forest/30 bg-cream/50"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-forest font-dm text-sm font-medium mb-2">
-                  Property Name
-                </label>
-                <input
-                  type="text"
-                  placeholder="What is your property called?"
-                  className="w-full border border-sand/50 rounded-xl px-4 py-3 font-dm text-sm text-forest placeholder:text-stone/40 focus:outline-none focus:ring-2 focus:ring-forest/30 bg-cream/50"
-                />
-              </div>
-
-              <div>
-                <label className="block text-forest font-dm text-sm font-medium mb-2">
-                  Location
-                </label>
-                <input
-                  type="text"
-                  placeholder="Village, Taluka, District — Maharashtra"
-                  className="w-full border border-sand/50 rounded-xl px-4 py-3 font-dm text-sm text-forest placeholder:text-stone/40 focus:outline-none focus:ring-2 focus:ring-forest/30 bg-cream/50"
-                />
-              </div>
-
-              <div>
-                <label className="block text-forest font-dm text-sm font-medium mb-2">
-                  Tell us about your property
-                </label>
-                <textarea
-                  rows={4}
-                  placeholder="Type of stay, capacity, what makes it special..."
-                  className="w-full border border-sand/50 rounded-xl px-4 py-3 font-dm text-sm text-forest placeholder:text-stone/40 focus:outline-none focus:ring-2 focus:ring-forest/30 bg-cream/50 resize-none"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-terracotta text-cream font-dm font-semibold py-4 rounded-xl hover:bg-terracotta-dark transition-colors"
-              >
-                Submit Application
-              </button>
-
-              <p className="text-stone/50 text-xs font-dm text-center">
-                By submitting, you agree to our terms of service. We'll be in touch within 48 hours.
-              </p>
-            </form>
+            {/* Sub-prompt-23: functional owner-intent early-access capture. */}
+            <EarlyAccessForm intent="OWNER" source="landing-list-property" tone="light" />
+            <p className="text-stone/50 text-xs font-dm text-center mt-4">
+              By submitting, you agree to our terms of service. We&apos;ll be in touch as we approach launch.
+            </p>
           </div>
         </div>
       </section>

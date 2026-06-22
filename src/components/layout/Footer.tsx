@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { MapPin, Mail, Phone } from 'lucide-react'
+import { MapPin, Mail } from 'lucide-react'
 
 export default function Footer() {
   return (
@@ -72,7 +72,7 @@ export default function Footer() {
                   href="/list-your-property#commission"
                   className="text-cream/70 hover:text-sand text-sm transition-colors"
                 >
-                  12% Commission Model
+                  7% Commission Model
                 </Link>
               </li>
             </ul>
@@ -84,13 +84,6 @@ export default function Footer() {
               >
                 <Mail size={14} />
                 hello@duffleup.in
-              </a>
-              <a
-                href="https://wa.me/919876543210"
-                className="flex items-center gap-2 text-cream/70 hover:text-sand text-sm transition-colors"
-              >
-                <Phone size={14} />
-                WhatsApp Us
               </a>
             </div>
           </div>

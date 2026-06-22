@@ -1,55 +1,13 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Search, Shield, MapPin, Star, ArrowRight, CheckCircle } from 'lucide-react'
+import { Search, Shield, MapPin, ArrowRight, CheckCircle } from 'lucide-react'
+import EarlyAccessForm from '@/components/ui/EarlyAccessForm'
 
 export const metadata: Metadata = {
   title: 'Duffleup — Offbeat Stays You Can Actually Trust',
   description:
     'Discover verified offbeat stays across Maharashtra. Every property physically checked before listing. Scroll through handpicked nature retreats, forest cottages, and riverside escapes.',
-}
-
-const featuredProperties = [
-  {
-    id: 1,
-    name: 'Misty Valley Cottage',
-    location: 'Bhimashankar, Maharashtra',
-    badge: 'Certified',
-    rating: 4.9,
-    reviews: 34,
-    image:
-      'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=800&q=80',
-    tags: ['Forest', 'Monsoon', 'Pet-friendly'],
-  },
-  {
-    id: 2,
-    name: 'The River Nest',
-    location: 'Koyna, Maharashtra',
-    badge: 'Verified',
-    rating: 4.7,
-    reviews: 21,
-    image:
-      'https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=800&q=80',
-    tags: ['Riverside', 'Birdwatching', 'Trekking'],
-  },
-  {
-    id: 3,
-    name: 'Hilltop Hideout',
-    location: 'Bhor, Maharashtra',
-    badge: 'Select',
-    rating: 5.0,
-    reviews: 18,
-    image:
-      'https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=800&q=80',
-    tags: ['Sunrise views', 'Bonfire', 'Secluded'],
-  },
-]
-
-const badgeColors: Record<string, string> = {
-  Listed: 'bg-gray-100 text-gray-700',
-  Verified: 'bg-sand/30 text-stone',
-  Certified: 'bg-forest/10 text-forest',
-  Select: 'bg-terracotta/10 text-terracotta',
 }
 
 const howItWorksSteps = [
@@ -238,84 +196,21 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Properties */}
+      {/* Early access — guest signup (sub-prompt-23) */}
       <section className="py-24 bg-cream">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-end justify-between mb-12">
-            <div>
-              <p className="text-terracotta text-sm font-dm tracking-widest uppercase mb-2">
-                Handpicked
-              </p>
-              <h2 className="font-playfair text-4xl md:text-5xl font-bold text-forest">
-                Featured stays
-              </h2>
-            </div>
-            <Link
-              href="/"
-              className="hidden md:flex items-center gap-2 text-forest font-dm text-sm font-medium hover:text-terracotta transition-colors"
-            >
-              View all stays <ArrowRight size={14} />
-            </Link>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {featuredProperties.map((property) => (
-              <div
-                key={property.id}
-                className="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300"
-              >
-                <div className="relative h-56 overflow-hidden">
-                  <Image
-                    src={property.image}
-                    alt={property.name}
-                    fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute top-3 left-3">
-                    <span
-                      className={`text-xs font-dm font-semibold px-3 py-1 rounded-full ${badgeColors[property.badge]}`}
-                    >
-                      {property.badge}
-                    </span>
-                  </div>
-                </div>
-                <div className="p-6">
-                  <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-playfair text-xl font-bold text-forest">
-                      {property.name}
-                    </h3>
-                    <div className="flex items-center gap-1 flex-shrink-0">
-                      <Star
-                        size={14}
-                        className="text-sand fill-sand"
-                      />
-                      <span className="text-sm font-dm font-medium text-stone">
-                        {property.rating}
-                      </span>
-                      <span className="text-xs text-stone/60">
-                        ({property.reviews})
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1 mb-4">
-                    <MapPin size={13} className="text-terracotta" />
-                    <span className="text-xs font-dm text-stone">
-                      {property.location}
-                    </span>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    {property.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs font-dm bg-cream text-stone px-2.5 py-1 rounded-full"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-terracotta text-sm font-dm tracking-widest uppercase mb-2">
+            Coming soon
+          </p>
+          <h2 className="font-playfair text-4xl md:text-5xl font-bold text-forest mb-4">
+            Be the first to know when we launch
+          </h2>
+          <p className="text-stone text-lg font-dm mb-10">
+            We&apos;re onboarding our founding properties now. Leave your email and
+            we&apos;ll send you verified stays in your area as we go live.
+          </p>
+          <div className="text-left max-w-xl mx-auto">
+            <EarlyAccessForm intent="GUEST" source="landing-home" tone="light" />
           </div>
         </div>
       </section>
@@ -341,7 +236,7 @@ export default function Home() {
           </h2>
           <p className="text-cream/80 text-lg font-dm max-w-2xl mx-auto mb-4">
             Join Maharashtra's most trusted offbeat stays network. We charge
-            just <strong className="text-cream">12% commission on bookings</strong> —
+            just <strong className="text-cream">7% commission on bookings</strong> —
             no monthly fees, no nonsense.
           </p>
           <p className="text-cream/60 text-sm font-dm mb-10">
@@ -369,10 +264,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { value: '50+', label: 'Properties Listed' },
+              { value: 'Pre-launch', label: 'Now Onboarding' },
               { value: '100%', label: 'Physically Verified' },
-              { value: '4.8★', label: 'Average Rating' },
-              { value: '12%', label: 'Only On Bookings' },
+              { value: 'Founding', label: 'Partners Onboarding' },
+              { value: '7%', label: 'Commission Only' },
             ].map((stat) => (
               <div key={stat.label}>
                 <p className="font-playfair text-3xl md:text-4xl font-bold text-forest">
