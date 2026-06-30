@@ -13,6 +13,7 @@ import { StickerMoodCard } from '@/components/marketing/StickerMoodCard'
 import { SocialCard } from '@/components/marketing/SocialCard'
 import { SiteNav } from '@/components/marketing/SiteNav'
 import { Footer } from '@/components/marketing/Footer'
+import { EarlyAccessBand } from '@/components/marketing/EarlyAccessBand'
 
 export const metadata: Metadata = {
   title: 'Design System',
@@ -243,6 +244,13 @@ export default function DesignSystemPage() {
               </Button>
             }
           />
+        </div>
+      </Section>
+
+      {/* Early access band (restyled SP-23 email capture) */}
+      <Section eyebrow="Marketing" title="Early access band">
+        <div className="overflow-hidden rounded-md border border-line">
+          <EarlyAccessBand />
         </div>
       </Section>
 

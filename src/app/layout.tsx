@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
 import { Bungee, Bebas_Neue } from 'next/font/google'
 import './globals.css'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
+import { SiteNav } from '@/components/marketing/SiteNav'
+import { Footer } from '@/components/marketing/Footer'
 
 const bungee = Bungee({
   weight: '400',
@@ -71,7 +71,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${bungee.variable} ${bebas.variable}`}>
       <body className="font-body bg-sterling-warm text-pitch antialiased">
-        <Header />
+        <SiteNav />
         <main>{children}</main>
         <Footer />
       </body>
