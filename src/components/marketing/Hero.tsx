@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { Logo } from '@/components/ui/Logo'
 import { Button } from '@/components/ui/Button'
 
 const stickers = [
@@ -10,7 +9,7 @@ const stickers = [
 
 export function Hero() {
   return (
-    <section className="relative min-h-[700px] overflow-hidden bg-hero-radial pb-16 pt-24 text-white">
+    <section className="relative overflow-hidden bg-hero-radial pb-20 pt-[120px] text-white">
       {stickers.map((s) => (
         <span
           key={s.label}
@@ -21,16 +20,12 @@ export function Hero() {
       ))}
 
       <div className="relative z-10 mx-auto max-w-[1200px] px-6">
-        <div className="mb-12 block">
-          <Logo size="md" priority />
-        </div>
-
         <h1 className="mb-6 max-w-4xl font-display text-[clamp(64px,11vw,96px)] leading-none text-acid [text-shadow:10px_10px_0_#0A0A0A,5px_5px_0_#FF1B8D]">
           Don&apos;t book<br />a room.<br />Book a<br />weekend.
         </h1>
 
-        <p className="mb-12 max-w-xl font-utility text-[clamp(18px,2vw,22px)] uppercase tracking-[0.1em] text-white">
-          Verified offbeat stays. Honest economics. Maharashtra-first.
+        <p className="mb-8 max-w-xl font-utility text-[clamp(18px,2vw,22px)] uppercase tracking-[0.1em] text-white">
+          Verified stays. Honest economics. Mood-first.
         </p>
 
         <div className="flex flex-wrap gap-4">

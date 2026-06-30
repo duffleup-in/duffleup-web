@@ -25,7 +25,7 @@ const defaultLinks: NavLink[] = [
 
 const DefaultActions = (
   <>
-    <Button asChild variant="ghost" size="sm">
+    <Button asChild variant="secondary" size="sm">
       <Link href="/list-your-property">Got a place?</Link>
     </Button>
     <Button asChild variant="primary" size="sm">
@@ -48,14 +48,29 @@ export function SiteNav({ links = defaultLinks, actions = DefaultActions, classN
   return (
     <nav
       className={cn(
-        'sticky top-0 z-50 border-b border-line bg-white py-4 transition-shadow',
+        'sticky top-0 z-50 border-b border-pitch-soft bg-pitch transition-shadow',
         scrolled && 'shadow-sm',
         className
       )}
     >
-      <div className="mx-auto flex max-w-[1200px] items-center justify-between px-6">
-        <Link href="/" className="inline-flex items-center leading-none" aria-label="duffleup home">
-          <Logo size="xs" className="!max-w-[120px]" />
+      {/* Fixed-height band; the bleed logo overflows below it onto the hero. */}
+      <div className="relative mx-auto flex h-16 max-w-[1200px] items-center justify-between px-6">
+        <Link
+          href="/"
+          className={cn(
+            'relative z-20 inline-flex self-center leading-none',
+            // Top of page on desktop only: pull flush to the container edge
+            // (cancels the row's px-6 gutter) and top-align so the oversized
+            // mark bleeds downward. Mobile keeps the gutter + contained 48px.
+            !scrolled && 'md:-ml-6 md:self-start'
+          )}
+          aria-label="duffleup home"
+        >
+          {scrolled ? (
+            <Logo size="nav" priority className="h-12 w-auto" />
+          ) : (
+            <Logo size="bleed-xl" priority className="h-[72px] w-auto md:h-[180px]" />
+          )}
         </Link>
 
         <ul className="hidden gap-6 md:flex">
@@ -63,7 +78,7 @@ export function SiteNav({ links = defaultLinks, actions = DefaultActions, classN
             <li key={l.href}>
               <Link
                 href={l.href}
-                className="font-utility text-base uppercase tracking-[0.08em] text-pitch no-underline transition-colors hover:text-hyperpurple"
+                className="font-utility text-base uppercase tracking-[0.08em] text-white no-underline transition-colors hover:text-acid"
               >
                 {l.label}
               </Link>
@@ -75,7 +90,7 @@ export function SiteNav({ links = defaultLinks, actions = DefaultActions, classN
 
         <button
           type="button"
-          className="flex items-center md:hidden"
+          className="flex items-center text-white md:hidden"
           aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
@@ -85,14 +100,14 @@ export function SiteNav({ links = defaultLinks, actions = DefaultActions, classN
       </div>
 
       {open && (
-        <div className="border-t border-line bg-white px-6 py-4 md:hidden">
+        <div className="border-t border-pitch-soft bg-pitch px-6 py-4 md:hidden">
           <ul className="flex flex-col gap-4">
             {links.map((l) => (
               <li key={l.href}>
                 <Link
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="font-utility text-subh uppercase tracking-[0.08em] text-pitch no-underline"
+                  className="font-utility text-subh uppercase tracking-[0.08em] text-white no-underline"
                 >
                   {l.label}
                 </Link>

@@ -1,11 +1,15 @@
 import Image from 'next/image'
 import { cn } from '@/lib/cn'
 
-type LogoSize = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'hero'
+type LogoSize = 'nav' | 'bleed-xl' | 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'hero'
 type LogoProps = { size?: LogoSize; className?: string; priority?: boolean }
 
-// Widths from the v0.4 spec (.dup-logo-img--* max-widths).
+// Widths. `nav` (64) renders the 48px-tall contained mark; `bleed-xl` (240) is
+// the oversized top-of-page anchor (180px tall). The rest are the v0.4
+// .dup-logo-img--* sizes.
 const sizes: Record<LogoSize, number> = {
+  nav: 64,
+  'bleed-xl': 240,
   xxs: 90,
   xs: 120,
   sm: 180,
