@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Duffleup Design System v0.4</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Bungee+Inline&family=Bebas+Neue&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   DUFFLEUP DESIGN SYSTEM v0.4
+   Synthesis of:
+   - Designer's structural system (Figma + PDF, June 2026)
+   - v0.2 brand-personality components and voice
+   - Bungee (display), Bebas Neue (utility), Arial (body)
+   - Real logo SVG (transparent, scalable, works on any background)
+   ========================================================= */
+
+:root {
+  /* ===== BRAND PALETTE (designer-locked) ===== */
+  --color-hyperpurple: #7B2FFF;     /* Primary */
+  --color-slap-pink: #FF1B8D;       /* Secondary */
+  --color-acid: #CCFF00;            /* Support */
+  --color-plasma: #00D0FF;          /* Gray | Plasma (designer updated from #00F0FF) */
+  --color-sterling: #DEDED9;        /* Primary | Sterling (designer updated from #F5F5F5) */
+  --color-solar: #FF6B00;           /* Secondary | Solar */
+  --color-pitch: #0A0A0A;           /* Support | Pitch */
+
+  /* ===== TINTS & SHADES (designer-spec) ===== */
+  --color-hyperpurple-90: #8A47FF;
+  --color-hyperpurple-75: #A876FF;
+  --color-hyperpurple-50: #BDA0FF;
+  --color-hyperpurple-25: #DECCFF;
+  --color-hyperpurple-5:  #F4EDFF;
+
+  --color-slap-pink-75: #FF5BAA;
+  --color-slap-pink-50: #FF8BC4;
+  --color-slap-pink-25: #FFC5E2;
+
+  --color-acid-90:  #D2FF1A;
+  --color-acid-75:  #DBFF5B;
+  --color-acid-dark:#99CC00;
+
+  --color-sterling-warm: #FAFAF8;
+  --color-pitch-soft: #2A2A2A;
+  --color-line: rgba(10, 10, 10, 0.1);
+  --color-line-strong: rgba(10, 10, 10, 0.2);
+
+  /* ===== ALERT COLORS (designer-added) ===== */
+  --color-success: #1FC156;
+  --color-info: #3266FF;
+  --color-warning: #F5B339;
+  --color-danger:  #FF0000;
+  --color-success-bg: #E4F8EC;
+  --color-info-bg: #E5EBFF;
+  --color-warning-bg: #FDF1DC;
+  --color-danger-bg: #FFE5E5;
+
+  /* ===== TYPOGRAPHY ===== */
+  --font-display: 'Bungee', 'Impact', sans-serif;
+  --font-utility: 'Bebas Neue', 'Impact', 'Arial Narrow Bold', sans-serif;
+  --font-body: Arial, 'Helvetica Neue', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* ===== TYPOGRAPHY SCALE (designer-locked) ===== */
+  --text-h1: 96px;
+  --text-h2: 64px;
+  --text-h3: 48px;
+  --text-h4: 40px;
+  --text-h5: 32px;
+  --text-h6: 24px;
+  --text-subh: 18px;
+  --text-body: 16px;
+  --text-subtitle: 14px;
+  --text-caption: 12px;
+
+  /* ===== SPACING (8px base) ===== */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-6: 3rem;
+  --space-8: 4rem;
+  --space-12: 6rem;
+  --space-16: 8rem;
+
+  /* ===== BORDER RADIUS (designer-locked) ===== */
+  --radius-xsm: 4px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 70px;
+  --radius-pill: 999px;
+
+  /* ===== SHADOWS (designer-spec) ===== */
+  --shadow-xsm: 0 1px 2px rgba(10,10,10,0.04);
+  --shadow-sm:  0 2px 4px rgba(10,10,10,0.06);
+  --shadow-md:  0 4px 12px rgba(10,10,10,0.08);
+  --shadow-lg:  0 8px 24px rgba(10,10,10,0.12);
+  --shadow-xl:  0 16px 48px rgba(10,10,10,0.16);
+  --shadow-pop: 6px 6px 0 var(--color-pitch);     /* sticker drop-shadow */
+  --shadow-pop-lg: 10px 10px 0 var(--color-pitch);
+
+  --max-width: 1200px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: 1.5;
+  color: var(--color-pitch);
+  background: var(--color-sterling-warm);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+.container { max-width: var(--max-width); margin: 0 auto; padding: 0 var(--space-3); }
+
+.section { padding: var(--space-8) 0; border-bottom: 1px solid var(--color-line); }
+.section--pitch { background: var(--color-pitch); color: white; }
+.section--sterling { background: var(--color-sterling); }
+.section--white { background: white; }
+
+.section-eyebrow {
+  font-family: var(--font-utility);
+  font-size: var(--text-subh);
+  letter-spacing: 0.1em;
+  color: var(--color-hyperpurple);
+  margin-bottom: var(--space-1);
+  text-transform: uppercase;
+}
+.section--pitch .section-eyebrow { color: var(--color-acid); }
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 6vw, var(--text-h2));
+  line-height: 1;
+  letter-spacing: 0;
+  margin-bottom: var(--space-4);
+}
+
+.section-subtitle {
+  font-family: var(--font-body);
+  font-size: var(--text-subh);
+  max-width: 600px;
+  margin-bottom: var(--space-6);
+  color: var(--color-pitch-soft);
+}
+.section--pitch .section-subtitle { color: rgba(255,255,255,0.7); }
+
+/* =========================================================
+   DOC NAV
+   ========================================================= */
+.doc-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: var(--space-2) 0;
+}
+.doc-nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-4); flex-wrap: wrap;
+}
+.doc-nav-brand {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  line-height: 0;
+}
+.doc-nav-brand svg { height: 28px; width: auto; }
+.doc-nav-links { display: flex; gap: var(--space-3); list-style: none; }
+.doc-nav-links a {
+  font-family: var(--font-utility); font-size: 15px; letter-spacing: 0.05em;
+  color: white; text-decoration: none; text-transform: uppercase;
+}
+.doc-nav-links a:hover { color: var(--color-acid); }
+
+/* =========================================================
+   THE LOGO — uses the real SVG (transparent, scalable)
+   Sizing via max-width on the wrapper. Aspect ratio preserved.
+   ========================================================= */
+.dup-logo-img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+.dup-logo-img--hero  { max-width: 720px; }
+.dup-logo-img--lg    { max-width: 480px; }
+.dup-logo-img--md    { max-width: 320px; }
+.dup-logo-img--sm    { max-width: 180px; }
+.dup-logo-img--xs    { max-width: 120px; }
+.dup-logo-img--xxs   { max-width: 90px; }
+
+/* Inline SVG container — used in nav/footer where we embed SVG directly */
+.dup-logo-svg {
+  display: inline-block;
+  line-height: 0;
+  vertical-align: middle;
+}
+.dup-logo-svg svg {
+  display: block;
+  height: 100%;
+  width: auto;
+}
+.dup-logo-svg--32 { height: 32px; }
+.dup-logo-svg--40 { height: 40px; }
+.dup-logo-svg--48 { height: 48px; }
+.dup-logo-svg--64 { height: 64px; }
+
+/* =========================================================
+   HERO — uses actual logo PNG (purple background matches)
+   ========================================================= */
+.hero {
+  background: radial-gradient(circle at 65% 50%, var(--color-slap-pink) 0%, var(--color-hyperpurple) 40%, #5818CC 90%);
+  color: white;
+  padding: var(--space-12) 0 var(--space-8);
+  position: relative;
+  overflow: hidden;
+  min-height: 700px;
+}
+.hero-sticker {
+  position: absolute;
+  font-family: var(--font-utility); font-size: var(--text-subh); letter-spacing: 0.05em;
+  padding: 10px 18px; border-radius: var(--radius-xsm);
+  text-transform: uppercase; white-space: nowrap;
+}
+.hero-sticker--1 { top: 80px; right: 8%; transform: rotate(8deg); background: var(--color-acid); color: var(--color-pitch); box-shadow: var(--shadow-pop); }
+.hero-sticker--2 { bottom: 120px; right: 12%; transform: rotate(-6deg); background: var(--color-solar); color: white; box-shadow: var(--shadow-pop); }
+.hero-sticker--3 { top: 50%; right: 35%; transform: rotate(-12deg); background: var(--color-plasma); color: var(--color-pitch); box-shadow: var(--shadow-pop); font-size: 14px; }
+
+.hero-inner { position: relative; z-index: 2; }
+.hero-brand { margin-bottom: var(--space-6); display: block; }
+.hero-tagline {
+  font-family: var(--font-display);
+  font-size: clamp(64px, 11vw, var(--text-h1));
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--color-acid);
+  text-shadow: 10px 10px 0 var(--color-pitch), 5px 5px 0 var(--color-slap-pink);
+  margin-bottom: var(--space-3);
+  max-width: 900px;
+}
+.hero-positioning {
+  font-family: var(--font-utility);
+  font-size: clamp(18px, 2vw, 22px);
+  letter-spacing: 0.1em;
+  margin-bottom: var(--space-6);
+  color: white;
+  text-transform: uppercase;
+  max-width: 600px;
+}
+.hero-ctas { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+
+/* =========================================================
+   BUTTONS (v0.2 carried forward — user liked these)
+   ========================================================= */
+.btn {
+  font-family: var(--font-utility);
+  font-size: var(--text-subh);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: none; cursor: pointer;
+  padding: 14px 28px; border-radius: var(--radius-sm);
+  transition: all 0.15s ease;
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 8px; text-decoration: none; font-weight: 400;
+}
+.btn:focus-visible { outline: 2px solid var(--color-acid); outline-offset: 2px; }
+.btn--primary { background: var(--color-acid); color: var(--color-pitch); }
+.btn--primary:hover { background: var(--color-acid-dark); transform: translateY(-1px); }
+.btn--primary:disabled { background: rgba(204, 255, 0, 0.4); color: rgba(10,10,10,0.5); cursor: not-allowed; }
+.btn--secondary { background: transparent; color: var(--color-acid); border: 2px solid var(--color-acid); }
+.btn--secondary:hover { background: var(--color-acid); color: var(--color-pitch); }
+.btn--secondary--dark { color: var(--color-pitch); border-color: var(--color-pitch); }
+.btn--secondary--dark:hover { background: var(--color-pitch); color: var(--color-acid); }
+.btn--ghost { background: transparent; color: var(--color-pitch); padding: 14px 8px; }
+.btn--ghost:hover { color: var(--color-hyperpurple); }
+.btn--destructive { background: var(--color-slap-pink); color: white; }
+.btn--destructive:hover { background: #E0156F; }
+.btn--sm { font-size: 14px; padding: 10px 18px; }
+.btn--lg { font-size: 22px; padding: 18px 36px; }
+
+/* =========================================================
+   FORM INPUTS (designer states: default/hover/focus/error/success/disabled/validating)
+   ========================================================= */
+.input-group { display: flex; flex-direction: column; gap: 6px; max-width: 400px; }
+.input-label {
+  font-family: var(--font-utility);
+  font-size: var(--text-subtitle);
+  letter-spacing: 0.1em;
+  color: var(--color-pitch);
+  text-transform: uppercase;
+}
+.input {
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  padding: 14px 16px;
+  border: 2px solid var(--color-line-strong);
+  border-radius: var(--radius-sm);
+  background: white;
+  color: var(--color-pitch);
+  transition: border-color 0.15s;
+}
+.input:hover { border-color: var(--color-hyperpurple-75); }
+.input:focus { outline: none; border-color: var(--color-hyperpurple); }
+.input--error { border-color: var(--color-danger); }
+.input--success { border-color: var(--color-success); }
+.input--validating { border-color: var(--color-warning); }
+.input:disabled { background: var(--color-sterling); cursor: not-allowed; color: var(--color-pitch-soft); }
+.input-helper { font-size: 13px; color: var(--color-pitch-soft); }
+.input-helper--error { color: var(--color-danger); }
+.input-helper--success { color: var(--color-success); }
+.input-helper--validating { color: var(--color-warning); }
+
+/* =========================================================
+   ALERTS (designer's component, brand voice copy)
+   ========================================================= */
+.alert {
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  border: 1px solid;
+}
+.alert-content { display: flex; gap: 12px; align-items: flex-start; }
+.alert-icon { font-size: 18px; line-height: 1.4; }
+.alert-text-title { font-family: var(--font-utility); font-size: var(--text-subh); letter-spacing: 0.05em; text-transform: uppercase; line-height: 1.2; margin-bottom: 2px; }
+.alert-text-body { font-size: 14px; line-height: 1.4; }
+.alert-close { background: transparent; border: none; cursor: pointer; opacity: 0.6; font-size: 16px; }
+.alert-close:hover { opacity: 1; }
+
+.alert--success { background: var(--color-success-bg); border-color: var(--color-success); color: var(--color-success); }
+.alert--info    { background: var(--color-info-bg); border-color: var(--color-info); color: var(--color-info); }
+.alert--warning { background: var(--color-warning-bg); border-color: var(--color-warning); color: #B07A1A; }
+.alert--danger  { background: var(--color-danger-bg); border-color: var(--color-danger); color: var(--color-danger); }
+
+/* =========================================================
+   BADGES (TIER)
+   ========================================================= */
+.badge {
+  font-family: var(--font-utility);
+  font-size: 13px; letter-spacing: 0.15em;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  display: inline-flex; align-items: center; gap: 4px;
+  font-weight: 400; text-transform: uppercase;
+}
+.badge--standard { background: var(--color-sterling); color: var(--color-pitch); border: 1px solid var(--color-line); }
+.badge--certified { background: var(--color-plasma); color: var(--color-pitch); }
+.badge--select { background: var(--color-acid); color: var(--color-pitch); }
+.badge-star { font-size: 10px; }
+
+/* =========================================================
+   CHIPS (mood) — v0.2 carried forward
+   ========================================================= */
+.chip {
+  font-family: var(--font-utility);
+  font-size: 14px; letter-spacing: 0.08em;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--color-sterling); color: var(--color-pitch);
+  border: 1px solid var(--color-line);
+  text-transform: uppercase;
+}
+.chip--chill { background: var(--color-plasma); border-color: transparent; }
+.chip--romance { background: var(--color-slap-pink); color: white; border-color: transparent; }
+.chip--adventure { background: var(--color-solar); color: white; border-color: transparent; }
+.chip--reset { background: var(--color-hyperpurple); color: white; border-color: transparent; }
+.chip--bash { background: var(--color-acid); border-color: transparent; }
+.chip--pets { background: #FF6FBC; color: white; border-color: transparent; }
+
+/* =========================================================
+   AVATARS (designer component)
+   ========================================================= */
+.avatar {
+  border-radius: var(--radius-pill);
+  background: var(--color-hyperpurple-25);
+  color: var(--color-hyperpurple);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: var(--font-utility);
+  font-weight: 400; letter-spacing: 0.05em;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-96 { width: 96px; height: 96px; font-size: 32px; }
+.avatar-72 { width: 72px; height: 72px; font-size: 24px; }
+.avatar-56 { width: 56px; height: 56px; font-size: 20px; }
+.avatar-48 { width: 48px; height: 48px; font-size: 18px; }
+.avatar-32 { width: 32px; height: 32px; font-size: 14px; }
+.avatar-24 { width: 24px; height: 24px; font-size: 11px; }
+
+.avatar-dot {
+  position: absolute;
+  bottom: 2px; right: 2px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+.avatar-dot--active { background: var(--color-success); }
+.avatar-dot--inactive { background: var(--color-pitch-soft); }
+
+.avatar-stack { display: inline-flex; align-items: center; }
+.avatar-stack .avatar { border: 2px solid white; }
+.avatar-stack .avatar:not(:first-child) { margin-left: -12px; }
+.avatar-stack-count {
+  margin-left: -12px; padding: 0 12px;
+  height: 48px;
+  border-radius: var(--radius-pill);
+  background: var(--color-sterling); color: var(--color-pitch);
+  display: inline-flex; align-items: center;
+  font-family: var(--font-utility); font-size: 14px; letter-spacing: 0.05em;
+  border: 2px solid white;
+}
+
+/* =========================================================
+   STICKER MOOD CARDS (v0.2 — the brand expression)
+   ========================================================= */
+.mood-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-4);
+  padding: var(--space-3) 0;
+}
+.sticker-mood {
+  aspect-ratio: 4/5;
+  border-radius: var(--radius-lg);
+  padding: var(--space-3);
+  display: flex; flex-direction: column; justify-content: space-between;
+  cursor: pointer;
+  transition: transform 0.2s;
+  position: relative;
+  box-shadow: var(--shadow-pop);
+  border: 3px solid var(--color-pitch);
+}
+.sticker-mood:hover { transform: translateY(-4px) rotate(0deg) !important; box-shadow: var(--shadow-pop-lg); }
+.sticker-mood:nth-child(1) { transform: rotate(-2deg); background: var(--color-plasma); }
+.sticker-mood:nth-child(2) { transform: rotate(2deg); background: var(--color-slap-pink); color: white; }
+.sticker-mood:nth-child(3) { transform: rotate(-1deg); background: var(--color-solar); color: white; }
+.sticker-mood:nth-child(4) { transform: rotate(3deg); background: var(--color-hyperpurple); color: white; }
+.sticker-mood:nth-child(5) { transform: rotate(-3deg); background: var(--color-acid); }
+.sticker-mood:nth-child(6) { transform: rotate(1deg); background: #FF6FBC; color: white; }
+
+.sticker-mood-name {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 6vw, var(--text-h2));
+  line-height: 0.9; letter-spacing: 0;
+}
+.sticker-mood-desc { font-family: var(--font-body); font-size: 15px; line-height: 1.4; margin-top: var(--space-1); font-weight: 500; }
+.sticker-mood-cta {
+  font-family: var(--font-utility); font-size: 16px; letter-spacing: 0.15em;
+  text-transform: uppercase; margin-top: auto; align-self: flex-start;
+  padding-top: var(--space-3);
+}
+.sticker-tag {
+  position: absolute; top: -12px; right: 12px;
+  background: var(--color-pitch); color: var(--color-acid);
+  font-family: var(--font-utility); font-size: 11px; letter-spacing: 0.15em;
+  padding: 4px 10px; border-radius: var(--radius-xsm);
+  text-transform: uppercase; transform: rotate(5deg);
+}
+
+/* =========================================================
+   PROPERTY CARDS (v0.2 — clean functional surface)
+   ========================================================= */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-3);
+}
+.property-card {
+  background: white;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+.property-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+
+.property-card-photo { position: relative; aspect-ratio: 16/10; overflow: hidden; }
+.property-card-photo-placeholder {
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, var(--color-hyperpurple) 0%, var(--color-slap-pink) 100%);
+  display: flex; align-items: center; justify-content: center;
+  color: white;
+  font-family: var(--font-utility); font-size: 14px; letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.property-card-photo-placeholder--chill { background: linear-gradient(135deg, var(--color-plasma) 0%, var(--color-hyperpurple) 100%); }
+.property-card-photo-placeholder--adventure { background: linear-gradient(135deg, var(--color-solar) 0%, var(--color-slap-pink) 100%); }
+.property-card-photo-placeholder--reset { background: linear-gradient(135deg, var(--color-pitch) 0%, var(--color-hyperpurple) 100%); }
+
+.property-card-badge { position: absolute; top: 12px; left: 12px; }
+.property-card-heart {
+  position: absolute; top: 12px; right: 12px;
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,0.95);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: none; cursor: pointer; font-size: 18px;
+}
+.property-card-heart:hover { background: white; transform: scale(1.1); }
+.property-card-body { padding: var(--space-2) var(--space-3) var(--space-3); }
+.property-card-name {
+  font-family: var(--font-utility);
+  font-size: 26px; letter-spacing: 0.01em;
+  line-height: 1.1; margin-bottom: 4px;
+  text-transform: uppercase;
+}
+.property-card-area { font-size: 13px; color: var(--color-pitch-soft); margin-bottom: var(--space-2); }
+.property-card-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: var(--space-2); }
+.property-card-price-row {
+  display: flex; align-items: baseline; justify-content: space-between;
+  border-top: 1px solid var(--color-line); padding-top: var(--space-2);
+}
+.property-card-price { font-family: var(--font-utility); font-size: 24px; }
+.property-card-price-unit { font-family: var(--font-body); font-size: 13px; color: var(--color-pitch-soft); }
+
+/* =========================================================
+   SITE NAV (designer pattern, brand applied)
+   ========================================================= */
+.site-nav { background: white; border-bottom: 1px solid var(--color-line); padding: var(--space-2) 0; }
+.site-nav-inner { display: flex; align-items: center; justify-content: space-between; }
+.site-nav-brand {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  line-height: 0;
+}
+.site-nav-brand svg { height: 40px; width: auto; }
+.site-nav-links { display: flex; gap: var(--space-3); list-style: none; }
+.site-nav-links a {
+  font-family: var(--font-utility); font-size: 16px; letter-spacing: 0.08em;
+  color: var(--color-pitch); text-decoration: none; text-transform: uppercase;
+}
+.site-nav-links a:hover { color: var(--color-hyperpurple); }
+.site-nav-actions { display: flex; gap: var(--space-1); align-items: center; }
+
+/* =========================================================
+   SOCIAL CARDS (v0.2 maximalist marketing surface)
+   ========================================================= */
+.social-card {
+  background: var(--color-acid);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  position: relative; overflow: hidden;
+  aspect-ratio: 1/1;
+  border: 3px solid var(--color-pitch);
+  box-shadow: 8px 8px 0 var(--color-pitch);
+}
+.social-card--pink { background: var(--color-slap-pink); color: white; }
+.social-card-quote {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 1; letter-spacing: 0;
+  color: var(--color-hyperpurple);
+}
+.social-card--pink .social-card-quote { color: var(--color-acid); }
+.social-card-attribution {
+  position: absolute; bottom: var(--space-3); left: var(--space-3);
+  display: inline-flex; align-items: center;
+  line-height: 0;
+}
+.social-card-attribution svg { height: 28px; width: auto; }
+
+/* =========================================================
+   EMPTY STATE (v0.2 carried forward)
+   ========================================================= */
+.empty-state { text-align: center; padding: var(--space-8) var(--space-3); max-width: 480px; margin: 0 auto; }
+.empty-state-icon {
+  width: 80px; height: 80px;
+  background: var(--color-acid);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto var(--space-3);
+  font-family: var(--font-display); font-size: 40px; color: var(--color-pitch);
+  border: 3px solid var(--color-pitch);
+  transform: rotate(-5deg);
+  box-shadow: 4px 4px 0 var(--color-pitch);
+}
+.empty-state-title {
+  font-family: var(--font-utility); font-size: 24px; letter-spacing: 0.05em;
+  margin-bottom: var(--space-1); text-transform: uppercase;
+}
+.empty-state-body { font-size: 15px; color: var(--color-pitch-soft); margin-bottom: var(--space-3); }
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+.site-footer { background: var(--color-pitch); color: white; padding: var(--space-6) 0 var(--space-3); }
+.footer-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: var(--space-4); margin-bottom: var(--space-4);
+}
+.footer-brand {
+  display: inline-flex;
+  align-items: center;
+  line-height: 0;
+}
+.footer-brand svg { height: 56px; width: auto; }
+.footer-tag {
+  font-family: var(--font-utility); font-size: 16px; letter-spacing: 0.15em;
+  color: rgba(255,255,255,0.7); margin-top: var(--space-1);
+  text-transform: uppercase;
+}
+.footer-col-title {
+  font-family: var(--font-utility); font-size: 14px; letter-spacing: 0.15em;
+  color: var(--color-acid); margin-bottom: var(--space-2);
+  text-transform: uppercase;
+}
+.footer-col-links { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.footer-col-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; }
+.footer-col-links a:hover { color: white; }
+.footer-legal {
+  border-top: 1px solid rgba(255,255,255,0.1); padding-top: var(--space-2);
+  display: flex; justify-content: space-between;
+  font-size: 13px; color: rgba(255,255,255,0.5);
+}
+
+/* =========================================================
+   SWATCHES (with tints)
+   ========================================================= */
+.swatch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-2); margin-top: var(--space-3);
+}
+.swatch {
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+  background: white;
+}
+.swatch-main {
+  height: 100px;
+  display: flex; align-items: flex-end;
+  padding: var(--space-1);
+}
+.swatch-tints { display: grid; grid-template-columns: repeat(5, 1fr); height: 18px; }
+.swatch-info { padding: var(--space-2); }
+.swatch-name {
+  font-family: var(--font-utility); font-size: 16px; letter-spacing: 0.05em;
+  margin-bottom: 2px; text-transform: uppercase;
+}
+.swatch-hex { font-family: var(--font-mono); font-size: 11px; color: var(--color-pitch-soft); }
+.swatch-use { font-size: 12px; color: var(--color-pitch-soft); margin-top: 6px; }
+
+/* =========================================================
+   TYPE SPECIMENS
+   ========================================================= */
+.type-specimen {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  margin-bottom: var(--space-3);
+  background: white;
+}
+.type-meta { font-family: var(--font-mono); font-size: 12px; color: var(--color-pitch-soft); margin-bottom: var(--space-2); }
+.type-display { font-family: var(--font-display); font-size: 72px; line-height: 1; letter-spacing: 0; }
+.type-utility { font-family: var(--font-utility); font-size: 56px; letter-spacing: 0.02em; text-transform: uppercase; line-height: 1; }
+.type-body-sample { font-size: var(--text-subh); line-height: 1.6; max-width: 600px; }
+
+.type-scale-row {
+  display: grid;
+  grid-template-columns: 100px 100px 80px 1fr;
+  align-items: baseline;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-line);
+  gap: var(--space-3);
+}
+.type-scale-label { font-family: var(--font-mono); font-size: 13px; color: var(--color-pitch-soft); }
+.type-scale-size { font-family: var(--font-mono); font-size: 13px; color: var(--color-pitch-soft); }
+.type-scale-weight { font-family: var(--font-mono); font-size: 13px; color: var(--color-pitch-soft); }
+.type-scale-sample { font-weight: bold; }
+
+/* =========================================================
+   COMPONENT ROWS
+   ========================================================= */
+.component-row {
+  display: flex; flex-wrap: wrap;
+  gap: var(--space-2); margin-bottom: var(--space-3);
+  padding: var(--space-3);
+  background: white;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  align-items: center;
+}
+.component-label {
+  font-family: var(--font-mono); font-size: 12px;
+  color: var(--color-pitch-soft);
+  text-transform: uppercase; letter-spacing: 0.05em;
+  width: 100%; margin-bottom: var(--space-1);
+}
+
+/* =========================================================
+   VOICE GRID
+   ========================================================= */
+.voice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); margin-top: var(--space-3); }
+.voice-card { padding: var(--space-3); border-radius: var(--radius-sm); border: 2px solid; }
+.voice-card--do { border-color: var(--color-acid); background: rgba(204, 255, 0, 0.05); }
+.voice-card--dont { border-color: var(--color-slap-pink); background: rgba(255, 27, 141, 0.05); }
+.voice-label { font-family: var(--font-utility); font-size: 14px; letter-spacing: 0.15em; margin-bottom: var(--space-2); text-transform: uppercase; }
+.voice-card--do .voice-label { color: #618200; }
+.voice-card--dont .voice-label { color: var(--color-slap-pink); }
+.voice-example { font-size: 16px; margin-bottom: var(--space-1); font-weight: 500; }
+.voice-note { font-size: 13px; color: var(--color-pitch-soft); font-style: italic; }
+
+/* =========================================================
+   SHADOW / RADIUS SPECIMENS (designer system)
+   ========================================================= */
+.spec-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-3); margin-top: var(--space-3); }
+.spec-box {
+  height: 100px; background: white; border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 12px; color: var(--color-pitch-soft);
+}
+.spec-box--xsm  { box-shadow: var(--shadow-xsm); }
+.spec-box--sm   { box-shadow: var(--shadow-sm); }
+.spec-box--md   { box-shadow: var(--shadow-md); }
+.spec-box--lg   { box-shadow: var(--shadow-lg); }
+.spec-box--xl   { box-shadow: var(--shadow-xl); }
+
+.radius-box {
+  height: 100px; background: var(--color-hyperpurple);
+  display: flex; align-items: center; justify-content: center;
+  color: white;
+  font-family: var(--font-mono); font-size: 12px;
+}
+.radius-box--xsm { border-radius: var(--radius-xsm); }
+.radius-box--sm  { border-radius: var(--radius-sm); }
+.radius-box--md  { border-radius: var(--radius-md); }
+.radius-box--lg  { border-radius: var(--radius-lg); }
+.radius-box--xl  { border-radius: var(--radius-xl); }
+
+/* =========================================================
+   LOGO ASSET NOTE
+   ========================================================= */
+.asset-note {
+  background: var(--color-warning-bg);
+  border-left: 4px solid var(--color-warning);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-xsm);
+  margin: var(--space-3) 0;
+  font-size: 14px; line-height: 1.6;
+}
+.asset-note strong { color: #B07A1A; font-family: var(--font-utility); letter-spacing: 0.05em; }
+
+/* =========================================================
+   UTILS
+   ========================================================= */
+.mobile-only { display: none; }
+@media (max-width: 768px) {
+  .footer-grid { grid-template-columns: 1fr; gap: var(--space-3); }
+  .voice-grid { grid-template-columns: 1fr; }
+  .site-nav-links { display: none; }
+  .doc-nav-links { display: none; }
+  .mobile-only { display: block; }
+  .hero-sticker { display: none; }
+  .spec-grid { grid-template-columns: repeat(2, 1fr); }
+  .type-scale-row { grid-template-columns: 70px 60px 60px 1fr; gap: var(--space-2); }
+}
+.anchor { scroll-margin-top: 80px; }
+</style>
+</head>
+<body>
+
+<!-- ============== DOC NAV ============== -->
+<nav class="doc-nav">
+  <div class="container doc-nav-inner">
+    <a href="#" class="doc-nav-brand"><img src="assets/duffleup-logo.svg" alt="duffleup"></a>
+    <ul class="doc-nav-links">
+      <li><a href="#foundation">Foundation</a></li>
+      <li><a href="#components">Components</a></li>
+      <li><a href="#marketing">Marketing</a></li>
+      <li><a href="#voice">Voice</a></li>
+    </ul>
+    <span class="mobile-only" style="color: white; font-family: var(--font-utility); font-size: 14px; letter-spacing: 0.1em;">v0.3</span>
+  </div>
+</nav>
+
+<!-- ============== HERO (uses actual logo PNG) ============== -->
+<section class="hero">
+  <span class="hero-sticker hero-sticker--1">OUT THERE</span>
+  <span class="hero-sticker hero-sticker--2">ZERO APOLOGIES</span>
+  <span class="hero-sticker hero-sticker--3">2 NIGHTS · 1 DUFFLE</span>
+
+  <div class="container hero-inner">
+    <div class="hero-brand">
+      <img src="assets/duffleup-logo.svg" alt="duffleup" class="dup-logo-img dup-logo-img--md">
+    </div>
+    <h1 class="hero-tagline">Don't book<br>a room.<br>Book a<br>weekend.</h1>
+    <p class="hero-positioning">Verified offbeat stays. Honest economics. Maharashtra-first.</p>
+    <div class="hero-ctas">
+      <button class="btn btn--primary btn--lg">Pack my duffle</button>
+      <button class="btn btn--secondary btn--lg">Got a place?</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============== INTRO ============== -->
+<section class="section section--white">
+  <div class="container">
+    <p class="section-eyebrow">Design system v0.3</p>
+    <h2 class="section-title">Designer's bones, brand's soul.</h2>
+    <p class="section-subtitle" style="max-width: 720px;">
+      v0.3 overlays Business Brandy's structural design system (colors with tints, type scale, alerts, avatars, shadows, radii, form states) onto the brand-personality elements developed in v0.2 (sticker mood cards, social cards, property cards, chips, empty states, voice). Two registers: <strong>functional UI stays disciplined</strong>, <strong>marketing surfaces go loud</strong>.
+    </p>
+
+    <div class="asset-note" style="background: rgba(204,255,0,0.15); border-left: 4px solid #618200;">
+      <strong style="color: #618200;">✓ LOGO LOCKED:</strong> Production SVG embedded (transparent background, vector, scales infinitely, works on any surface). File at <code style="font-family: var(--font-mono); font-size: 13px; background: white; padding: 2px 6px; border-radius: 4px;">assets/duffleup-logo.svg</code> — copy this into your Next.js project's <code style="font-family: var(--font-mono); font-size: 13px; background: white; padding: 2px 6px; border-radius: 4px;">public/</code> folder and reference as <code style="font-family: var(--font-mono); font-size: 13px; background: white; padding: 2px 6px; border-radius: 4px;">/duffleup-logo.svg</code>. No more CSS recreation tricks.
+    </div>
+  </div>
+</section>
+
+<!-- ============== LOGO SHOWCASE ============== -->
+<section class="section section--white">
+  <div class="container">
+    <p class="section-eyebrow">The wordmark</p>
+    <h2 class="section-title">The logo, locked.</h2>
+    <p class="section-subtitle">SVG vector. Transparent background. Three locked design moves: <strong>"duffle"</strong> is acid front, slap pink mid, pitch deep. <strong>"up"</strong> mirrors — slap pink front, acid mid, pitch deep. <strong>"up" tilts -8°</strong> upward — the word does its action. Get up. Shut up. Duffle up. Works on any surface below.</p>
+
+    <div style="background: var(--color-hyperpurple); border-radius: var(--radius-md); padding: var(--space-8) var(--space-4); display: flex; flex-direction: column; align-items: center; gap: var(--space-6);">
+      <img src="assets/duffleup-logo.svg" alt="duffleup logo - large" class="dup-logo-img dup-logo-img--hero">
+      <img src="assets/duffleup-logo.svg" alt="duffleup logo - medium" class="dup-logo-img dup-logo-img--md">
+      <img src="assets/duffleup-logo.svg" alt="duffleup logo - small" class="dup-logo-img dup-logo-img--xs">
+    </div>
+
+    <div style="margin-top: var(--space-3); display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2);">
+      <div style="background: white; border: 1px solid var(--color-line); padding: var(--space-4); border-radius: var(--radius-sm); text-align: center;">
+        <img src="assets/duffleup-logo.svg" alt="duffleup on white" class="dup-logo-img dup-logo-img--md" style="margin: 0 auto;">
+        <p style="margin-top: var(--space-2); font-size: 12px; color: var(--color-pitch-soft); font-family: var(--font-mono);">ON WHITE</p>
+      </div>
+      <div style="background: var(--color-pitch); padding: var(--space-4); border-radius: var(--radius-sm); text-align: center;">
+        <img src="assets/duffleup-logo.svg" alt="duffleup on pitch" class="dup-logo-img dup-logo-img--md" style="margin: 0 auto;">
+        <p style="margin-top: var(--space-2); font-size: 12px; color: rgba(255,255,255,0.6); font-family: var(--font-mono);">ON PITCH</p>
+      </div>
+      <div style="background: var(--color-acid); padding: var(--space-4); border-radius: var(--radius-sm); text-align: center;">
+        <img src="assets/duffleup-logo.svg" alt="duffleup on acid" class="dup-logo-img dup-logo-img--md" style="margin: 0 auto;">
+        <p style="margin-top: var(--space-2); font-size: 12px; color: var(--color-pitch-soft); font-family: var(--font-mono);">ON ACID</p>
+      </div>
+      <div style="background: var(--color-slap-pink); padding: var(--space-4); border-radius: var(--radius-sm); text-align: center;">
+        <img src="assets/duffleup-logo.svg" alt="duffleup on pink" class="dup-logo-img dup-logo-img--md" style="margin: 0 auto;">
+        <p style="margin-top: var(--space-2); font-size: 12px; color: rgba(255,255,255,0.8); font-family: var(--font-mono);">ON SLAP PINK</p>
+      </div>
+    </div>
+
+    <div style="margin-top: var(--space-4); display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3);">
+      <div style="background: var(--color-sterling); padding: var(--space-3); border-radius: var(--radius-sm);">
+        <p style="font-family: var(--font-utility); font-size: 14px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--color-hyperpurple); margin-bottom: var(--space-2);">CONSTRUCTION</p>
+        <p style="font-family: var(--font-mono); font-size: 13px; line-height: 1.7;">
+          <strong>"duffle":</strong> acid (#CCFF00) front<br>
+          → slap pink (#FF1B8D) offset behind<br>
+          → pitch (#0A0A0A) deepest<br>
+          → sits on baseline<br><br>
+          <strong>"up":</strong> slap pink (#FF1B8D) front<br>
+          → acid (#CCFF00) offset behind<br>
+          → pitch (#0A0A0A) deepest<br>
+          → rotated -8° (rises right)
+        </p>
+      </div>
+      <div style="background: var(--color-sterling); padding: var(--space-3); border-radius: var(--radius-sm);">
+        <p style="font-family: var(--font-utility); font-size: 14px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--color-hyperpurple); margin-bottom: var(--space-2);">USAGE RULES</p>
+        <p style="font-size: 14px; line-height: 1.7;">
+          <strong>Never</strong> straighten the "up" — the tilt is the brand.<br>
+          <strong>Never</strong> use on busy photographic backgrounds.<br>
+          <strong>Never</strong> recolor the wordmark.<br>
+          <strong>Always</strong> place on solid color, gradient, or muted overlay.<br>
+          <strong>Always</strong> maintain shadow proportions when scaling.<br>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOUNDATION — COLOR ============== -->
+<section class="section section--sterling anchor" id="foundation">
+  <div class="container">
+    <p class="section-eyebrow">01 — Foundation</p>
+    <h2 class="section-title">Colors with tints.</h2>
+    <p class="section-subtitle">Seven brand colors plus tints (90/75/50/25/5%) and four alert colors. Each role-locked.</p>
+
+    <div class="swatch-grid">
+      <div class="swatch">
+        <div class="swatch-main" style="background: var(--color-hyperpurple);"></div>
+        <div class="swatch-tints">
+          <div style="background: var(--color-hyperpurple-90);"></div>
+          <div style="background: var(--color-hyperpurple-75);"></div>
+          <div style="background: var(--color-hyperpurple-50);"></div>
+          <div style="background: var(--color-hyperpurple-25);"></div>
+          <div style="background: var(--color-hyperpurple-5);"></div>
+        </div>
+        <div class="swatch-info">
+          <p class="swatch-name">Hyperpurple</p>
+          <p class="swatch-hex">#7B2FFF — PRIMARY</p>
+          <p class="swatch-use">Brand surface, Reset mood</p>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-main" style="background: var(--color-slap-pink);"></div>
+        <div class="swatch-tints">
+          <div style="background: #FF3F9F;"></div>
+          <div style="background: var(--color-slap-pink-75);"></div>
+          <div style="background: var(--color-slap-pink-50);"></div>
+          <div style="background: var(--color-slap-pink-25);"></div>
+          <div style="background: #FFE5F2;"></div>
+        </div>
+        <div class="swatch-info">
+          <p class="swatch-name">Slap Pink</p>
+          <p class="swatch-hex">#FF1B8D — SECONDARY</p>
+          <p class="swatch-use">Romance mood, accents, destructive</p>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-main" style="background: var(--color-acid);"></div>
+        <div class="swatch-tints">
+          <div style="background: var(--color-acid-90);"></div>
+          <div style="background: var(--color-acid-75);"></div>
+          <div style="background: #E0FF80;"></div>
+          <div style="background: #ECFFB0;"></div>
+          <div style="background: #F8FFD9;"></div>
+        </div>
+        <div class="swatch-info">
+          <p class="swatch-name">Acid</p>
+          <p class="swatch-hex">#CCFF00 — SUPPORT</p>
+          <p class="swatch-use">Every primary CTA, Bash mood</p>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-main" style="background: var(--color-plasma);"></div>
+        <div class="swatch-tints">
+          <div style="background: #1AD8FF;"></div>
+          <div style="background: #4DDFFF;"></div>
+          <div style="background: #80E7FF;"></div>
+          <div style="background: #B3EFFF;"></div>
+          <div style="background: #E5F9FF;"></div>
+        </div>
+        <div class="swatch-info">
+          <p class="swatch-name">Plasma</p>
+          <p class="swatch-hex">#00D0FF — GRAY</p>
+          <p class="swatch-use">Chill mood, info, Certified tier</p>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-main" style="background: var(--color-solar);"></div>
+        <div class="swatch-tints">
+          <div style="background: #FF8033;"></div>
+          <div style="background: #FF9D66;"></div>
+          <div style="background: #FFB280;"></div>
+          <div style="background: #FFD7BD;"></div>
+          <div style="background: #FFF1E5;"></div>
+        </div>
+        <div class="swatch-info">
+          <p class="swatch-name">Solar</p>
+          <p class="swatch-hex">#FF6B00 — SECONDARY</p>
+          <p class="swatch-use">Adventure mood, urgency, warmth</p>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-main" style="background: var(--color-sterling); border-bottom: 1px solid var(--color-line);"></div>
+        <div class="swatch-tints">
+          <div style="background: #E3E3DE;"></div>
+          <div style="background: #E8E8E3;"></div>
+          <div style="background: #EEEEE9;"></div>
+          <div style="background: #F4F4EE;"></div>
+          <div style="background: #FAFAF8;"></div>
+        </div>
+        <div class="swatch-info">
+          <p class="swatch-name">Sterling</p>
+          <p class="swatch-hex">#DEDED9 — NEUTRAL</p>
+          <p class="swatch-use">Section backgrounds, neutral surfaces</p>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-main" style="background: var(--color-pitch);"></div>
+        <div class="swatch-tints">
+          <div style="background: #1F1F1F;"></div>
+          <div style="background: #2A2A2A;"></div>
+          <div style="background: #555555;"></div>
+          <div style="background: #888888;"></div>
+          <div style="background: #BBBBBB;"></div>
+        </div>
+        <div class="swatch-info">
+          <p class="swatch-name">Pitch</p>
+          <p class="swatch-hex">#0A0A0A — CONTRAST</p>
+          <p class="swatch-use">Text, dark surfaces, sticker borders</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALERT COLORS -->
+    <h3 style="font-family: var(--font-utility); font-size: 24px; letter-spacing: 0.05em; margin: var(--space-6) 0 var(--space-2); text-transform: uppercase;">Alert / status colors</h3>
+
+    <div class="swatch-grid">
+      <div class="swatch">
+        <div class="swatch-main" style="background: var(--color-success);"></div>
+        <div class="swatch-info">
+          <p class="swatch-name">Success</p>
+          <p class="swatch-hex">#1FC156</p>
+          <p class="swatch-use">Confirmations, positive states</p>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-main" style="background: var(--color-info);"></div>
+        <div class="swatch-info">
+          <p class="swatch-name">Info</p>
+          <p class="swatch-hex">#3266FF</p>
+          <p class="swatch-use">Informational alerts</p>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-main" style="background: var(--color-warning);"></div>
+        <div class="swatch-info">
+          <p class="swatch-name">Warning</p>
+          <p class="swatch-hex">#F5B339</p>
+          <p class="swatch-use">Caution, attention required</p>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-main" style="background: var(--color-danger);"></div>
+        <div class="swatch-info">
+          <p class="swatch-name">Danger</p>
+          <p class="swatch-hex">#FF0000</p>
+          <p class="swatch-use">Errors, destructive actions</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TYPOGRAPHY ============== -->
+<section class="section section--white">
+  <div class="container">
+    <p class="section-eyebrow">Typography</p>
+    <h2 class="section-title">Three fonts, locked roles.</h2>
+    <p class="section-subtitle">Bungee carries the brand. Bebas Neue handles utility. Arial reads easy.</p>
+
+    <div class="type-specimen">
+      <p class="type-meta">BUNGEE — DISPLAY · headlines, hero, brand moments, mood card names</p>
+      <p class="type-display">Don't book a room.</p>
+      <p style="font-family: var(--font-display); font-size: 36px; margin-top: var(--space-2);">Book a weekend.</p>
+    </div>
+
+    <div class="type-specimen">
+      <p class="type-meta">BEBAS NEUE — UTILITY · buttons, labels, badges, navigation</p>
+      <p class="type-utility">VERIFIED OFFBEAT STAYS</p>
+      <p style="font-family: var(--font-utility); font-size: 24px; letter-spacing: 0.05em; margin-top: var(--space-2); text-transform: uppercase;">2 NIGHTS · 1 DUFFLE · ZERO APOLOGIES</p>
+    </div>
+
+    <div class="type-specimen">
+      <p class="type-meta">ARIAL — BODY · descriptions, paragraphs, helper text</p>
+      <p class="type-body-sample">Duffleup is a marketplace for offbeat properties across Maharashtra. Built by people who got tired of bouncing between Instagram, WhatsApp, and OTAs to plan two nights away. We aggregate the good ones into one place. Honest pricing. No hidden fees. No fake reviews.</p>
+    </div>
+
+    <h3 style="font-family: var(--font-utility); font-size: 24px; letter-spacing: 0.05em; margin: var(--space-6) 0 var(--space-2); text-transform: uppercase;">Type scale (designer-locked)</h3>
+    <div style="background: white; padding: var(--space-3); border-radius: var(--radius-sm); border: 1px solid var(--color-line);">
+      <div class="type-scale-row"><span class="type-scale-label">H1</span><span class="type-scale-size">96px</span><span class="type-scale-weight">Bold</span><span class="type-scale-sample" style="font-size: 96px; line-height: 1;">H1</span></div>
+      <div class="type-scale-row"><span class="type-scale-label">H2</span><span class="type-scale-size">64px</span><span class="type-scale-weight">Bold</span><span class="type-scale-sample" style="font-size: 64px; line-height: 1;">H2 Headline</span></div>
+      <div class="type-scale-row"><span class="type-scale-label">H3</span><span class="type-scale-size">48px</span><span class="type-scale-weight">Bold</span><span class="type-scale-sample" style="font-size: 48px; line-height: 1;">H3 Headline</span></div>
+      <div class="type-scale-row"><span class="type-scale-label">H4</span><span class="type-scale-size">40px</span><span class="type-scale-weight">Bold</span><span class="type-scale-sample" style="font-size: 40px; line-height: 1;">H4 Headline</span></div>
+      <div class="type-scale-row"><span class="type-scale-label">H5</span><span class="type-scale-size">32px</span><span class="type-scale-weight">Bold</span><span class="type-scale-sample" style="font-size: 32px; line-height: 1;">H5 Headline</span></div>
+      <div class="type-scale-row"><span class="type-scale-label">H6</span><span class="type-scale-size">24px</span><span class="type-scale-weight">Bold</span><span class="type-scale-sample" style="font-size: 24px; line-height: 1;">H6 Headline</span></div>
+      <div class="type-scale-row"><span class="type-scale-label">SubH</span><span class="type-scale-size">18px</span><span class="type-scale-weight">Bold</span><span class="type-scale-sample" style="font-size: 18px;">SubHeading</span></div>
+      <div class="type-scale-row"><span class="type-scale-label">Body</span><span class="type-scale-size">16px</span><span class="type-scale-weight">Regular</span><span class="type-scale-sample" style="font-size: 16px; font-weight: normal;">Body text used for paragraphs and descriptions</span></div>
+      <div class="type-scale-row"><span class="type-scale-label">Subtitle</span><span class="type-scale-size">14px</span><span class="type-scale-weight">Bold</span><span class="type-scale-sample" style="font-size: 14px;">Subtitle for secondary information</span></div>
+      <div class="type-scale-row" style="border-bottom: none;"><span class="type-scale-label">Caption</span><span class="type-scale-size">12px</span><span class="type-scale-weight">SemiBold</span><span class="type-scale-sample" style="font-size: 12px; font-weight: 600;">Caption for smallest helper text</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SHADOWS & RADII (designer system) ============== -->
+<section class="section section--sterling">
+  <div class="container">
+    <p class="section-eyebrow">Shadows &amp; radii</p>
+    <h2 class="section-title">The structural bones.</h2>
+
+    <h3 style="font-family: var(--font-utility); font-size: 24px; letter-spacing: 0.05em; margin: var(--space-3) 0 var(--space-1); text-transform: uppercase;">Shadow scale</h3>
+    <div class="spec-grid">
+      <div class="spec-box spec-box--xsm">XSM</div>
+      <div class="spec-box spec-box--sm">SM</div>
+      <div class="spec-box spec-box--md">MD</div>
+      <div class="spec-box spec-box--lg">LG</div>
+      <div class="spec-box spec-box--xl">XL</div>
+    </div>
+
+    <h3 style="font-family: var(--font-utility); font-size: 24px; letter-spacing: 0.05em; margin: var(--space-6) 0 var(--space-1); text-transform: uppercase;">Border-radius scale</h3>
+    <div class="spec-grid">
+      <div class="radius-box radius-box--xsm">4px</div>
+      <div class="radius-box radius-box--sm">12px</div>
+      <div class="radius-box radius-box--md">16px</div>
+      <div class="radius-box radius-box--lg">24px</div>
+      <div class="radius-box radius-box--xl">70px</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FUNCTIONAL COMPONENTS ============== -->
+<section class="section section--white anchor" id="components">
+  <div class="container">
+    <p class="section-eyebrow">02 — Components</p>
+    <h2 class="section-title">Disciplined surfaces.</h2>
+    <p class="section-subtitle">Booking flows, dashboards, search results. The brand voice carries through Bebas Neue and color — not through layout maximalism. Conversion matters here.</p>
+
+    <!-- BUTTONS -->
+    <h3 style="font-family: var(--font-utility); font-size: 24px; letter-spacing: 0.05em; margin: var(--space-4) 0 var(--space-2); text-transform: uppercase;">Buttons</h3>
+
+    <div class="component-row">
+      <span class="component-label">Primary — single most important action</span>
+      <button class="btn btn--primary btn--sm">Reserve</button>
+      <button class="btn btn--primary">Pack my duffle</button>
+      <button class="btn btn--primary btn--lg">Get me out there</button>
+      <button class="btn btn--primary" disabled>Disabled</button>
+    </div>
+    <div class="component-row" style="background: var(--color-pitch);">
+      <span class="component-label" style="color: var(--color-acid);">Secondary on dark</span>
+      <button class="btn btn--secondary btn--sm">Learn more</button>
+      <button class="btn btn--secondary">Got a place?</button>
+      <button class="btn btn--secondary btn--lg">Browse stays</button>
+    </div>
+    <div class="component-row">
+      <span class="component-label">Secondary on light</span>
+      <button class="btn btn--secondary btn--secondary--dark btn--sm">Save</button>
+      <button class="btn btn--secondary btn--secondary--dark">View details</button>
+    </div>
+    <div class="component-row">
+      <span class="component-label">Ghost — tertiary actions</span>
+      <button class="btn btn--ghost btn--sm">Skip</button>
+      <button class="btn btn--ghost">Read full policy →</button>
+    </div>
+    <div class="component-row">
+      <span class="component-label">Destructive — cancellation, deletion</span>
+      <button class="btn btn--destructive btn--sm">Remove</button>
+      <button class="btn btn--destructive">Cancel booking</button>
+    </div>
+
+    <!-- FORM INPUTS — all states from designer -->
+    <h3 style="font-family: var(--font-utility); font-size: 24px; letter-spacing: 0.05em; margin: var(--space-6) 0 var(--space-2); text-transform: uppercase;">Form inputs &amp; states</h3>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--space-3);">
+      <div class="input-group">
+        <label class="input-label">EMAIL — DEFAULT</label>
+        <input class="input" type="email" placeholder="you@example.com">
+      </div>
+      <div class="input-group">
+        <label class="input-label">EMAIL — FOCUS</label>
+        <input class="input" type="email" placeholder="you@example.com" style="border-color: var(--color-hyperpurple);">
+      </div>
+      <div class="input-group">
+        <label class="input-label">EMAIL — FILLED</label>
+        <input class="input" type="email" value="hello@duffleup.in">
+      </div>
+      <div class="input-group">
+        <label class="input-label">EMAIL — VALIDATING</label>
+        <input class="input input--validating" type="email" value="hello@duffleup.in">
+        <p class="input-helper input-helper--validating">⟳ Checking…</p>
+      </div>
+      <div class="input-group">
+        <label class="input-label">EMAIL — SUCCESS</label>
+        <input class="input input--success" type="email" value="hello@duffleup.in">
+        <p class="input-helper input-helper--success">✓ Looks good.</p>
+      </div>
+      <div class="input-group">
+        <label class="input-label">EMAIL — ERROR</label>
+        <input class="input input--error" type="email" value="not-an-email">
+        <p class="input-helper input-helper--error">That's not an email. Try again.</p>
+      </div>
+      <div class="input-group">
+        <label class="input-label">EMAIL — DISABLED</label>
+        <input class="input" type="email" value="hello@duffleup.in" disabled>
+      </div>
+    </div>
+
+    <!-- ALERTS -->
+    <h3 style="font-family: var(--font-utility); font-size: 24px; letter-spacing: 0.05em; margin: var(--space-6) 0 var(--space-2); text-transform: uppercase;">Alerts</h3>
+    <p style="color: var(--color-pitch-soft); margin-bottom: var(--space-3); font-size: 14px;">Designer's component structure, brand voice on the copy.</p>
+
+    <div style="display: grid; gap: var(--space-2);">
+      <div class="alert alert--success">
+        <div class="alert-content"><span class="alert-icon">✓</span><div><div class="alert-text-title" style="color: var(--color-success);">Locked in.</div><div class="alert-text-body" style="color: var(--color-pitch);">Booking confirmed. Check your inbox.</div></div></div>
+        <button class="alert-close">✕</button>
+      </div>
+      <div class="alert alert--info">
+        <div class="alert-content"><span class="alert-icon">ℹ</span><div><div class="alert-text-title" style="color: var(--color-info);">Heads up.</div><div class="alert-text-body" style="color: var(--color-pitch);">This property requires a 2-night minimum on weekends.</div></div></div>
+        <button class="alert-close">✕</button>
+      </div>
+      <div class="alert alert--warning">
+        <div class="alert-content"><span class="alert-icon">⚠</span><div><div class="alert-text-title" style="color: #B07A1A;">One step left.</div><div class="alert-text-body" style="color: var(--color-pitch);">Add your bank details before your first payout.</div></div></div>
+        <button class="alert-close">✕</button>
+      </div>
+      <div class="alert alert--danger">
+        <div class="alert-content"><span class="alert-icon">✕</span><div><div class="alert-text-title" style="color: var(--color-danger);">Couldn't go through.</div><div class="alert-text-body" style="color: var(--color-pitch);">Payment failed. Try again, or hit hello@duffleup.in.</div></div></div>
+        <button class="alert-close">✕</button>
+      </div>
+    </div>
+
+    <!-- TIER BADGES + CHIPS -->
+    <h3 style="font-family: var(--font-utility); font-size: 24px; letter-spacing: 0.05em; margin: var(--space-6) 0 var(--space-2); text-transform: uppercase;">Badges &amp; chips</h3>
+    <div class="component-row">
+      <span class="component-label">Tier badges</span>
+      <span class="badge badge--standard">STANDARD</span>
+      <span class="badge badge--certified">CERTIFIED</span>
+      <span class="badge badge--select"><span class="badge-star">★</span> SELECT</span>
+    </div>
+    <div class="component-row">
+      <span class="component-label">Mood chips</span>
+      <span class="chip chip--chill">CHILL</span>
+      <span class="chip chip--romance">ROMANCE</span>
+      <span class="chip chip--adventure">ADVENTURE</span>
+      <span class="chip chip--reset">RESET</span>
+      <span class="chip chip--bash">BASH</span>
+      <span class="chip chip--pets">PETS</span>
+    </div>
+
+    <!-- AVATARS -->
+    <h3 style="font-family: var(--font-utility); font-size: 24px; letter-spacing: 0.05em; margin: var(--space-6) 0 var(--space-2); text-transform: uppercase;">Avatars</h3>
+
+    <div class="component-row">
+      <span class="component-label">Sizes — 96/72/56/48/32/24px</span>
+      <span class="avatar avatar-96">GM</span>
+      <span class="avatar avatar-72">GM</span>
+      <span class="avatar avatar-56">GM</span>
+      <span class="avatar avatar-48">GM</span>
+      <span class="avatar avatar-32">GM</span>
+      <span class="avatar avatar-24">G</span>
+    </div>
+    <div class="component-row">
+      <span class="component-label">States — empty, initial, active, inactive</span>
+      <span class="avatar avatar-48" style="background: var(--color-sterling); color: var(--color-pitch-soft);">?</span>
+      <span class="avatar avatar-48">GM</span>
+      <span class="avatar avatar-48">GM<span class="avatar-dot avatar-dot--active"></span></span>
+      <span class="avatar avatar-48">GM<span class="avatar-dot avatar-dot--inactive"></span></span>
+    </div>
+    <div class="component-row">
+      <span class="component-label">Stacked — multiple collaborators / guests</span>
+      <span class="avatar-stack">
+        <span class="avatar avatar-48">GM</span>
+        <span class="avatar avatar-48" style="background: var(--color-slap-pink-25); color: var(--color-slap-pink);">SK</span>
+        <span class="avatar avatar-48" style="background: #E5F9FF; color: var(--color-info);">AP</span>
+        <span class="avatar-stack-count">+12</span>
+      </span>
+    </div>
+
+    <!-- PROPERTY CARDS -->
+    <h3 style="font-family: var(--font-utility); font-size: 24px; letter-spacing: 0.05em; margin: var(--space-6) 0 var(--space-2); text-transform: uppercase;">Property cards</h3>
+    <p style="color: var(--color-pitch-soft); margin-bottom: var(--space-3); font-size: 14px;">Clean, scannable, conversion-optimized.</p>
+
+    <div class="card-grid">
+      <article class="property-card">
+        <div class="property-card-photo">
+          <div class="property-card-photo-placeholder property-card-photo-placeholder--adventure">PROPERTY PHOTO</div>
+          <div class="property-card-badge"><span class="badge badge--select"><span class="badge-star">★</span> SELECT</span></div>
+          <button class="property-card-heart">♡</button>
+        </div>
+        <div class="property-card-body">
+          <h3 class="property-card-name">Waterrock</h3>
+          <p class="property-card-area">Mahabaleshwar · Western Ghats</p>
+          <div class="property-card-chips">
+            <span class="chip chip--adventure">ADVENTURE</span>
+            <span class="chip chip--reset">RESET</span>
+            <span class="chip chip--pets">PETS</span>
+          </div>
+          <div class="property-card-price-row">
+            <span class="property-card-price">₹7,500</span>
+            <span class="property-card-price-unit">per night</span>
+          </div>
+        </div>
+      </article>
+      <article class="property-card">
+        <div class="property-card-photo">
+          <div class="property-card-photo-placeholder" style="background: linear-gradient(135deg, var(--color-slap-pink) 0%, var(--color-hyperpurple) 100%);">PROPERTY PHOTO</div>
+          <div class="property-card-badge"><span class="badge badge--certified">CERTIFIED</span></div>
+          <button class="property-card-heart">♥</button>
+        </div>
+        <div class="property-card-body">
+          <h3 class="property-card-name">Misty Cottage</h3>
+          <p class="property-card-area">Mulshi · 2hrs from Pune</p>
+          <div class="property-card-chips">
+            <span class="chip chip--romance">ROMANCE</span>
+            <span class="chip chip--chill">CHILL</span>
+          </div>
+          <div class="property-card-price-row">
+            <span class="property-card-price">₹5,250</span>
+            <span class="property-card-price-unit">per night</span>
+          </div>
+        </div>
+      </article>
+      <article class="property-card">
+        <div class="property-card-photo">
+          <div class="property-card-photo-placeholder property-card-photo-placeholder--chill">PROPERTY PHOTO</div>
+          <div class="property-card-badge"><span class="badge badge--standard">STANDARD</span></div>
+          <button class="property-card-heart">♡</button>
+        </div>
+        <div class="property-card-body">
+          <h3 class="property-card-name">Lakeside Tents</h3>
+          <p class="property-card-area">Pawna · Lake-touch</p>
+          <div class="property-card-chips">
+            <span class="chip chip--chill">CHILL</span>
+            <span class="chip chip--bash">BASH</span>
+          </div>
+          <div class="property-card-price-row">
+            <span class="property-card-price">₹3,200</span>
+            <span class="property-card-price-unit">per night</span>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <!-- NAVIGATION -->
+    <h3 style="font-family: var(--font-utility); font-size: 24px; letter-spacing: 0.05em; margin: var(--space-6) 0 var(--space-2); text-transform: uppercase;">Navigation</h3>
+    <div class="site-nav" style="border-radius: var(--radius-md); border: 1px solid var(--color-line);">
+      <div class="container site-nav-inner">
+        <a href="#" class="site-nav-brand"><img src="assets/duffleup-logo.svg" alt="duffleup"></a>
+        <ul class="site-nav-links">
+          <li><a href="#">DISCOVER</a></li>
+          <li><a href="#">MOODS</a></li>
+          <li><a href="#">HOW IT WORKS</a></li>
+          <li><a href="#">FOR OWNERS</a></li>
+        </ul>
+        <div class="site-nav-actions">
+          <button class="btn btn--ghost btn--sm">Sign in</button>
+          <button class="btn btn--secondary btn--secondary--dark btn--sm">Join</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- EMPTY STATE -->
+    <h3 style="font-family: var(--font-utility); font-size: 24px; letter-spacing: 0.05em; margin: var(--space-6) 0 var(--space-2); text-transform: uppercase;">Empty state</h3>
+    <div style="background: white; border: 1px solid var(--color-line); border-radius: var(--radius-md);">
+      <div class="empty-state">
+        <div class="empty-state-icon">♡</div>
+        <h4 class="empty-state-title">Heart something. Anything.</h4>
+        <p class="empty-state-body">Save the places you'd actually want to go. We'll keep them here so you don't lose them in 14 browser tabs.</p>
+        <button class="btn btn--primary">Start exploring</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== MARKETING SURFACES ============== -->
+<section class="section section--sterling anchor" id="marketing">
+  <div class="container">
+    <p class="section-eyebrow">03 — Marketing Surfaces</p>
+    <h2 class="section-title">Where brand goes loud.</h2>
+    <p class="section-subtitle">Mood discovery, social cards, landing pages, partner pitches. Stickers, rotation, sticker-collage energy.</p>
+
+    <h3 style="font-family: var(--font-utility); font-size: 24px; letter-spacing: 0.05em; margin: var(--space-4) 0 var(--space-2); text-transform: uppercase;">Mood discovery</h3>
+    <div class="mood-grid">
+      <div class="sticker-mood">
+        <div>
+          <h3 class="sticker-mood-name">Chill</h3>
+          <p class="sticker-mood-desc">Slow mornings. Quiet evenings. The kind of quiet you forgot existed.</p>
+        </div>
+        <span class="sticker-mood-cta">Take me there →</span>
+      </div>
+      <div class="sticker-mood">
+        <span class="sticker-tag">FOR TWO</span>
+        <div>
+          <h3 class="sticker-mood-name">Romance</h3>
+          <p class="sticker-mood-desc">For two. For nothing else. Bring the right person.</p>
+        </div>
+        <span class="sticker-mood-cta">Take me there →</span>
+      </div>
+      <div class="sticker-mood">
+        <div>
+          <h3 class="sticker-mood-name">Adventure</h3>
+          <p class="sticker-mood-desc">Wake up where the trail starts. Sleep where the campfire ends.</p>
+        </div>
+        <span class="sticker-mood-cta">Take me there →</span>
+      </div>
+      <div class="sticker-mood">
+        <span class="sticker-tag">SOLO OK</span>
+        <div>
+          <h3 class="sticker-mood-name">Reset</h3>
+          <p class="sticker-mood-desc">Disappear without explaining. Come back as someone slightly better.</p>
+        </div>
+        <span class="sticker-mood-cta">Take me there →</span>
+      </div>
+      <div class="sticker-mood">
+        <div>
+          <h3 class="sticker-mood-name">Bash</h3>
+          <p class="sticker-mood-desc">Bring everyone. Plan nothing. The place can handle it.</p>
+        </div>
+        <span class="sticker-mood-cta">Take me there →</span>
+      </div>
+      <div class="sticker-mood">
+        <span class="sticker-tag">PETS WELCOME</span>
+        <div>
+          <h3 class="sticker-mood-name">Pets</h3>
+          <p class="sticker-mood-desc">Bring the whole family. Even the loud ones with four legs.</p>
+        </div>
+        <span class="sticker-mood-cta">Take me there →</span>
+      </div>
+    </div>
+
+    <h3 style="font-family: var(--font-utility); font-size: 24px; letter-spacing: 0.05em; margin: var(--space-6) 0 var(--space-2); text-transform: uppercase;">Social cards</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-3);">
+      <div class="social-card">
+        <p class="social-card-quote">Don't book a room.<br>Book a weekend.</p>
+        <span class="social-card-attribution"><img src="assets/duffleup-logo.svg" alt="duffleup"></span>
+      </div>
+      <div class="social-card social-card--pink">
+        <p class="social-card-quote">Two days.<br>One duffle.<br>Zero apologies.</p>
+        <span class="social-card-attribution"><img src="assets/duffleup-logo.svg" alt="duffleup"></span>
+      </div>
+      <div class="social-card" style="background: var(--color-hyperpurple); color: white;">
+        <p class="social-card-quote" style="color: var(--color-acid);">Spreadsheet your<br>vacation? No.</p>
+        <span class="social-card-attribution"><img src="assets/duffleup-logo.svg" alt="duffleup"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== VOICE ============== -->
+<section class="section section--white anchor" id="voice">
+  <div class="container">
+    <p class="section-eyebrow">04 — Voice</p>
+    <h2 class="section-title">Zero apologies.</h2>
+    <p class="section-subtitle">Confident. Cheeky. Direct. Slightly disrespectful of OTA conventions. Marketing surfaces lean harder. Functional UI stays cleaner but never goes generic.</p>
+
+    <h3 style="font-family: var(--font-utility); font-size: 20px; letter-spacing: 0.08em; margin: var(--space-4) 0 var(--space-2); text-transform: uppercase;">Button labels</h3>
+    <div class="voice-grid">
+      <div class="voice-card voice-card--do">
+        <p class="voice-label">✓ DO</p>
+        <p class="voice-example">"Pack my duffle"</p>
+        <p class="voice-example">"Get me out there"</p>
+        <p class="voice-example">"Got a place?"</p>
+        <p class="voice-note">Cheeky. Active. Specific to Duffleup.</p>
+      </div>
+      <div class="voice-card voice-card--dont">
+        <p class="voice-label">✗ DON'T</p>
+        <p class="voice-example">"Book Now"</p>
+        <p class="voice-example">"Click here!"</p>
+        <p class="voice-example">"Submit Application"</p>
+        <p class="voice-note">Generic. Salesy. Could be any OTA.</p>
+      </div>
+    </div>
+
+    <h3 style="font-family: var(--font-utility); font-size: 20px; letter-spacing: 0.08em; margin: var(--space-4) 0 var(--space-2); text-transform: uppercase;">Error messages</h3>
+    <div class="voice-grid">
+      <div class="voice-card voice-card--do">
+        <p class="voice-label">✓ DO</p>
+        <p class="voice-example">"Couldn't reach our servers. Try again, or hit hello@duffleup.in."</p>
+        <p class="voice-note">Says what went wrong. Tells you what to do.</p>
+      </div>
+      <div class="voice-card voice-card--dont">
+        <p class="voice-label">✗ DON'T</p>
+        <p class="voice-example">"Oops! Something went wrong. We apologize for any inconvenience."</p>
+        <p class="voice-note">Apologetic. Vague. Customer-service-script energy.</p>
+      </div>
+    </div>
+
+    <h3 style="font-family: var(--font-utility); font-size: 20px; letter-spacing: 0.08em; margin: var(--space-4) 0 var(--space-2); text-transform: uppercase;">Confirmations</h3>
+    <div class="voice-grid">
+      <div class="voice-card voice-card--do">
+        <p class="voice-label">✓ DO</p>
+        <p class="voice-example">"Locked in. Pack accordingly."</p>
+        <p class="voice-example">"Sorted. Check your inbox."</p>
+        <p class="voice-note">Direct. Specific. Tells you what's next.</p>
+      </div>
+      <div class="voice-card voice-card--dont">
+        <p class="voice-label">✗ DON'T</p>
+        <p class="voice-example">"Yay! Your booking has been successfully confirmed! 🎉"</p>
+        <p class="voice-note">Performative cheerfulness. We're not a children's app.</p>
+      </div>
+    </div>
+
+    <h3 style="font-family: var(--font-utility); font-size: 20px; letter-spacing: 0.08em; margin: var(--space-4) 0 var(--space-2); text-transform: uppercase;">Vocabulary</h3>
+    <div style="background: var(--color-sterling-warm); border-radius: var(--radius-sm); padding: var(--space-3); border: 1px solid var(--color-line);">
+      <p style="font-size: 16px; line-height: 1.9;">
+        <strong style="color: #618200;">We say:</strong> Property · Stay · Booking · Guest · Owner · Mood · Tier · Pack your duffle · Out there · Locked in · Zero apologies · Get me out there · Got a place? · Pack my duffle<br>
+        <strong style="color: var(--color-slap-pink)">We don't say:</strong> Listing · Reservation · Customer · Host · Filter · Class · Click here · Book now · Submit
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <p class="footer-brand"><img src="assets/duffleup-logo.svg" alt="duffleup"></p>
+        <p class="footer-tag">Pay. Pack. Go.</p>
+        <p style="margin-top: var(--space-2); font-size: 14px; color: rgba(255,255,255,0.6); max-width: 280px; line-height: 1.6;">
+          Verified stays across Maharashtra. Built by someone who understands the real pain — both sides of the WhatsApp thread.
+        </p>
+      </div>
+      <div>
+        <p class="footer-col-title">DUFFLEUP</p>
+        <ul class="footer-col-links">
+          <li><a href="#">About</a></li>
+          <li><a href="#">How it works</a></li>
+          <li><a href="#">Got a place?</a></li>
+          <li><a href="#">Press</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">HELP</p>
+        <ul class="footer-col-links">
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Cancellation</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">REACH US</p>
+        <ul class="footer-col-links">
+          <li><a href="#">hello@duffleup.in</a></li>
+          <li><a href="#">@duffleup_in</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <span>© 2026 Duffleup. Mahabaleshwar, Maharashtra.</span>
+      <span><a href="#" style="color: rgba(255,255,255,0.5); text-decoration: none;">Terms</a> · <a href="#" style="color: rgba(255,255,255,0.5); text-decoration: none;">Privacy</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
