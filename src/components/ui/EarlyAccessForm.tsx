@@ -1,14 +1,17 @@
 'use client'
 
 import { useState, FormEvent } from 'react'
-import { CheckCircle } from 'lucide-react'
+import { Input } from '@/components/ui/Input'
+import { Button } from '@/components/ui/Button'
+import { Alert } from '@/components/ui/Alert'
 
 type Intent = 'GUEST' | 'OWNER'
 
 interface EarlyAccessFormProps {
   intent: Intent
   source: string
-  /** Optional dark-on-light vs light-on-dark styling for different section backgrounds. */
+  /** Kept for API compatibility with existing call sites. Inputs render on a
+   * white surface regardless, so this no longer drives colour. */
   tone?: 'light' | 'dark'
 }
 
@@ -17,10 +20,10 @@ interface EarlyAccessFormProps {
 const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? '').replace(/\/$/, '')
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
-// Sub-prompt-23: landing-page email capture. POSTs to the early-access API with
-// the page's intent + source + any UTM params on the URL. Visual styling uses
-// the existing Tailwind palette — brand kit redesign is SP-23b.
-export default function EarlyAccessForm({ intent, source, tone = 'light' }: EarlyAccessFormProps) {
+// Landing-page email capture. POSTs to the early-access API with the page's
+// intent + source + any UTM params on the URL. Network logic is unchanged from
+// SP-23; SP-23b rebuilds the markup on the brand-kit primitives.
+export default function EarlyAccessForm({ intent, source }: EarlyAccessFormProps) {
   const [email, setEmail] = useState('')
   const [firstName, setFirstName] = useState('')
   const [phone, setPhone] = useState('')
@@ -30,18 +33,13 @@ export default function EarlyAccessForm({ intent, source, tone = 'light' }: Earl
   const [error, setError] = useState('')
 
   const isOwner = intent === 'OWNER'
-  const onDark = tone === 'dark'
-
-  const inputClass = onDark
-    ? 'w-full rounded-full bg-cream/10 border border-cream/30 text-cream placeholder-cream/50 px-5 py-3 font-dm text-sm focus:outline-none focus:border-cream'
-    : 'w-full rounded-full bg-white border border-sand/40 text-forest placeholder-stone/50 px-5 py-3 font-dm text-sm focus:outline-none focus:border-terracotta'
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     setError('')
 
     if (!EMAIL_RE.test(email.trim())) {
-      setError('Please enter a valid email address.')
+      setError('That email looks off. Mind checking it?')
       setStatus('error')
       return
     }
@@ -49,7 +47,10 @@ export default function EarlyAccessForm({ intent, source, tone = 'light' }: Earl
     setStatus('loading')
 
     // Capture UTM params from the URL at submit time (no Suspense needed).
-    const params = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : new URLSearchParams()
+    const params =
+      typeof window !== 'undefined'
+        ? new URLSearchParams(window.location.search)
+        : new URLSearchParams()
 
     try {
       const res = await fetch(`${API_URL}/early-access`, {
@@ -76,83 +77,88 @@ export default function EarlyAccessForm({ intent, source, tone = 'light' }: Earl
       if (!res.ok) throw new Error(`Request failed (${res.status})`)
       setStatus('success')
     } catch {
-      setError("Couldn't reach our servers. Email hello@duffleup.in and we'll add you to the list manually.")
+      setError(
+        "Couldn't reach our servers. Email hello@duffleup.in and we'll add you to the list ourselves."
+      )
       setStatus('error')
     }
   }
 
   if (status === 'success') {
     return (
-      <div className={`flex items-center gap-3 rounded-2xl px-6 py-5 font-dm ${onDark ? 'bg-cream/10 text-cream' : 'bg-forest/5 text-forest'}`}>
-        <CheckCircle className={onDark ? 'text-cream' : 'text-forest'} size={22} />
-        <span>Thanks — check your inbox. We&apos;ll be in touch as we approach launch.</span>
-      </div>
+      <Alert variant="success" title="You're on the list">
+        We&apos;ll ping you the moment your area goes live.
+      </Alert>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3" noValidate>
-      <div className="grid sm:grid-cols-2 gap-3">
-        <input
-          type="email"
-          required
-          placeholder="Email address"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className={inputClass}
-          aria-label="Email address"
-        />
-        <input
-          type="text"
-          placeholder="First name (optional)"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          className={inputClass}
-          aria-label="First name"
-        />
-      </div>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
+      <Input
+        type="email"
+        name="email"
+        label="Email"
+        required
+        placeholder="you@email.com"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        state={status === 'error' && error.startsWith('That email') ? 'error' : 'default'}
+        className="w-full"
+      />
+      <Input
+        type="text"
+        name="firstName"
+        label="First name (optional)"
+        placeholder="What do we call you?"
+        value={firstName}
+        onChange={(e) => setFirstName(e.target.value)}
+        className="w-full"
+      />
 
       {isOwner && (
-        <div className="grid sm:grid-cols-2 gap-3">
-          <input
+        <>
+          <Input
             type="tel"
-            placeholder="Phone (optional)"
+            name="phone"
+            label="Phone (optional)"
+            placeholder="So we can reach you"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            className={inputClass}
-            aria-label="Phone"
+            className="w-full"
           />
-          <input
+          <Input
             type="text"
-            placeholder="Property location (optional)"
+            name="propertyLocation"
+            label="Property location (optional)"
+            placeholder="Where's the place?"
             value={propertyLocation}
             onChange={(e) => setPropertyLocation(e.target.value)}
-            className={inputClass}
-            aria-label="Property location"
+            className="w-full"
           />
-          <input
+          <Input
             type="text"
-            placeholder="Property type (optional)"
+            name="propertyType"
+            label="Property type (optional)"
+            placeholder="Cottage, villa, farmhouse…"
             value={propertyType}
             onChange={(e) => setPropertyType(e.target.value)}
-            className={`${inputClass} sm:col-span-2`}
-            aria-label="Property type"
+            className="w-full"
           />
-        </div>
+        </>
       )}
 
-      <button
-        type="submit"
-        disabled={status === 'loading'}
-        className={`w-full sm:w-auto font-dm font-semibold px-8 py-3 rounded-full transition-colors disabled:opacity-60 ${
-          onDark ? 'bg-cream text-terracotta hover:bg-sand' : 'bg-forest text-cream hover:bg-forest/90'
-        }`}
-      >
-        {status === 'loading' ? 'Submitting…' : isOwner ? 'Request listing info' : 'Notify me at launch'}
-      </button>
+      <Button type="submit" variant="primary" disabled={status === 'loading'} className="w-full sm:w-auto">
+        {status === 'loading'
+          ? 'Sending…'
+          : isOwner
+            ? 'Send me listing info'
+            : 'Put me on the list'}
+      </Button>
 
       {status === 'error' && (
-        <p className={`text-sm font-dm ${onDark ? 'text-cream' : 'text-terracotta'}`}>{error}</p>
+        <Alert variant="danger" title="Couldn't go through">
+          {error}
+        </Alert>
       )}
     </form>
   )

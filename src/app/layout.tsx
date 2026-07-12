@@ -1,18 +1,20 @@
 import type { Metadata } from 'next'
-import { Playfair_Display, DM_Sans } from 'next/font/google'
+import { Bungee, Bebas_Neue } from 'next/font/google'
 import './globals.css'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
+import { SiteNav } from '@/components/marketing/SiteNav'
+import { Footer } from '@/components/marketing/Footer'
 
-const playfair = Playfair_Display({
+const bungee = Bungee({
+  weight: '400',
   subsets: ['latin'],
-  variable: '--font-playfair',
+  variable: '--font-bungee',
   display: 'swap',
 })
 
-const dmSans = DM_Sans({
+const bebas = Bebas_Neue({
+  weight: '400',
   subsets: ['latin'],
-  variable: '--font-dm-sans',
+  variable: '--font-bebas',
   display: 'swap',
 })
 
@@ -67,9 +69,9 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${dmSans.variable}`}>
-      <body className="font-dm bg-cream text-gray-800 antialiased">
-        <Header />
+    <html lang="en" className={`${bungee.variable} ${bebas.variable}`}>
+      <body className="font-body bg-sterling-warm text-pitch antialiased">
+        <SiteNav />
         <main>{children}</main>
         <Footer />
       </body>

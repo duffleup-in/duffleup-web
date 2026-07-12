@@ -10,3 +10,5 @@ build/
 coverage/
 .claude/
 .DS_Store
+*.tsbuildinfo
+next-env.d.ts

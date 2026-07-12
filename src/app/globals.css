@@ -2,18 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --font-playfair: 'Playfair Display', Georgia, serif;
-  --font-dm-sans: 'DM Sans', system-ui, sans-serif;
-}
-
 @layer base {
   body {
-    @apply font-dm text-gray-800 bg-cream;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-playfair;
+    @apply font-body bg-sterling-warm text-pitch antialiased;
   }
 }
 
@@ -28,14 +19,14 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar — brand surfaces */
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #FAF5ED;
+  background: #FAFAF8;
 }
 ::-webkit-scrollbar-thumb {
-  background: #2D4A3E;
+  background: #7B2FFF;
   border-radius: 3px;
 }
