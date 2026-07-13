@@ -13,6 +13,11 @@ const nextConfig = {
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
+  async redirects() {
+    return [
+      { source: '/contact', destination: '/#early-access', permanent: false },
+    ];
+  },
   async headers() {
     return [
       { source: '/(.*)', headers: [

@@ -20,7 +20,7 @@ export function EarlyAccessBand({
   className,
 }: EarlyAccessBandProps) {
   return (
-    <section className={cn('bg-hyperpurple py-16 text-white', className)}>
+    <section id="early-access" className={cn('bg-hyperpurple py-16 text-white', className)}>
       <div className="mx-auto grid max-w-[1200px] items-center gap-10 px-6 md:grid-cols-2">
         <div>
           <p className="mb-2 font-utility text-subh uppercase tracking-[0.1em] text-acid">

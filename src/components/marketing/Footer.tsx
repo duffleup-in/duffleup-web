@@ -24,7 +24,6 @@ const defaultColumns: FooterColumn[] = [
     links: [
       { label: 'About', href: '/about' },
       { label: 'For owners', href: '/list-your-property' },
-      { label: 'Contact', href: '/contact' },
     ],
   },
   {
