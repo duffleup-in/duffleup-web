@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Star } from 'lucide-react'
 import { cn } from '@/lib/cn'
 
-type Tier = 'standard' | 'certified' | 'select'
+type Tier = 'raw' | 'real' | 'rare'
 
 export type BadgeProps = {
   tier: Tier
@@ -11,15 +11,15 @@ export type BadgeProps = {
 }
 
 const tiers: Record<Tier, string> = {
-  standard: 'bg-sterling text-pitch border border-line',
-  certified: 'bg-plasma text-pitch',
-  select: 'bg-acid text-pitch',
+  raw: 'bg-sterling text-pitch border border-line',
+  real: 'bg-plasma text-pitch',
+  rare: 'bg-acid text-pitch',
 }
 
 const labels: Record<Tier, string> = {
-  standard: 'Standard',
-  certified: 'Certified',
-  select: 'Select',
+  raw: 'Raw',
+  real: 'Real',
+  rare: 'Rare',
 }
 
 export function Badge({ tier, className, children }: BadgeProps) {
@@ -31,7 +31,7 @@ export function Badge({ tier, className, children }: BadgeProps) {
         className
       )}
     >
-      {tier === 'select' && (
+      {tier === 'rare' && (
         <Star size={10} className="fill-current" aria-hidden="true" />
       )}
       {children ?? labels[tier]}

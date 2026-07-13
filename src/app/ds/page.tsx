@@ -150,9 +150,9 @@ export default function DesignSystemPage() {
       <Section eyebrow="Components" title="Badges & chips">
         <div className="space-y-6">
           <div className="flex flex-wrap items-center gap-3 rounded-sm border border-line bg-white p-6">
-            <Badge tier="standard" />
-            <Badge tier="certified" />
-            <Badge tier="select" />
+            <Badge tier="raw" />
+            <Badge tier="real" />
+            <Badge tier="rare" />
           </div>
           <div className="flex flex-wrap items-center gap-2 rounded-sm border border-line bg-white p-6">
             <Chip mood="chill">Chill</Chip>
@@ -189,7 +189,7 @@ export default function DesignSystemPage() {
           <PropertyCard
             name="Fog & Pine"
             area="Lonavala, MH"
-            tier="select"
+            tier="rare"
             price="₹8,400"
             placeholderVariant="chill"
             chips={[{ label: 'Chill', mood: 'chill' }, { label: 'Pets', mood: 'pets' }]}
@@ -197,7 +197,7 @@ export default function DesignSystemPage() {
           <PropertyCard
             name="Riverbend Camp"
             area="Kolad, MH"
-            tier="certified"
+            tier="real"
             price="₹6,200"
             placeholderVariant="adventure"
             chips={[{ label: 'Adventure', mood: 'adventure' }]}
@@ -205,7 +205,7 @@ export default function DesignSystemPage() {
           <PropertyCard
             name="The Quiet House"
             area="Bhandardara, MH"
-            tier="standard"
+            tier="raw"
             price="₹5,000"
             placeholderVariant="reset"
             chips={[{ label: 'Reset', mood: 'reset' }]}

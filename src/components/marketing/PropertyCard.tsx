@@ -13,7 +13,8 @@ export type PropertyCardProps = {
   area: string
   price: string
   priceUnit?: string
-  tier?: 'standard' | 'certified' | 'select'
+  // TODO: consolidate this union with Badge.tsx's Tier type
+  tier?: 'raw' | 'real' | 'rare'
   chips?: { label: string; mood?: Mood }[]
   photoSrc?: string
   photoAlt?: string
