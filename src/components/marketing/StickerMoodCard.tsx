@@ -13,6 +13,16 @@ export type StickerMoodCardProps = {
   className?: string
 }
 
+// Bungee is caps-only and offers no mid-word break, so a long name like
+// "Adventure" cannot wrap and will spill past the card edge. Size the name
+// against the card's own inline size (cqi) rather than the viewport, stepping
+// down for longer names so every mood fits at every breakpoint.
+function nameSize(name: string): string {
+  if (name.length >= 8) return 'text-[clamp(30px,14cqi,46px)]'
+  if (name.length >= 6) return 'text-[clamp(36px,17cqi,56px)]'
+  return 'text-[clamp(40px,20cqi,64px)]'
+}
+
 // bg + text + resting rotation per the v0.4 nth-child spec.
 const moodStyles: Record<Mood, { surface: string; rotate: string }> = {
   chill: { surface: 'bg-plasma text-pitch', rotate: '-rotate-2' },
@@ -38,6 +48,7 @@ export function StickerMoodCard({
     <div
       className={cn(
         'relative flex aspect-[4/5] cursor-pointer flex-col justify-between rounded-lg border-[3px] border-pitch p-6 shadow-pop transition-transform duration-200',
+        '[container-type:inline-size]',
         'hover:-translate-y-1 hover:rotate-0 hover:shadow-pop-lg',
         surface,
         rotate,
@@ -50,7 +61,9 @@ export function StickerMoodCard({
         </span>
       )}
       <div>
-        <p className="font-display text-[clamp(48px,6vw,64px)] leading-[0.9]">{name}</p>
+        {/* leading- must follow the size class: cn()'s tailwind-merge treats a
+            font-size as overriding line-height (our fontSize tokens carry one). */}
+        <p className={cn('font-display', nameSize(name), 'leading-[0.9]')}>{name}</p>
         <p className="mt-2 text-[15px] font-medium leading-snug">{description}</p>
       </div>
       <span className="mt-auto self-start pt-6 font-utility text-base uppercase tracking-[0.15em]">
