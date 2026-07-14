@@ -1,30 +1,30 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowRight, Quote } from 'lucide-react'
+import { Button } from '@/components/ui/Button'
 
 export const metadata: Metadata = {
-  title: 'About Us',
+  title: 'About',
   description:
-    'Duffleup was built by someone who ran Waterrock offbeat resort in Bhor for 4 years. We know what hosts need and what guests deserve.',
+    'Built by an operator, not a tech company. Verified stays. Honest economics. Mood-first.',
 }
 
 const values = [
   {
     title: 'Honesty over hype',
-    desc: 'Our listings show what properties actually look like. No filtered photos. No misleading descriptions.',
+    desc: "What's in the photos is what's on the ground. No touch-ups. No stretched descriptions.",
   },
   {
-    title: 'Operators first',
-    desc: 'We think like hosts, not investors. Every feature we build is designed around what makes hosting easier and more rewarding.',
+    title: 'Owners first',
+    desc: 'We think like owners, not investors. Every feature gets built around the people who actually run the place.',
   },
   {
     title: 'Maharashtra at heart',
-    desc: "We're starting here because we know this land. The Sahyadris, the plateaus, the coast — we know its corners.",
+    desc: "We start here because we know this land. The Sahyadris, the plateaus, the coast — we know its corners.",
   },
   {
     title: 'Long-term relationships',
-    desc: 'We want property owners who stay with us for years, not list-and-leave. This is a community, not a directory.',
+    desc: 'We want owners who stay for years, not list-and-leave. A community, not a directory.',
   },
 ]
 
@@ -32,123 +32,90 @@ export default function AboutPage() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-32 pb-20 bg-cream">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-terracotta text-sm font-dm tracking-widest uppercase mb-4">
-            Our Story
+      <section className="bg-pitch pb-20 pt-[120px] text-white">
+        <div className="mx-auto max-w-[1200px] px-6">
+          <p className="mb-2 font-utility text-subh uppercase tracking-[0.1em] text-acid">
+            Our story
           </p>
-          <h1 className="font-playfair text-5xl md:text-6xl font-bold text-forest leading-tight mb-6">
+          <h1 className="max-w-3xl font-display text-[clamp(48px,8vw,80px)] leading-none">
             Built by an operator,
             <br />
-            <span className="text-terracotta">not a tech company</span>
+            <span className="text-acid">not a tech company</span>
           </h1>
-          <p className="text-stone text-lg font-dm max-w-2xl mx-auto">
-            Duffleup exists because one person lived through the chaos of
-            running an offbeat resort and came out the other side with a
-            clearer vision of what this space needed.
+          <p className="mt-6 max-w-xl text-subh leading-relaxed text-white/80">
+            Duffleup exists because someone has been on both ends of the same
+            WhatsApp thread. The one asking if the place is really like the
+            photos. And the one answering.
           </p>
         </div>
       </section>
 
-      {/* Founder Story */}
-      <section className="py-20 bg-cream">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div className="relative">
-              <div className="relative h-[520px] rounded-2xl overflow-hidden shadow-2xl">
-                <Image
-                  src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80"
-                  alt="Bhor hills, Maharashtra — where Waterrock was"
-                  fill
-                  className="object-cover"
-                />
-              </div>
-              <div className="absolute -bottom-6 -right-6 bg-terracotta text-cream p-6 rounded-2xl shadow-xl max-w-[220px]">
-                <p className="font-playfair text-lg font-bold">
-                  Waterrock Resort
-                </p>
-                <p className="text-cream/70 text-sm mt-1">
-                  Bhor, Maharashtra — 4 years of running an offbeat resort
-                </p>
-              </div>
+      {/* Founder narrative */}
+      <section className="border-b border-line bg-sterling-warm py-16">
+        <div className="mx-auto max-w-[1200px] px-6">
+          <div className="max-w-3xl">
+            <Quote size={36} className="mb-6 text-hyperpurple" aria-hidden="true" />
+            <h2 className="mb-8 font-display text-[clamp(40px,6vw,64px)] leading-none">
+              Both sides of the WhatsApp thread.
+            </h2>
+
+            <div className="space-y-5 text-subh leading-relaxed text-pitch-soft">
+              <p>
+                I have been on both ends of the same thread. The one asking
+                whether the photos are real. And the one typing back — yes,
+                promise, it&apos;s exactly like that.
+              </p>
+              <p>
+                The platforms didn&apos;t help either side. They showed average
+                ratings, not real pictures. They rewarded properties that gamed
+                reviews over properties that actually cared. Owners became
+                inventory. Guests became transactions.
+              </p>
+              <p>
+                So Duffleup got built the other way round. Verified stays.
+                Honest economics. Mood-first.
+              </p>
+              <p>
+                Every property is visited before it goes live. Every owner gets
+                talked to properly. Every tier — Raw, Real, Rare — means
+                something.
+              </p>
             </div>
 
-            <div>
-              <Quote size={36} className="text-sand mb-6" />
-              <h2 className="font-playfair text-3xl md:text-4xl font-bold text-forest leading-tight mb-6">
-                I spent four years running Waterrock in Bhor. That experience
-                became Duffleup.
-              </h2>
-
-              <div className="space-y-5 text-stone font-dm leading-relaxed">
-                <p>
-                  Running Waterrock, an offbeat resort nestled in the hills of
-                  Bhor, was one of the most educational experiences of my life.
-                  We had guests who loved it completely — and guests who felt
-                  let down by what they found online versus what they found in
-                  person.
-                </p>
-                <p>
-                  The problem was the platforms. They showed average ratings,
-                  not real pictures. They rewarded properties that gamed
-                  reviews, not those that genuinely cared. Hosts were just
-                  listings. Guests were just transactions.
-                </p>
-                <p>
-                  I wanted to build something that reflected how I thought
-                  about hospitality: earned trust, honest representation,
-                  and a genuine partnership between hosts and travellers.
-                </p>
-                <p>
-                  That's Duffleup. Every property listed here has been visited
-                  in person. Every host has been spoken to properly. Every
-                  badge means something.
-                </p>
-              </div>
-
-              <div className="mt-8 pt-8 border-t border-sand/30">
-                <p className="font-playfair text-xl font-bold text-forest">
-                  Founder, Duffleup
-                </p>
-                <p className="text-stone text-sm font-dm mt-1">
-                  Former operator, Waterrock Offbeat Resort, Bhor, Maharashtra
-                </p>
-              </div>
-            </div>
+            <p className="mt-8 border-t border-line pt-8 font-utility text-h6 uppercase tracking-[0.05em]">
+              Founder, Duffleup
+            </p>
           </div>
         </div>
       </section>
 
-      {/* The Problem We Solve */}
-      <section className="py-24 bg-forest">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-2 gap-12">
+      {/* Both sides */}
+      <section className="border-b border-white/10 bg-pitch py-16 text-white">
+        <div className="mx-auto max-w-[1200px] px-6">
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
             <div>
-              <p className="text-sand/70 text-sm font-dm tracking-widest uppercase mb-4">
-                For Travellers
+              <p className="mb-2 font-utility text-subh uppercase tracking-[0.1em] text-acid">
+                For guests
               </p>
-              <h2 className="font-playfair text-3xl font-bold text-cream mb-6">
-                Discover escapes that actually deliver
+              <h2 className="mb-6 font-display text-[clamp(32px,4vw,48px)] leading-none">
+                Know what you&apos;re walking into.
               </h2>
-              <p className="text-cream/70 font-dm leading-relaxed">
-                Every property on Duffleup has been physically visited by our
-                team. When you book, you know exactly what to expect. No
-                catfishing. No disappointing surprises. Just honest,
-                wonderful stays.
+              <p className="text-subh leading-relaxed text-white/70">
+                Verified stays only. When you pack, you know exactly what
+                you&apos;re getting. No catfishing. No surprises at the gate.
               </p>
             </div>
             <div>
-              <p className="text-sand/70 text-sm font-dm tracking-widest uppercase mb-4">
-                For Property Owners
+              <p className="mb-2 font-utility text-subh uppercase tracking-[0.1em] text-acid">
+                For owners
               </p>
-              <h2 className="font-playfair text-3xl font-bold text-cream mb-6">
-                A platform that actually understands your work
+              <h2 className="mb-6 font-display text-[clamp(32px,4vw,48px)] leading-none">
+                Built by someone who&apos;s run the place.
               </h2>
-              <p className="text-cream/70 font-dm leading-relaxed">
-                We know what it takes to run a hospitality property. The
-                seasons, the operational challenges, the guests who get it and
-                the ones who don't. We build tools and partnerships that
-                respect the work you put in.
+              <p className="text-subh leading-relaxed text-white/70">
+                The seasons. The 2am generator failure. The guests who get it
+                and the ones who don&apos;t. Verified properties only. Honest
+                commissions. You set the rules.
               </p>
             </div>
           </div>
@@ -156,23 +123,25 @@ export default function AboutPage() {
       </section>
 
       {/* Values */}
-      <section className="py-24 bg-cream">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="font-playfair text-4xl font-bold text-forest">
-              What we stand for
-            </h2>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <section className="border-b border-line bg-white py-16">
+        <div className="mx-auto max-w-[1200px] px-6">
+          <p className="mb-2 font-utility text-subh uppercase tracking-[0.1em] text-hyperpurple">
+            What we stand for
+          </p>
+          <h2 className="mb-10 max-w-2xl font-display text-[clamp(40px,6vw,64px)] leading-none">
+            Four things we don&apos;t bend on.
+          </h2>
+
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {values.map((v) => (
               <div
                 key={v.title}
-                className="border border-sand/40 rounded-2xl p-8 hover:border-forest/30 transition-colors"
+                className="rounded-md border border-line p-8 transition-colors hover:border-hyperpurple"
               >
-                <h3 className="font-playfair text-xl font-bold text-forest mb-3">
+                <h3 className="font-utility text-h6 uppercase tracking-[0.05em]">
                   {v.title}
                 </h3>
-                <p className="text-stone text-sm font-dm leading-relaxed">
+                <p className="mt-3 text-subh leading-relaxed text-pitch-soft">
                   {v.desc}
                 </p>
               </div>
@@ -181,46 +150,26 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Scenic Divider */}
-      <section className="relative h-72 overflow-hidden">
-        <Image
-          src="https://images.unsplash.com/photo-1598091383021-15ddea10925d?auto=format&fit=crop&w=1800&q=80"
-          alt="Sahyadri hills, Maharashtra"
-          fill
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-forest/50 flex items-center justify-center">
-          <p className="font-playfair text-3xl md:text-4xl font-bold text-cream text-center px-4">
-            Maharashtra has hidden corners.
-            <br />
-            <span className="text-sand">We find them first.</span>
-          </p>
-        </div>
-      </section>
-
       {/* CTA */}
-      <section className="py-24 bg-cream text-center">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="font-playfair text-4xl font-bold text-forest mb-4">
-            Be part of something different
+      <section className="bg-hyperpurple py-16 text-white">
+        <div className="mx-auto max-w-[1200px] px-6">
+          <h2 className="max-w-2xl font-display text-[clamp(40px,6vw,64px)] leading-none">
+            Not live yet. Get in early.
           </h2>
-          <p className="text-stone font-dm text-lg mb-10">
-            Whether you're a traveller looking for a real escape, or an owner
-            who wants your property represented honestly — Duffleup is for you.
+          <p className="mt-4 max-w-xl text-subh leading-relaxed text-white/80">
+            Whether you&apos;re packing a duffle or you&apos;ve got a place
+            worth showing — Duffleup is for you.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/"
-              className="bg-forest text-cream font-dm font-semibold px-8 py-4 rounded-full hover:bg-forest-light transition-colors inline-flex items-center gap-2 justify-center"
-            >
-              Browse Stays <ArrowRight size={16} />
-            </Link>
-            <Link
-              href="/contact"
-              className="border-2 border-forest text-forest font-dm font-medium px-8 py-4 rounded-full hover:bg-forest hover:text-cream transition-colors"
-            >
-              Get In Touch
-            </Link>
+
+          <div className="mt-8 flex flex-wrap gap-4">
+            <Button asChild variant="primary" size="lg">
+              <Link href="/">
+                Browse Stays <ArrowRight size={16} aria-hidden="true" />
+              </Link>
+            </Button>
+            <Button asChild variant="secondary" size="lg">
+              <Link href="/#early-access">Put me on the list</Link>
+            </Button>
           </div>
         </div>
       </section>
