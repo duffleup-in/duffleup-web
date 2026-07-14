@@ -1,5 +1,24 @@
 # duffleup-web Backlog
 
+## Open items
+
+- "Filter" word usage reconciliation: home page (SocialProof.tsx:7
+  and metadata.description) uses "Filter by mood, not stars" which
+  is on the banned copy list. Left alone in B3 to preserve
+  locked home reference. Reconcile in a future small copy pass
+  across all pages: either lift the ban to allow "filter" (with
+  a clear rationale) or migrate home's usage to a permitted
+  synonym.
+
+- Home page /properties 404: Hero.tsx:33 "Pack my duffle" CTA
+  links to /properties which doesn't exist. Route is planned
+  for SP-F1. Until SP-F1 ships, this is a 404 on home's
+  primary hero button. Fix as part of SP-F1 rollout.
+
+- README.md:24 stale reference: still lists "/contact — Contact
+  form" post-B2 (contact route removed 2026-07-14). Update in
+  next docs pass, non-urgent.
+
 ## Codebase rules
 
 - Tailwind cn() ordering rule: inside cn() calls, always place
