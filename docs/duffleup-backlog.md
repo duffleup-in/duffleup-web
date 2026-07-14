@@ -2,6 +2,18 @@
 
 ## Open items
 
+- Tier promotion criteria (manual V1, admin-panel V2):
+  RAW → REAL promotion requires N completed bookings (define N),
+  <5% negative feedback ratio, minimum vintage on platform
+  (define months), evaluation across dimensions (tech, linen,
+  food, ambience, amenities, hospitality). RARE promotion:
+  reserved for top 5% by absolute count of properties on the
+  platform, non-purchaseable, non-influenceable. Documented
+  promotion criteria + audit trail required per property. V1
+  workflow is manual via admin. V2 (post-launch) may add
+  automated criteria surfacing but promotion decision stays
+  human-in-the-loop even at V2.
+
 - owner-cta-propagation sprint (2026-07-15) stood down without
   code changes. Diagnostic confirmed burger menu already contains
   GOT A PLACE? owner CTA (visible in mobile scroll-triggered
