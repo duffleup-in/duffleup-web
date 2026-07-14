@@ -76,9 +76,9 @@ export default function AboutPage() {
                 Honest economics. Mood-first.
               </p>
               <p>
-                From launch forward, every property gets visited before it goes
-                live. Every owner gets talked to properly. Every tier — Raw,
-                Real, Rare — means something.
+                Every property is visited before it goes live. Every owner gets
+                talked to properly. Every tier — Raw, Real, Rare — means
+                something.
               </p>
             </div>
 
