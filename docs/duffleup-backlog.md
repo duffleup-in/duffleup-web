@@ -2,6 +2,15 @@
 
 ## Open items
 
+- owner-cta-propagation sprint (2026-07-15) stood down without
+  code changes. Diagnostic confirmed burger menu already contains
+  GOT A PLACE? owner CTA (visible in mobile scroll-triggered
+  overlay). Footer has no CTA today; adding one deferred as an
+  open design question — no clear need before launch.
+  /list-your-property "SECURE YOUR SLOT" in-page anchor +
+  surrounding "First 25 properties" invented-claims copy will be
+  rebuilt during B3 Phase C along with the rest of that page.
+
 - "Filter" word usage reconciliation: home page (SocialProof.tsx:7
   and metadata.description) uses "Filter by mood, not stars" which
   is on the banned copy list. Left alone in B3 to preserve
