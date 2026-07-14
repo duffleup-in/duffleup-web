@@ -16,7 +16,7 @@ const tiers = [
   },
   {
     tier: 'real' as const,
-    desc: 'Guests kept coming back happy. Complaints stayed rare. Real is what a stay earns, not what an owner buys.',
+    desc: 'Real is what a stay earns, not what an owner buys — enough happy stays and low complaint counts to prove it.',
   },
   {
     tier: 'rare' as const,
