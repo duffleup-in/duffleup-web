@@ -1,5 +1,12 @@
 # duffleup-web Backlog
 
+## Foundation Day scope freeze (2026-07-16)
+
+Scope frozen for V1 targeting Foundation Day 2026-11-05. New
+scope surfaced between now and Foundation Day lands in
+`post-foundation-day-backlog.md` unless traded off against
+existing planned work.
+
 ## Open items
 
 - Admin-editable marketing copy across /about, /how-it-works,
