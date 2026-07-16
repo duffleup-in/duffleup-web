@@ -10,9 +10,6 @@ type Intent = 'GUEST' | 'OWNER'
 interface EarlyAccessFormProps {
   intent: Intent
   source: string
-  /** Kept for API compatibility with existing call sites. Inputs render on a
-   * white surface regardless, so this no longer drives colour. */
-  tone?: 'light' | 'dark'
 }
 
 // NEXT_PUBLIC_API_URL already includes the /api/v1 base (see .env.example), so
@@ -34,12 +31,25 @@ export default function EarlyAccessForm({ intent, source }: EarlyAccessFormProps
 
   const isOwner = intent === 'OWNER'
 
+  // Owner intake requires name, phone, and location in addition to email; the
+  // manual-onboarding gate needs a reachable contact and a place to visit.
+  // propertyName + capacity are captured on the call — the backend early-access
+  // DTO rejects unknown keys (forbidNonWhitelisted), so they're not sent here.
+  const ownerFieldsMissing =
+    isOwner && (!firstName.trim() || !phone.trim() || !propertyLocation.trim())
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     setError('')
 
     if (!EMAIL_RE.test(email.trim())) {
       setError('That email looks off. Mind checking it?')
+      setStatus('error')
+      return
+    }
+
+    if (ownerFieldsMissing) {
+      setError('We need your name, phone, and where the property is.')
       setStatus('error')
       return
     }
@@ -85,42 +95,50 @@ export default function EarlyAccessForm({ intent, source }: EarlyAccessFormProps
   }
 
   if (status === 'success') {
-    return (
+    return isOwner ? (
+      <Alert variant="success" title="Thanks">
+        We&apos;ll be in touch within a few days to talk about your property.
+      </Alert>
+    ) : (
       <Alert variant="success" title="You're on the list">
         We&apos;ll ping you the moment your area goes live.
       </Alert>
     )
   }
 
+  const emailErrorState =
+    status === 'error' && error.startsWith('That email') ? 'error' : 'default'
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
-      <Input
-        type="email"
-        name="email"
-        label="Email"
-        required
-        placeholder="you@email.com"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        state={status === 'error' && error.startsWith('That email') ? 'error' : 'default'}
-        className="w-full"
-      />
-      <Input
-        type="text"
-        name="firstName"
-        label="First name (optional)"
-        placeholder="What do we call you?"
-        value={firstName}
-        onChange={(e) => setFirstName(e.target.value)}
-        className="w-full"
-      />
-
-      {isOwner && (
+      {isOwner ? (
         <>
+          <Input
+            type="text"
+            name="firstName"
+            label="Name"
+            required
+            placeholder="What do we call you?"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            className="w-full"
+          />
+          <Input
+            type="email"
+            name="email"
+            label="Email"
+            required
+            placeholder="you@email.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            state={emailErrorState}
+            className="w-full"
+          />
           <Input
             type="tel"
             name="phone"
-            label="Phone (optional)"
+            label="Phone"
+            required
             placeholder="So we can reach you"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
@@ -129,7 +147,8 @@ export default function EarlyAccessForm({ intent, source }: EarlyAccessFormProps
           <Input
             type="text"
             name="propertyLocation"
-            label="Property location (optional)"
+            label="Place / location"
+            required
             placeholder="Where's the place?"
             value={propertyLocation}
             onChange={(e) => setPropertyLocation(e.target.value)}
@@ -145,13 +164,36 @@ export default function EarlyAccessForm({ intent, source }: EarlyAccessFormProps
             className="w-full"
           />
         </>
+      ) : (
+        <>
+          <Input
+            type="email"
+            name="email"
+            label="Email"
+            required
+            placeholder="you@email.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            state={emailErrorState}
+            className="w-full"
+          />
+          <Input
+            type="text"
+            name="firstName"
+            label="First name (optional)"
+            placeholder="What do we call you?"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            className="w-full"
+          />
+        </>
       )}
 
       <Button type="submit" variant="primary" disabled={status === 'loading'} className="w-full sm:w-auto">
         {status === 'loading'
           ? 'Sending…'
           : isOwner
-            ? 'Send me listing info'
+            ? 'Tell us more'
             : 'Put me on the list'}
       </Button>
 

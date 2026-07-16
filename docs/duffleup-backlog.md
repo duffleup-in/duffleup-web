@@ -2,6 +2,60 @@
 
 ## Open items
 
+- Admin-editable marketing copy across /about, /how-it-works,
+  /list-your-property: page-content management via admin panel.
+  Scope: backend schema (Page → Section → Field entities),
+  admin API endpoints, frontend refactor to fetch copy from
+  API instead of hardcoded strings, admin UI for editing,
+  format decisions (markdown / rich text / plain). Timing:
+  post-V1 launch, part of admin panel workstream. Rationale:
+  copy must be changeable without a code deployment per
+  Gaurav's flagged requirement.
+
+- Editable commission percentage: 7% currently hardcoded in
+  copy strings across the site AND in backend booking
+  calculations. Should be a single source of truth read from
+  backend platform-config, injected into copy at page render
+  and used by booking math server-side. Requires:
+  platform-config API endpoint, frontend fetch on marketing
+  pages that reference the rate, backend booking calculation
+  to consume the same source. Timing: pre-V2 or when
+  commission model changes are anticipated.
+
+- Geography expansion positioning: Duffleup accepts leads
+  India-wide (form does not gate on location). Manual
+  onboarder handles "currently focused on Maharashtra"
+  conversation at call stage. Marketing copy reflects the
+  Maharashtra-focus-with-India-expansion positioning rather
+  than Maharashtra-only.
+
+- OTP phone verification on /list-your-property intake form:
+  phone field is required but currently unverified. Bad-faith
+  submissions filtered at manual-call gate stage. Future
+  integration: SMS OTP provider (MSG91 / Twilio / TextLocal),
+  backend endpoints (send-otp, verify-otp), rate limiting,
+  retry logic, frontend UX for OTP entry. Timing: post-launch,
+  dedicated sprint. Estimated 4-6 hrs work plus provider
+  account setup.
+
+- Retroactive /about "4 years" restoration consideration:
+  Phase A over-swept by removing "four years" from /about
+  founder narrative. COI vector was Waterrock + Bhor + timespan
+  combined; removing property name and location alone closes
+  the loop. Restoring "4 years" is safe. Not urgent enough to
+  trigger a new sprint alone; fold into any future /about edit
+  or admin-CMS migration.
+
+- Owner intake form field expansion (backend DTO work required):
+  Phase C shipped form with five fields the backend accepts today
+  (Name→firstName, Email, Phone, Place→propertyLocation, Property
+  type). Two additional fields specced in the Phase C directive
+  were dropped because backend returns 400: propertyName and
+  capacity. Add these to backend early-access DTO + Prisma columns
+  + migration in a dedicated small backend sprint. Frontend form
+  additions once backend accepts. Manual onboarder captures these
+  two fields on the call in the meantime.
+
 - Future RARE tier copy candidates (post ~1 year in operation
   with real data + established award/revocation mechanism):
 
