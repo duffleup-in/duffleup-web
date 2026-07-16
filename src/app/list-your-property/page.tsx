@@ -27,10 +27,6 @@ const benefits = [
     title: "Built from the owner's side",
     desc: 'Built by someone who took a small property from concept to multi-crore revenue in under 4 years. Real operational knowledge. Real marketing playbooks. Real tech systems. Not generic tips from a tech team.',
   },
-  {
-    title: 'Not a marketing agency in disguise',
-    desc: "Some platforms take 20%+ to give you marketing and an SOP. You still hire the staff. You still handle the guests. You still fix the plumbing. We're 7%. Marketing and honesty. That's the deal.",
-  },
 ]
 
 const steps = [
@@ -91,7 +87,7 @@ export default function ListYourPropertyPage() {
             Built for property owners.
           </h2>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             {benefits.map((b) => (
               <div
                 key={b.title}
@@ -105,6 +101,23 @@ export default function ListYourPropertyPage() {
                 </p>
               </div>
             ))}
+          </div>
+
+          {/* Card 5 — sticker treatment (StickerMoodCard idiom: bold surface,
+              thick pitch border, slight rest tilt, container-query title). */}
+          <div className="mt-6 [container-type:inline-size] relative rotate-[-1deg] rounded-lg border-[4px] border-pitch bg-solar p-8 text-white shadow-pop sm:p-12">
+            <span className="absolute -top-3 right-6 rotate-[5deg] rounded-xsm bg-pitch px-2.5 py-1 font-utility text-[11px] uppercase tracking-[0.15em] text-acid">
+              The real deal
+            </span>
+            <h3 className="font-display text-[clamp(28px,5cqi,48px)] uppercase leading-[0.95]">
+              Not a marketing agency in disguise
+            </h3>
+            <p className="mt-4 max-w-2xl font-body text-subh leading-relaxed">
+              Some platforms take 20%+ to give you marketing and an SOP. You
+              still hire the staff. You still handle the guests. You still fix
+              the plumbing. We&apos;re 7%. Marketing and honesty. That&apos;s
+              the deal.
+            </p>
           </div>
         </div>
       </section>
@@ -165,11 +178,11 @@ export default function ListYourPropertyPage() {
                   <span className="font-utility uppercase tracking-[0.05em] text-acid">
                     You receive
                   </span>
-                  <span className="font-display text-h4 text-acid">₹7,440</span>
+                  <span className="font-display text-h4 text-acid">₹7,440*</span>
                 </div>
               </div>
               <p className="mt-6 text-center text-caption text-white/40">
-                GST applicable as per government norms
+                *Less PG fees and applicable taxes as per government norms.
               </p>
             </div>
           </div>
