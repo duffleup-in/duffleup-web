@@ -125,7 +125,3 @@
   silently vanishes. No build-time or lint-time error catches
   this — only DOM inspection does. See StickerMoodCard.tsx for
   the reference pattern and inline comment.
-
-Add to docs/duffleup-backlog.md:
-
-- Early-access DTO expansion for owner intake form: /list-your-property form (frontend) needs to send propertyName and capacity fields but backend currently returns 400 for both. Add these two fields to CreateEarlyAccessDto + Prisma EarlyAccessSubmission schema + migration. Small sprint. Frontend log entry in duffleup-web/docs/duffleup-backlog.md references this dependency. Timing: bundle with any early-access-related backend work or ship on its own when convenient.
