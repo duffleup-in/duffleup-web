@@ -178,7 +178,9 @@ export default function ListYourPropertyPage() {
                   <span className="font-utility uppercase tracking-[0.05em] text-acid">
                     You receive
                   </span>
-                  <span className="font-display text-h4 text-acid">₹7,440*</span>
+                  <span className="font-display text-h4 text-acid">
+                    ₹7,440<sup className="text-caption">*</sup>
+                  </span>
                 </div>
               </div>
               <p className="mt-6 text-center text-caption text-white/40">
