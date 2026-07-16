@@ -25,7 +25,11 @@ const benefits = [
   },
   {
     title: "Built from the owner's side",
-    desc: "Built by someone who's run a property for 4 years. Real advice from the owner's side of the table, not generic tips from a tech team.",
+    desc: 'Built by someone who took a small property from concept to multi-crore revenue in under 4 years. Real operational knowledge. Real marketing playbooks. Real tech systems. Not generic tips from a tech team.',
+  },
+  {
+    title: 'Not a marketing agency in disguise',
+    desc: "Some platforms take 20%+ to give you marketing and an SOP. You still hire the staff. You still handle the guests. You still fix the plumbing. We're 7%. Marketing and honesty. That's the deal.",
   },
 ]
 
@@ -87,7 +91,7 @@ export default function ListYourPropertyPage() {
             Built for property owners.
           </h2>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {benefits.map((b) => (
               <div
                 key={b.title}
