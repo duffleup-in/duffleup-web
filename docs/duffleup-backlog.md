@@ -9,6 +9,34 @@ existing planned work.
 
 ## Open items
 
+- Dev server stale-cache pattern after file moves: any restructure
+  that moves route files (like F0.A route groups) can leave the
+  running dev server in a broken state where the compiled CSS 404s
+  and pages render unstyled. Fix: stop dev server, rm -rf .next,
+  restart. Consider adding this to a project README or onboarding
+  note. Third time we hit this pattern this sprint (F0.A build,
+  F0.A typecheck, F0.B visual review).
+
+- MoodKey vs Mood type naming: the API client's mood enum is named
+  MoodKey (uppercase union 'CHILL' | 'ROMANCE' | ...) in
+  src/lib/api/types/mood-config.ts to mirror the backend Prisma
+  enum, deliberately distinct from the existing lowercase UI Mood
+  type in components/ui/Chip ('chill' | 'romance' | ...). When
+  SP-F1 wires live mood-config data into UI components, it needs a
+  case-normalization/mapping layer at the boundary (MoodKey →
+  Mood). Log so SP-F1 handles the conversion rather than leaking
+  uppercase enums into component props.
+
+- API base URL convention audit: F0.B kept the existing convention
+  where NEXT_PUBLIC_API_URL includes the /api/v1 base and callers
+  pass resource-relative paths (/mood-config, /early-access),
+  deviating from the F0.B brief's host-only base + /api/v1-in-path
+  design. This was required to avoid breaking the working
+  EarlyAccessForm. Before SP-F1 phase A, audit all API base-URL
+  usage and decide whether to standardize permanently on "base
+  includes /api/v1" (document it) or migrate to host-only base +
+  versioned paths (and update every caller + .env in one sweep).
+
 - Admin-editable marketing copy across /about, /how-it-works,
   /list-your-property: page-content management via admin panel.
   Scope: backend schema (Page → Section → Field entities),
