@@ -185,6 +185,15 @@ existing planned work.
   CI blocks merging PRs. Currently CI runs but doesn't gate.
   Post-launch hardening.
 
+- npm audit vulnerabilities from F0.C+D test tooling: 8
+  vulnerabilities (2 moderate, 6 high) reported after
+  installing Vitest + RTL deps. All from transitive test
+  dependencies, not runtime code. Do NOT auto-fix — could
+  pull breaking changes. Post-launch: run npm audit review,
+  adopt targeted fixes with test verification, or wait for
+  upstream deps to update. Not a security issue since these
+  are dev deps only.
+
 ## Codebase rules
 
 - Tailwind cn() ordering rule: inside cn() calls, always place
