@@ -121,6 +121,18 @@ existing planned work.
   form" post-B2 (contact route removed 2026-07-14). Update in
   next docs pass, non-urgent.
 
+- API client type generation: currently hand-authored types
+  in src/lib/api/types/ mirror backend DTOs manually. Log the
+  future migration to auto-generated types via OpenAPI codegen
+  or Zodios once backend NestJS Swagger emission is verified
+  complete. Timing: post-launch, small integration sprint.
+
+- API client auth extension: apiFetch and apiMutate accept an
+  optional authToken parameter which SP-F1 phase E will
+  populate for authenticated booking endpoints. Auth token
+  management (storage, refresh, expiry) designed as part of
+  SP-F1 phase E.
+
 - Home page title double-branding: renders "Duffleup — Don't book
   a room. Book a weekend. | Duffleup" because home sets a string
   title and root template appends "| Duffleup". Fix: either change
