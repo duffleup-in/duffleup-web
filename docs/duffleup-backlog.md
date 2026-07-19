@@ -168,6 +168,23 @@ existing planned work.
   root metadata template. Cosmetic bug, pre-dates F0.A, log for
   opportunistic fix (small commit next time metadata gets touched).
 
+- Test coverage expansion: F0.C+D shipped Vitest + RTL setup
+  with two example tests (formatPrice utility, Badge
+  component). Expand coverage progressively as SP-F1 phases
+  ship — target testing all shared components, all utility
+  functions, and critical booking flow logic. Not a dedicated
+  sprint; add tests alongside feature commits.
+
+- Playwright / E2E test setup: F0.C+D scope was unit +
+  component tests only. E2E testing (full booking flow across
+  routes) is post-launch backlog. Consider Playwright when
+  booking flow stabilizes.
+
+- Vercel PR previews + CI status checks: connect GitHub
+  Actions CI status to Vercel deployment previews so failed
+  CI blocks merging PRs. Currently CI runs but doesn't gate.
+  Post-launch hardening.
+
 ## Codebase rules
 
 - Tailwind cn() ordering rule: inside cn() calls, always place

@@ -32,7 +32,12 @@ export function Badge({ tier, className, children }: BadgeProps) {
       )}
     >
       {tier === 'rare' && (
-        <Star size={10} className="fill-current" aria-hidden="true" />
+        <Star
+          size={10}
+          className="fill-current"
+          aria-hidden="true"
+          data-testid="rare-star"
+        />
       )}
       {children ?? labels[tier]}
     </span>
