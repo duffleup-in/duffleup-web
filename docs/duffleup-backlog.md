@@ -9,13 +9,17 @@ existing planned work.
 
 ## Open items
 
-- Dev server stale-cache pattern after file moves: any restructure
-  that moves route files (like F0.A route groups) can leave the
-  running dev server in a broken state where the compiled CSS 404s
-  and pages render unstyled. Fix: stop dev server, rm -rf .next,
-  restart. Consider adding this to a project README or onboarding
-  note. Third time we hit this pattern this sprint (F0.A build,
-  F0.A typecheck, F0.B visual review).
+- Dev server stale-cache pattern (FIFTH occurrence,
+  2026-07-19): pattern conclusively documented as triggered by
+  route additions (new route group segments) and first-time
+  client dep imports (Radix Dialog imported for the first time
+  in SP-F1 A.1). Add to project README or onboarding note:
+  any new route + new client dep = `rm -rf .next && npm run dev`
+  after the change lands. Consider adding to a git pre-merge
+  check or documenting more prominently. Earlier occurrences:
+  F0.A build, F0.A typecheck, F0.B visual review (compiled CSS
+  404s, pages render unstyled); fix has always been stop dev
+  server, rm -rf .next, restart.
 
 - MoodKey vs Mood type naming: the API client's mood enum is named
   MoodKey (uppercase union 'CHILL' | 'ROMANCE' | ...) in
