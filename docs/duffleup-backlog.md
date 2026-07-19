@@ -121,6 +121,13 @@ existing planned work.
   form" post-B2 (contact route removed 2026-07-14). Update in
   next docs pass, non-urgent.
 
+- Home page title double-branding: renders "Duffleup — Don't book
+  a room. Book a weekend. | Duffleup" because home sets a string
+  title and root template appends "| Duffleup". Fix: either change
+  home's title to not include "Duffleup —" prefix, OR restructure
+  root metadata template. Cosmetic bug, pre-dates F0.A, log for
+  opportunistic fix (small commit next time metadata gets touched).
+
 ## Codebase rules
 
 - Tailwind cn() ordering rule: inside cn() calls, always place
