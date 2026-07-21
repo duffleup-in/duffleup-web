@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
+import { PackMyDuffleCta } from '@/components/marketing/PackMyDuffleCta'
 
 const stickers = [
   { label: 'OUT THERE', className: 'top-20 right-[8%] rotate-[8deg] bg-acid text-pitch' },
@@ -29,9 +30,7 @@ export function Hero() {
         </p>
 
         <div className="flex flex-wrap gap-4">
-          <Button asChild variant="primary" size="lg">
-            <Link href="/properties">Pack my duffle</Link>
-          </Button>
+          <PackMyDuffleCta />
           <Button asChild variant="secondary" size="lg">
             <Link href="/list-your-property">Got a place?</Link>
           </Button>

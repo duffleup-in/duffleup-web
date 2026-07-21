@@ -39,6 +39,17 @@ export const initialIntentState: IntentState = {
   children: 0,
 }
 
+/**
+ * Builds the reducer's starting state. The collector opens at Step 1 from the
+ * hero CTA, but home-page mood tiles open it at Step 2 with that mood already
+ * chosen — pass `preselectedMood` for that entry point.
+ */
+export const makeInitialState = (preselectedMood?: MoodKey): IntentState => ({
+  ...initialIntentState,
+  step: preselectedMood ? 'sub' : 'mood',
+  mood: preselectedMood ?? null,
+})
+
 function stepAt(current: Step, delta: number): Step {
   const i = STEP_ORDER.indexOf(current)
   const next = Math.min(Math.max(i + delta, 0), STEP_ORDER.length - 1)

@@ -1,13 +1,13 @@
 import { getMoodConfig } from '@/lib/api'
-import { IntentCollector } from './IntentCollector'
+import { CollectLauncher } from './CollectLauncher'
 
 // Intent Collector funnel (SP-F1 Phase A). Server Component fetches live mood
-// config and hands it to the client modal. A.1 renders placeholder steps only;
-// A.2/A.3 build the real mood grid, date picker, and guest counter.
+// config and hands both moodProfiles[] and moodContexts[] to the client modal.
+// A.2 ships the mood grid and sub-context grid; dates and guests land in A.3.
 export default async function CollectPage() {
   try {
     const moodConfig = await getMoodConfig()
-    return <IntentCollector moods={moodConfig.moodProfiles} />
+    return <CollectLauncher config={moodConfig} />
   } catch {
     // Backend unavailable (e.g. at build time). Do NOT fabricate mood data —
     // render an inert error state so the route still builds.

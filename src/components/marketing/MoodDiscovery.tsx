@@ -1,5 +1,11 @@
+'use client'
+
+import { useState } from 'react'
 import { StickerMoodCard } from '@/components/marketing/StickerMoodCard'
+import { IntentCollectorModal } from '@/components/booking/IntentCollectorModal'
 import type { Mood } from '@/components/ui/Chip'
+import type { MoodKey } from '@/lib/api/types/mood-config'
+import { lowerToMoodKey } from '@/lib/moods/normalize'
 
 const moods: { mood: Mood; name: string; description: string; tag?: string }[] = [
   { mood: 'chill', name: 'Chill', description: 'Slow mornings. Quiet evenings. The kind of quiet you forgot existed.' },
@@ -11,6 +17,10 @@ const moods: { mood: Mood; name: string; description: string; tag?: string }[] =
 ]
 
 export function MoodDiscovery() {
+  // A tile click opens the collector at Step 2 with that mood chosen, rather
+  // than navigating to /properties (SP-F1 A.2 decision 1).
+  const [openMood, setOpenMood] = useState<MoodKey | null>(null)
+
   return (
     <section id="moods" className="border-b border-line bg-sterling-warm py-16">
       <div className="mx-auto max-w-[1200px] px-6">
@@ -23,10 +33,22 @@ export function MoodDiscovery() {
 
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {moods.map((m) => (
-            <StickerMoodCard key={m.mood} {...m} href={`/properties?mood=${m.mood}`} />
+            <StickerMoodCard
+              key={m.mood}
+              {...m}
+              onClick={() => setOpenMood(lowerToMoodKey(m.mood))}
+            />
           ))}
         </div>
       </div>
+
+      <IntentCollectorModal
+        open={openMood !== null}
+        onOpenChange={(next) => {
+          if (!next) setOpenMood(null)
+        }}
+        preselectedMood={openMood ?? undefined}
+      />
     </section>
   )
 }

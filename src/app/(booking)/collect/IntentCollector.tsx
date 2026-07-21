@@ -1,95 +1,157 @@
 'use client'
 
-import { useEffect, useReducer } from 'react'
+import { useReducer } from 'react'
+import { useRouter } from 'next/navigation'
 import * as Dialog from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
-import type { MoodProfileConfig } from '@/lib/api/types/mood-config'
+import type {
+  MoodContextConfig,
+  MoodKey,
+  MoodProfileConfig,
+} from '@/lib/api/types/mood-config'
 import {
   intentReducer,
-  initialIntentState,
+  makeInitialState,
   STEP_ORDER,
   type Step,
 } from '@/lib/moods/intent-state'
+import { moodKeyToLower } from '@/lib/moods/normalize'
+import { MoodGrid, moodDisplayName } from '@/components/booking/MoodGrid'
+import { SubContextGrid } from '@/components/booking/SubContextGrid'
 
 type IntentCollectorProps = {
-  /** Live mood profiles from getMoodConfig(). Rendered as real tiles in A.2. */
   moods: MoodProfileConfig[]
+  contexts: MoodContextConfig[]
+  /** Set when opened from a home-page mood tile — starts at Step 2. */
+  preselectedMood?: MoodKey
+  onClose: () => void
 }
 
-// Placeholder step labels — real UI (mood grid, date picker, guest counter)
-// arrives in A.2/A.3. A.1 only proves the shell, state machine, and navigation.
-const STEP_LABELS: Record<Step, string> = {
-  mood: 'Step 1: Mood',
-  sub: 'Step 2: Sub-context',
-  dates: 'Step 3: Dates',
-  guests: 'Step 4: Guests',
+/** Progress indicator names (design decision 9). Steps 3–4 land in A.3. */
+const STEP_NAMES: Record<Step, string> = {
+  mood: 'Mood',
+  sub: 'Vibe',
+  dates: 'Dates',
+  guests: 'Guests',
 }
 
-export function IntentCollector({ moods }: IntentCollectorProps) {
-  const [state, dispatch] = useReducer(intentReducer, initialIntentState)
-
-  // Debug aid (design decision: console.log state on transitions).
-  useEffect(() => {
-    console.log('[IntentCollector] state', state)
-  }, [state])
+/**
+ * The collector's step machine and content. Rendered inside
+ * IntentCollectorModal's Dialog.Content, which unmounts on close — that unmount
+ * is what resets the flow to Step 1 (design decision 7).
+ */
+export function IntentCollector({
+  moods,
+  contexts,
+  preselectedMood,
+  onClose,
+}: IntentCollectorProps) {
+  const router = useRouter()
+  const [state, dispatch] = useReducer(
+    intentReducer,
+    preselectedMood,
+    makeInitialState
+  )
 
   const stepIndex = STEP_ORDER.indexOf(state.step)
   const isFirst = stepIndex === 0
-  const isLast = stepIndex === STEP_ORDER.length - 1
+  const isPlaceholderStep = state.step === 'dates' || state.step === 'guests'
+
+  const activeProfile = moods.find((m) => m.mood === state.mood) ?? null
+  const activeContexts = state.mood
+    ? contexts.filter((c) => c.mood === state.mood)
+    : []
+
+  // Skip-to-search bypasses the reducer entirely (A.2 brief §5, simpler
+  // alternative): navigate and close, leaving no half-finished state behind.
+  const handleSkip = (mood: MoodKey) => {
+    onClose()
+    router.push(`/properties?mood=${moodKeyToLower(mood)}`)
+  }
+
+  const title =
+    state.step === 'mood'
+      ? 'Pick your mood'
+      : state.step === 'sub'
+        ? (activeProfile?.contextCopy ?? 'Narrow it down')
+        : state.step === 'dates'
+          ? 'When?'
+          : "Who's coming?"
 
   return (
-    <main className="flex min-h-screen items-center justify-center p-8">
-      <Dialog.Root
-        onOpenChange={(open) => {
-          // Reset to Step 1 whenever the modal closes so reopening starts fresh.
-          if (!open) dispatch({ type: 'RESET' })
-        }}
-      >
-        <Dialog.Trigger className="rounded-pill bg-acid px-6 py-3 font-utility uppercase tracking-[0.15em] text-pitch">
-          Open collector
-        </Dialog.Trigger>
+    <>
+      <div className="mb-5 flex items-start justify-between gap-4">
+        <span className="font-utility text-caption uppercase tracking-[0.15em] text-white/60">
+          Step {stepIndex + 1} of {STEP_ORDER.length} · {STEP_NAMES[state.step]}
+        </span>
+        <Dialog.Close
+          aria-label="Close"
+          className="-mt-1 text-white/60 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-acid"
+        >
+          <X size={20} />
+        </Dialog.Close>
+      </div>
 
-        <Dialog.Portal>
-          <Dialog.Overlay className="fixed inset-0 bg-black/60" />
-          <Dialog.Content className="fixed left-1/2 top-1/2 w-[90vw] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-line bg-pitch p-6 text-white">
-            <div className="mb-6 flex items-center justify-between">
-              <span className="font-utility text-caption uppercase tracking-[0.15em] text-white/60">
-                {stepIndex + 1} of {STEP_ORDER.length}
-              </span>
-              <Dialog.Close aria-label="Close" className="text-white/60 hover:text-white">
-                <X size={20} />
-              </Dialog.Close>
-            </div>
+      <Dialog.Title className="font-display text-h6 leading-tight sm:text-h5">
+        {title}
+      </Dialog.Title>
 
-            <Dialog.Title className="text-h5 font-display">
-              {STEP_LABELS[state.step]}
-            </Dialog.Title>
-            <Dialog.Description className="mt-2 text-body text-white/60">
-              Placeholder step. Real UI arrives in A.2 / A.3. Loaded {moods.length}{' '}
-              mood profiles.
-            </Dialog.Description>
+      <Dialog.Description className="mt-2 text-subtitle text-white/60">
+        {state.step === 'mood'
+          ? 'Six ways to spend a weekend. Start with how you want to feel.'
+          : state.step === 'sub'
+            ? 'Narrow it down — or see everything and filter later.'
+            : 'Placeholder step. Dates and guests arrive in A.3.'}
+      </Dialog.Description>
 
-            <div className="mt-8 flex justify-between">
-              <button
-                type="button"
-                onClick={() => dispatch({ type: 'STEP_BACK' })}
-                disabled={isFirst}
-                className="rounded-pill border border-line px-5 py-2 font-utility uppercase tracking-[0.15em] disabled:opacity-40"
-              >
-                Back
-              </button>
-              <button
-                type="button"
-                onClick={() => dispatch({ type: 'STEP_NEXT' })}
-                disabled={isLast}
-                className="rounded-pill bg-acid px-5 py-2 font-utility uppercase tracking-[0.15em] text-pitch disabled:opacity-40"
-              >
-                Next
-              </button>
-            </div>
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog.Root>
-    </main>
+      <div className="mt-6">
+        {state.step === 'mood' && (
+          <MoodGrid
+            moods={moods}
+            selected={state.mood}
+            onSelect={(mood) => dispatch({ type: 'SELECT_MOOD', mood })}
+          />
+        )}
+
+        {state.step === 'sub' && state.mood && (
+          <SubContextGrid
+            contexts={activeContexts}
+            moodKey={state.mood}
+            selected={state.sub}
+            onSelect={(sub) => dispatch({ type: 'SELECT_SUB', sub })}
+            onSkip={handleSkip}
+          />
+        )}
+
+        {isPlaceholderStep && (
+          <p className="text-body text-white/40">
+            {moodDisplayName(state.mood ?? 'CHILL')} · {state.sub} — real
+            controls arrive in A.3.
+          </p>
+        )}
+      </div>
+
+      <div className="mt-8 flex justify-between gap-4">
+        <button
+          type="button"
+          onClick={() => dispatch({ type: 'STEP_BACK' })}
+          disabled={isFirst}
+          className="rounded-pill border border-white/25 px-5 py-2 font-utility uppercase tracking-[0.15em] transition-colors hover:border-acid hover:text-acid disabled:opacity-40 disabled:hover:border-white/25 disabled:hover:text-white"
+        >
+          ← Back
+        </button>
+
+        {isPlaceholderStep && (
+          <button
+            type="button"
+            onClick={() => dispatch({ type: 'STEP_NEXT' })}
+            disabled={state.step === 'guests'}
+            className="rounded-pill bg-acid px-5 py-2 font-utility uppercase tracking-[0.15em] text-pitch transition-opacity disabled:opacity-40"
+          >
+            Next
+          </button>
+        )}
+      </div>
+    </>
   )
 }
