@@ -56,6 +56,20 @@ const config: Config = {
         pop: '6px 6px 0 #0A0A0A',
         'pop-lg': '10px 10px 0 #0A0A0A',
       },
+      // Intent collector modal: mobile presents as a bottom sheet (SP-F1 A.2
+      // decision 10). Desktop keeps its centered transform, so the slide is
+      // disabled from `sm` up.
+      keyframes: {
+        'sheet-up': {
+          from: { transform: 'translateY(100%)' },
+          to: { transform: 'translateY(0)' },
+        },
+        'fade-in': { from: { opacity: '0' }, to: { opacity: '1' } },
+      },
+      animation: {
+        'sheet-up': 'sheet-up 220ms cubic-bezier(0.32, 0.72, 0, 1)',
+        'fade-in': 'fade-in 150ms ease-out',
+      },
       backgroundImage: {
         'hero-radial':
           'radial-gradient(circle at 65% 50%, #FF1B8D 0%, #7B2FFF 40%, #5818CC 90%)',

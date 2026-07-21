@@ -209,3 +209,23 @@ existing planned work.
   silently vanishes. No build-time or lint-time error catches
   this — only DOM inspection does. See StickerMoodCard.tsx for
   the reference pattern and inline comment.
+
+
+- Sub-context tile copy enrichment: backend MoodContext currently
+  exposes only `guestLabel` (single phrase per tile). A.2 ships
+  label-only tiles per Decision 5 (use backend as-is). Consider
+  adding an optional `description` field to MoodContext for
+  richer secondary copy per tile (e.g., "Solo escape" +
+  "The pace is yours"). Currently RESET/PETS have single-word
+  labels which feel thin. Timing: post-launch, small backend
+  sprint if we want the two-tier hierarchy.
+
+- A.3 guest counter prefill: `defaultGuests` lives on
+  moodContexts[] (per sub-context), not on moodProfiles[] —
+  corrected during A.2 execution against the live API. It is
+  populated on all three ROMANCE contexts (2), two of three
+  CHILL (solo 1, couple 2), and two of three RESET (body 1,
+  mind 1); every ADVENTURE / BASH / PETS context is null.
+  A.3 should prefill the guest counter from the *selected
+  sub-context*, falling back to adults=1 per A.1's initial
+  state when null.
