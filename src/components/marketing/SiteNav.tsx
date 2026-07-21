@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
 import { Logo } from '@/components/ui/Logo'
 import { Button } from '@/components/ui/Button'
-import { PackMyDuffleCta } from '@/components/marketing/PackMyDuffleCta'
+import { IntentCollectorModal } from '@/components/booking/IntentCollectorModal'
 import { cn } from '@/lib/cn'
 
 export type NavLink = { label: string; href: string }
@@ -24,18 +24,30 @@ const defaultLinks: NavLink[] = [
   { label: 'For owners', href: '/list-your-property' },
 ]
 
-const DefaultActions = (
-  <>
-    <Button asChild variant="secondary" size="sm">
-      <Link href="/list-your-property">Got a place?</Link>
-    </Button>
-    <PackMyDuffleCta size="sm" />
-  </>
-)
-
-export function SiteNav({ links = defaultLinks, actions = DefaultActions, className }: SiteNavProps) {
+export function SiteNav({ links = defaultLinks, actions, className }: SiteNavProps) {
   const [open, setOpen] = React.useState(false)
+  const [collectorOpen, setCollectorOpen] = React.useState(false)
   const [scrolled, setScrolled] = React.useState(false)
+
+  // The collector lives at nav level, not inside the action cluster: the burger
+  // menu unmounts its children when it closes, which would tear down the modal
+  // at the moment we want it to appear. Hoisting it lets one handler both open
+  // the collector and dismiss the burger.
+  const openCollector = () => {
+    setCollectorOpen(true)
+    setOpen(false)
+  }
+
+  const actionCluster = actions ?? (
+    <>
+      <Button asChild variant="secondary" size="sm">
+        <Link href="/list-your-property">Got a place?</Link>
+      </Button>
+      <Button variant="primary" size="sm" onClick={openCollector}>
+        Pack my duffle
+      </Button>
+    </>
+  )
 
   React.useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -85,7 +97,7 @@ export function SiteNav({ links = defaultLinks, actions = DefaultActions, classN
           ))}
         </ul>
 
-        <div className="hidden items-center gap-2 md:flex">{actions}</div>
+        <div className="hidden items-center gap-2 md:flex">{actionCluster}</div>
 
         <button
           type="button"
@@ -113,11 +125,11 @@ export function SiteNav({ links = defaultLinks, actions = DefaultActions, classN
               </li>
             ))}
           </ul>
-          {/* No dismiss-on-click here: closing the menu unmounts these actions,
-              which would tear down the collector's state before it can open. */}
-          <div className="mt-4 flex flex-col gap-2">{actions}</div>
+          <div className="mt-4 flex flex-col gap-2">{actionCluster}</div>
         </div>
       )}
+
+      <IntentCollectorModal open={collectorOpen} onOpenChange={setCollectorOpen} />
     </nav>
   )
 }

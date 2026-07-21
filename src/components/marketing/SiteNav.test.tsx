@@ -67,6 +67,45 @@ describe('SiteNav', () => {
     expect(await screen.findByText('Chill')).toBeInTheDocument()
   })
 
+  it('dismisses the burger menu when the collector opens, and leaves it closed', async () => {
+    render(<SiteNav />)
+
+    const burger = screen.getByRole('button', { name: /open menu/i })
+    await userEvent.click(burger)
+    expect(screen.getByRole('button', { name: /close menu/i })).toHaveAttribute(
+      'aria-expanded',
+      'true'
+    )
+
+    // The burger copy of the CTA is the last one in DOM order.
+    const ctas = screen.getAllByRole('button', { name: /pack my duffle/i })
+    await userEvent.click(ctas[ctas.length - 1])
+
+    expect(await screen.findByRole('dialog')).toBeInTheDocument()
+    // Radix marks the rest of the page aria-hidden while the dialog is open,
+    // so the nav has to be queried with `hidden: true` from here on.
+    expect(
+      screen.getByRole('button', { name: /open menu/i, hidden: true })
+    ).toHaveAttribute('aria-expanded', 'false')
+
+    // Closing the collector must not resurrect the menu.
+    await userEvent.click(screen.getByRole('button', { name: /^close$/i }))
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: /open menu/i, hidden: true })
+    ).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('mounts a single collector instance for the whole nav', async () => {
+    render(<SiteNav />)
+
+    await userEvent.click(
+      screen.getAllByRole('button', { name: /pack my duffle/i })[0]
+    )
+
+    expect(await screen.findAllByRole('dialog')).toHaveLength(1)
+  })
+
   it('keeps the owner CTA pointing at the intake page', () => {
     render(<SiteNav />)
     const owner = screen.getAllByRole('link', { name: /got a place\?/i })[0]
