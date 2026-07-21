@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { Menu, X } from 'lucide-react'
 import { Logo } from '@/components/ui/Logo'
 import { Button } from '@/components/ui/Button'
+import { PackMyDuffleCta } from '@/components/marketing/PackMyDuffleCta'
 import { cn } from '@/lib/cn'
 
 export type NavLink = { label: string; href: string }
@@ -28,9 +29,7 @@ const DefaultActions = (
     <Button asChild variant="secondary" size="sm">
       <Link href="/list-your-property">Got a place?</Link>
     </Button>
-    <Button asChild variant="primary" size="sm">
-      <Link href="/properties">Pack my duffle</Link>
-    </Button>
+    <PackMyDuffleCta size="sm" />
   </>
 )
 
@@ -114,6 +113,8 @@ export function SiteNav({ links = defaultLinks, actions = DefaultActions, classN
               </li>
             ))}
           </ul>
+          {/* No dismiss-on-click here: closing the menu unmounts these actions,
+              which would tear down the collector's state before it can open. */}
           <div className="mt-4 flex flex-col gap-2">{actions}</div>
         </div>
       )}
