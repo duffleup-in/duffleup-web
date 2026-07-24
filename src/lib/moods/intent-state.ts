@@ -18,13 +18,16 @@ export type IntentState = {
   checkout: Date | null
   adults: number
   children: number
+  infants: number
 }
 
 export type IntentAction =
   | { type: 'SELECT_MOOD'; mood: MoodKey }
   | { type: 'SELECT_SUB'; sub: string }
   | { type: 'SET_DATES'; checkin: Date; checkout: Date }
-  | { type: 'SET_GUESTS'; adults: number; children: number }
+  | { type: 'SET_ADULTS'; count: number }
+  | { type: 'SET_CHILDREN'; count: number }
+  | { type: 'SET_INFANTS'; count: number }
   | { type: 'STEP_NEXT' }
   | { type: 'STEP_BACK' }
   | { type: 'RESET' }
@@ -37,6 +40,7 @@ export const initialIntentState: IntentState = {
   checkout: null,
   adults: 1,
   children: 0,
+  infants: 0,
 }
 
 /**
@@ -72,8 +76,13 @@ export function intentReducer(
         checkout: action.checkout,
         step: 'guests',
       }
-    case 'SET_GUESTS':
-      return { ...state, adults: action.adults, children: action.children }
+    // Step 4 mutates counts in place — it is the terminal step, not transitional.
+    case 'SET_ADULTS':
+      return { ...state, adults: action.count }
+    case 'SET_CHILDREN':
+      return { ...state, children: action.count }
+    case 'SET_INFANTS':
+      return { ...state, infants: action.count }
     case 'STEP_NEXT':
       return { ...state, step: stepAt(state.step, 1) }
     case 'STEP_BACK':

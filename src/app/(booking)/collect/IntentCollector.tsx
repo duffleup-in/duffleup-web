@@ -1,6 +1,6 @@
 'use client'
 
-import { useReducer } from 'react'
+import { useEffect, useReducer, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import * as Dialog from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
@@ -15,9 +15,12 @@ import {
   STEP_ORDER,
   type Step,
 } from '@/lib/moods/intent-state'
+import { buildSearchUrl } from '@/lib/moods/build-search-url'
 import { moodKeyToLower } from '@/lib/moods/normalize'
 import { MoodGrid, moodDisplayName } from '@/components/booking/MoodGrid'
-import { SubContextGrid } from '@/components/booking/SubContextGrid'
+import { SubContextGrid, tagKeyToSub } from '@/components/booking/SubContextGrid'
+import { DatePickerStep } from '@/components/booking/DatePickerStep'
+import { GuestStepper } from '@/components/booking/GuestStepper'
 
 type IntentCollectorProps = {
   moods: MoodProfileConfig[]
@@ -27,12 +30,19 @@ type IntentCollectorProps = {
   onClose: () => void
 }
 
-/** Progress indicator names (design decision 9). Steps 3–4 land in A.3. */
+/** Progress indicator names (decisions 9 / 11). */
 const STEP_NAMES: Record<Step, string> = {
   mood: 'Mood',
   sub: 'Vibe',
   dates: 'Dates',
   guests: 'Guests',
+}
+
+const STEP_DESCRIPTIONS: Record<Step, string> = {
+  mood: 'Six ways to spend a weekend. Start with how you want to feel.',
+  sub: 'Narrow it down — or see everything and filter later.',
+  dates: 'Pick your nights — or skip ahead and browse.',
+  guests: "Who's making the trip?",
 }
 
 /**
@@ -55,18 +65,51 @@ export function IntentCollector({
 
   const stepIndex = STEP_ORDER.indexOf(state.step)
   const isFirst = stepIndex === 0
-  const isPlaceholderStep = state.step === 'dates' || state.step === 'guests'
 
   const activeProfile = moods.find((m) => m.mood === state.mood) ?? null
   const activeContexts = state.mood
     ? contexts.filter((c) => c.mood === state.mood)
     : []
 
-  // Skip-to-search bypasses the reducer entirely (A.2 brief §5, simpler
-  // alternative): navigate and close, leaving no half-finished state behind.
-  const handleSkip = (mood: MoodKey) => {
+  // Prefill adults from the selected sub-context's defaultGuests, but exactly
+  // once per session and only if the user hasn't touched the count — so a
+  // dates↔guests bounce never clobbers their edits (decision 9, A.2 backlog).
+  const prefilledRef = useRef(false)
+  useEffect(() => {
+    if (state.step !== 'guests' || prefilledRef.current) return
+    prefilledRef.current = true
+    // Derive from the stable `contexts` prop (not the per-render activeContexts
+    // array) so the effect deps stay referentially stable.
+    const selected = contexts.find(
+      (c) => c.mood === state.mood && tagKeyToSub(c.tagKey) === state.sub
+    )
+    if (selected?.defaultGuests != null) {
+      dispatch({ type: 'SET_ADULTS', count: selected.defaultGuests })
+    }
+  }, [state.step, state.mood, state.sub, contexts])
+
+  // Skip / submit bypass the reducer (A.2 pattern): route and close, leaving no
+  // half-finished state behind. Step 2 skip carries mood only; Step 3 skip adds
+  // sub; Step 4 submit serializes the full intent (decision 10).
+  const routeToProperties = (query: string) => {
     onClose()
-    router.push(`/properties?mood=${moodKeyToLower(mood)}`)
+    router.push(`/properties?${query}`)
+  }
+
+  const handleSkipMoodOnly = (mood: MoodKey) => {
+    routeToProperties(`mood=${moodKeyToLower(mood)}`)
+  }
+
+  const handleSkipFromDates = () => {
+    const params = new URLSearchParams()
+    if (state.mood) params.set('mood', moodKeyToLower(state.mood))
+    if (state.sub) params.set('sub', state.sub)
+    routeToProperties(params.toString())
+  }
+
+  const handleSubmit = () => {
+    onClose()
+    router.push(buildSearchUrl(state))
   }
 
   const title =
@@ -97,11 +140,7 @@ export function IntentCollector({
       </Dialog.Title>
 
       <Dialog.Description className="mt-2 text-subtitle text-white/60">
-        {state.step === 'mood'
-          ? 'Six ways to spend a weekend. Start with how you want to feel.'
-          : state.step === 'sub'
-            ? 'Narrow it down — or see everything and filter later.'
-            : 'Placeholder step. Dates and guests arrive in A.3.'}
+        {STEP_DESCRIPTIONS[state.step]}
       </Dialog.Description>
 
       <div className="mt-6">
@@ -119,19 +158,36 @@ export function IntentCollector({
             moodKey={state.mood}
             selected={state.sub}
             onSelect={(sub) => dispatch({ type: 'SELECT_SUB', sub })}
-            onSkip={handleSkip}
+            onSkip={handleSkipMoodOnly}
           />
         )}
 
-        {isPlaceholderStep && (
-          <p className="text-body text-white/40">
-            {moodDisplayName(state.mood ?? 'CHILL')} · {state.sub} — real
-            controls arrive in A.3.
-          </p>
+        {state.step === 'dates' && (
+          <DatePickerStep
+            checkin={state.checkin}
+            checkout={state.checkout}
+            onRangeChange={({ checkin, checkout }) =>
+              dispatch({ type: 'SET_DATES', checkin, checkout })
+            }
+            onSkip={handleSkipFromDates}
+          />
+        )}
+
+        {state.step === 'guests' && (
+          <GuestStepper
+            adults={state.adults}
+            childrenCount={state.children}
+            infants={state.infants}
+            onAdultsChange={(count) => dispatch({ type: 'SET_ADULTS', count })}
+            onChildrenChange={(count) => dispatch({ type: 'SET_CHILDREN', count })}
+            onInfantsChange={(count) => dispatch({ type: 'SET_INFANTS', count })}
+            onSubmit={handleSubmit}
+            moodName={moodDisplayName(state.mood ?? 'CHILL')}
+          />
         )}
       </div>
 
-      <div className="mt-8 flex justify-between gap-4">
+      <div className="mt-8">
         <button
           type="button"
           onClick={() => dispatch({ type: 'STEP_BACK' })}
@@ -140,17 +196,6 @@ export function IntentCollector({
         >
           ← Back
         </button>
-
-        {isPlaceholderStep && (
-          <button
-            type="button"
-            onClick={() => dispatch({ type: 'STEP_NEXT' })}
-            disabled={state.step === 'guests'}
-            className="rounded-pill bg-acid px-5 py-2 font-utility uppercase tracking-[0.15em] text-pitch transition-opacity disabled:opacity-40"
-          >
-            Next
-          </button>
-        )}
       </div>
     </>
   )

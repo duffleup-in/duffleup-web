@@ -229,3 +229,28 @@ existing planned work.
   A.3 should prefill the guest counter from the *selected
   sub-context*, falling back to adults=1 per A.1's initial
   state when null.
+
+- Duffleup Vouchers (gifting product): allow users to purchase
+  Duffleup vouchers for gifting to others. Post-Foundation-Day
+  scope. Requires backend voucher entity, purchase flow via
+  Razorpay, redemption logic in booking flow, expiry rules,
+  transferability rules, admin voucher management, guest
+  "You have vouchers" surface. Estimated 60-70 CC hours
+  total. Natural launch: Q1 2027, potentially bundled with
+  Strap launch. Real value: revenue upfront (voucher purchase
+  = cash), viral acquisition channel, holiday-season play.
+
+- Backend booking DTO — infants field: intent collector A.3
+  captures adults/children/infants in URL params. Backend
+  booking DTO currently doesn't have an `infants` field (per
+  A.2 audit noting the CreateEarlyAccessDto shape). Add
+  `infants: number` to booking-related DTOs before Phase D
+  (booking scaffolding). Small backend sprint.
+
+- Max stay length policy: intent collector has soft cap 7
+  nights with warning "Weekend app. Longer stays welcome.
+  Options get thinner." No hard block. Log the warning-trigger
+  event when analytics infrastructure lands post-launch —
+  data will show whether soft cap is respected or ignored.
+  Revisit hard cap decision at 3 months post-launch based on
+  distribution.
