@@ -3,6 +3,11 @@
 export { apiFetch, apiMutate, ApiError } from './client'
 export type { ApiRequestOptions } from './client'
 export * from './types'
+export {
+  getProperties,
+  mapIntentParamsToSearch,
+  type IntentSearchParams,
+} from './properties'
 
 import { apiFetch } from './client'
 import type { MoodConfigResponse } from './types'
