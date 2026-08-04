@@ -254,3 +254,57 @@ existing planned work.
   data will show whether soft cap is respected or ignored.
   Revisit hard cap decision at 3 months post-launch based on
   distribution.
+
+
+- Backend date filtering for search: /api/v1/search accepts checkIn/checkOut params but only logs them to SearchEvent — does not filter by property availability. Ships in V1 without availability filter per Phase A design. V1.1 backend sprint should add availability join to PropertiesService.search (Availability + Booking check).
+
+- Property naming — referential vs exact: property card + search
+  results should show REFERENCE names (like Airbnb: "Charming 3BR
+  Villa near Panchgani" vs the actual name "Villa Rosa"). Prevents
+  guests from Googling the property and bypassing Duffleup for
+  direct bookings. This affects: PropertyCard render, PropertyDetail
+  H1, search results, owner dashboard wizard name field intent, and
+  possibly a new "displayName" backend field distinct from
+  "internalName". Real product decision confirmed but needs full
+  spec: what algorithm generates display name from property
+  attributes, is it owner-authored, is it hidden until booking
+  confirmed. Owner-facing name (in dashboard, in tier progression
+  records) stays real. Guest-facing name is referential. Backend
+  spec required. Post-V1 spec sprint likely.
+
+- Tier badge on PropertyCard — future rollout: B.2 ships with tier
+  hidden on card. Move to Option 3 later: show tier badge for REAL
+  and RARE only (skip RAW to avoid new-property stigma). Rollout
+  timing: after tier promotion mechanics (30/30/30/10 with Good/Bad/
+  Ugly review system) is live, which is post-V1. When enabled,
+  badge visual language should match tier tenure signal.
+
+- Empty state design for /properties: B.2 ships without empty-state
+  polish (assumes seeded properties cover all moods at launch). If
+  results genuinely empty for a mood/sub combination, ship a
+  brand-voice fallback like "We're picking fifty. Not everyone makes
+  the cut." — needs proper design + copy adjudication. Backlog until
+  post-launch data reveals real empty-state frequency.
+
+- Mobile app Tinder-style card UI: mobile app (Foundation Day+
+  scope, ~6 months out) will use a Tinder-style swipe deck for
+  property discovery. This has design implications for the
+  PropertyCard: single-card focus, swipe left/right for like/pass,
+  full-screen photo dominance. Web PropertyCard design should keep
+  mental continuity where possible: photos-first, single-card
+  scanability. Log for design consistency planning when mobile app
+  sprint begins.
+
+- Sort controls for /properties: backend already sorts by tier
+  relevance + sub context. UI sort controls (price, tier, distance)
+  come in B.3+ or post-V1 based on user behavior.
+
+- Result count display: B.2 hides count. If user testing shows
+  people miss it, add "N stays" header. Post-launch UX decision.
+
+- Duplicate PropertyCard component name:
+  components/marketing/PropertyCard.tsx (home preview) and
+  components/property/PropertyCard.tsx (search results grid)
+  share bare component name via different paths. Import
+  context disambiguates but a future refactor should rename
+  one to remove the overlap. Post-V1.

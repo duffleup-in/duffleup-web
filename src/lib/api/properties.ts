@@ -30,10 +30,10 @@ export type IntentSearchParams = {
  * `checkin`/`checkout`, and separate guest tiers; /search wants `moods[]`
  * (uppercase), `checkIn`/`checkOut`, and a single `guests` total.
  *
- * B.1 NOTE — two mappings are provisional and flagged for B.3 adjudication:
- *  - guests = adults + children + infants. The backend has only a single
- *    `guests` filter (≥ Property.maxGuests). Whether infants should count
- *    toward capacity is a product decision, not settled here.
+ * NOTE — two mapping details:
+ *  - guests = adults + children. Infants are free and do NOT count toward
+ *    capacity (Phase A hospitality ruling, adjudicated in B.2). The backend has
+ *    only a single `guests` filter (≥ Property.maxGuests).
  *  - checkIn/checkOut are forwarded, but /search currently only LOGS them — it
  *    does not filter by availability (see audit). Harmless to pass; no effect yet.
  */
@@ -46,8 +46,7 @@ export function mapIntentParamsToSearch(
   if (intent.checkin) params.checkIn = intent.checkin
   if (intent.checkout) params.checkOut = intent.checkout
 
-  const guests =
-    (intent.adults ?? 0) + (intent.children ?? 0) + (intent.infants ?? 0)
+  const guests = (intent.adults ?? 0) + (intent.children ?? 0)
   if (guests > 0) params.guests = guests
 
   return params
