@@ -26,10 +26,10 @@ describe('mapIntentParamsToSearch', () => {
     })
   })
 
-  it('collapses the three guest tiers into a single total', () => {
+  it('counts adults + children as guests but treats infants as free', () => {
     expect(
       mapIntentParamsToSearch({ adults: 2, children: 1, infants: 1 }).guests
-    ).toBe(4)
+    ).toBe(3)
   })
 
   it('omits guests when the total is zero', () => {

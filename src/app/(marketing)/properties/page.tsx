@@ -4,16 +4,17 @@ import {
   mapIntentParamsToSearch,
   type IntentSearchParams,
 } from '@/lib/api'
+import type { PublicProperty } from '@/lib/api/types/property'
+import { PropertiesResults } from './PropertiesResults'
 
 export const metadata: Metadata = {
-  title: 'Search — Duffleup',
+  title: 'Stays — Duffleup',
   robots: { index: false, follow: false },
 }
 
-// SP-F1 B.1 — DEBUG SCAFFOLD ONLY. This route exists to (a) stop the intent
-// collector's submit URL from 404-ing and (b) prove the param + data flow end
-// to end. Real search UI (PropertyCard, filters, empty states) is B.2–B.4.
-// Intentionally unstyled.
+// SP-F1 B.2 — search results. Server Component reads the intent-collector URL
+// params, searches /api/v1/search, and hands the list to the client grid.
+// Filters (edit dates/guests), URL sync, and empty-state polish are B.3 / B.4.
 
 type RawSearchParams = Record<string, string | string[] | undefined>
 
@@ -33,7 +34,7 @@ export default async function PropertiesPage({
 }: {
   searchParams: RawSearchParams
 }) {
-  // The intent collector serializes these exact keys (see build-search-url.ts).
+  // Exact keys the intent collector serializes (build-search-url.ts).
   const intent: IntentSearchParams = {
     mood: first(searchParams.mood),
     sub: first(searchParams.sub),
@@ -44,50 +45,18 @@ export default async function PropertiesPage({
     infants: toInt(searchParams.infants),
   }
 
-  const searchDto = mapIntentParamsToSearch(intent)
-
-  let result:
-    | { ok: true; total: number; names: string[]; sortedBy?: string }
-    | { ok: false; error: string }
+  let properties: PublicProperty[] = []
+  let error = false
   try {
-    const res = await getProperties({ ...searchDto, limit: 3 })
-    result = {
-      ok: true,
-      total: res.meta.total,
-      names: res.data.map((p) => p.displayName),
-      sortedBy: res.meta.sortedBy,
-    }
-  } catch (err) {
-    result = { ok: false, error: err instanceof Error ? err.message : String(err) }
+    const res = await getProperties(mapIntentParamsToSearch(intent))
+    properties = res.data
+  } catch {
+    error = true
   }
 
   return (
-    <main style={{ padding: '2rem', fontFamily: 'monospace', maxWidth: 720 }}>
-      <h1>/properties — B.1 debug scaffold</h1>
-      <p>Real search UI arrives in B.2. This page proves the param + data flow.</p>
-
-      <h2>Parsed intent params</h2>
-      <pre>{JSON.stringify(intent, null, 2)}</pre>
-
-      <h2>Mapped /search DTO</h2>
-      <pre>{JSON.stringify(searchDto, null, 2)}</pre>
-
-      <h2>Backend /search result</h2>
-      {result.ok ? (
-        <pre>
-          {JSON.stringify(
-            {
-              total: result.total,
-              sortedBy: result.sortedBy ?? null,
-              firstThree: result.names,
-            },
-            null,
-            2
-          )}
-        </pre>
-      ) : (
-        <pre>Fetch failed: {result.error}</pre>
-      )}
+    <main className="mx-auto max-w-[1200px] px-6 py-12">
+      <PropertiesResults properties={properties} error={error} />
     </main>
   )
 }
