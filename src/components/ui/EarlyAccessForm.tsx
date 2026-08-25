@@ -63,7 +63,10 @@ export default function EarlyAccessForm({ intent, source }: EarlyAccessFormProps
         : new URLSearchParams()
 
     try {
-      const res = await fetch(`${API_URL}/early-access`, {
+      // Trailing slash is required: the collection endpoint is /early-access/,
+      // and a POST to the slashless path hits Django's APPEND_SLASH 301
+      // redirect, which drops the request body.
+      const res = await fetch(`${API_URL}/early-access/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
