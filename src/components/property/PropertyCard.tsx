@@ -13,7 +13,7 @@ import { MoodChip } from './MoodChip'
 const MAX_PHOTOS = 5
 
 /** Order moods stably for chip rendering; matches the home mood-tile order. */
-const MOOD_ORDER: MoodKey[] = ['CHILL', 'ROMANCE', 'ADVENTURE', 'RESET', 'BASH', 'PETS']
+const MOOD_ORDER: MoodKey[] = ['CHILL', 'PARTY', 'WORK', 'FAMILY', 'ROMANCE', 'WELLNESS', 'ADVENTURE']
 
 /** Union all unit-level moods (Phase-2.5.1 moved moods off the property). */
 function propertyMoods(property: PublicProperty): MoodKey[] {

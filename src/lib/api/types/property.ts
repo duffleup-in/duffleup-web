@@ -71,6 +71,31 @@ export interface PublicProperty {
   createdAt: string
 }
 
+/**
+ * Response of the property DETAIL endpoint (GET /properties/slug/:slug and
+ * /properties/:id). It is a superset of the search-list `PublicProperty` DTO —
+ * the detail serializer may carry extra descriptive fields the list omits. We
+ * type the extras as OPTIONAL so the page degrades gracefully whether or not the
+ * backend populates them; everything is read defensively on the render side.
+ */
+export interface PropertyDetail extends PublicProperty {
+  /** Long-form house description, if the detail serializer includes one. */
+  longDescription?: string | null
+  /** Human-readable full address line, when present. */
+  address?: string | null
+  /** Free-form location detail (landmarks, directions), when present. */
+  locationNote?: string | null
+  /** Latitude/longitude, when the backend exposes them publicly. */
+  latitude?: number | null
+  longitude?: number | null
+  /** Check-in / check-out house rules, when present. */
+  checkInTime?: string | null
+  checkOutTime?: string | null
+  /** House rules / policies, when present. */
+  houseRules?: string[]
+  cancellationPolicy?: string | null
+}
+
 export interface PropertyListMeta {
   total: number
   page: number

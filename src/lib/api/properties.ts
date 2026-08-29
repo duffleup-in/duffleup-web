@@ -9,6 +9,7 @@
 import { apiFetch } from './client'
 import type { MoodKey } from './types/mood-config'
 import type {
+  PropertyDetail,
   PropertyListResponse,
   PropertySearchParams,
 } from './types/property'
@@ -79,4 +80,22 @@ export function getProperties(
 ): Promise<PropertyListResponse> {
   const qs = toQueryString(params)
   return apiFetch<PropertyListResponse>(`/search${qs ? `?${qs}` : ''}`, options)
+}
+
+/**
+ * GET /properties/slug/:slug — the public property DETAIL endpoint (distinct
+ * from /search, which is the list). Returns the full property with its bookable
+ * units. Throws `ApiError` on non-2xx (a 404 surfaces as `ApiError.status ===
+ * 404`, which the detail page maps to Next's notFound()).
+ *
+ * The slug is path-encoded so an odd slug can't break the URL.
+ */
+export function getPropertyBySlug(
+  slug: string,
+  options?: Parameters<typeof apiFetch>[1]
+): Promise<PropertyDetail> {
+  return apiFetch<PropertyDetail>(
+    `/properties/slug/${encodeURIComponent(slug)}`,
+    options
+  )
 }

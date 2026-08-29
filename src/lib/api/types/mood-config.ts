@@ -9,11 +9,12 @@
  * `Mood` union in components/ui/Chip. */
 export type MoodKey =
   | 'CHILL'
+  | 'PARTY'
+  | 'WORK'
+  | 'FAMILY'
   | 'ROMANCE'
+  | 'WELLNESS'
   | 'ADVENTURE'
-  | 'RESET'
-  | 'BASH'
-  | 'PETS'
 
 export interface MoodProfileConfig {
   mood: MoodKey

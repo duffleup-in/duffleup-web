@@ -25,9 +25,9 @@ describe('PropertyCard', () => {
   })
 
   it('renders one sticker chip per distinct unit mood, de-duplicated', () => {
-    render(<PropertyCard property={withMoods('CHILL', 'PETS', 'CHILL')} />)
+    render(<PropertyCard property={withMoods('CHILL', 'FAMILY', 'CHILL')} />)
     expect(screen.getByText('Chill')).toBeInTheDocument()
-    expect(screen.getByText('Pets')).toBeInTheDocument()
+    expect(screen.getByText('Family')).toBeInTheDocument()
     expect(screen.getAllByText('Chill')).toHaveLength(1)
   })
 
