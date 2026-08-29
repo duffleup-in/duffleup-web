@@ -16,6 +16,13 @@ let cachedConfig: MoodConfigResponse | null = null
 async function loadConfig(): Promise<MoodConfigResponse> {
   if (cachedConfig) return cachedConfig
   const config = await getMoodConfig()
+  // Guard against a backend returning an unexpected shape (e.g. a stale/mock
+  // endpoint that omits `moodProfiles`). Without this, `config` is truthy but
+  // `config.moodProfiles` is undefined, and IntentCollector's `moods.find`
+  // throws. Treat it as a load failure so the graceful error state shows.
+  if (!Array.isArray(config?.moodProfiles) || !Array.isArray(config?.moodContexts)) {
+    throw new Error('Malformed mood-config response')
+  }
   cachedConfig = config
   return config
 }
