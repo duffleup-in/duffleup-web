@@ -10,6 +10,7 @@ export type {
   PropertyType,
   PublicUnit,
   PublicProperty,
+  PropertyDetail,
   PropertyListMeta,
   PropertyListResponse,
   PropertySearchParams,

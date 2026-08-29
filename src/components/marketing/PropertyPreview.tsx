@@ -12,7 +12,7 @@ const featured: (PropertyCardProps & { slug: string })[] = [
     tier: 'rare',
     price: '₹8,400',
     placeholderVariant: 'chill',
-    chips: [{ label: 'Chill', mood: 'chill' }, { label: 'Pets', mood: 'pets' }],
+    chips: [{ label: 'Chill', mood: 'chill' }, { label: 'Family', mood: 'family' }],
   },
   {
     slug: 'riverbend-camp',
@@ -29,8 +29,8 @@ const featured: (PropertyCardProps & { slug: string })[] = [
     area: 'Bhandardara, MH',
     tier: 'raw',
     price: '₹5,000',
-    placeholderVariant: 'reset',
-    chips: [{ label: 'Reset', mood: 'reset' }],
+    placeholderVariant: 'work',
+    chips: [{ label: 'Wellness', mood: 'wellness' }],
   },
 ]
 

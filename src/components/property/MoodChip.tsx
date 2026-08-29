@@ -7,11 +7,12 @@ import { cn } from '@/lib/cn'
 // Colour map mirrors StickerMoodCard.moodStyles / ui/Chip, keyed by backend MoodKey.
 const MOOD_STYLES: Record<MoodKey, string> = {
   CHILL: 'bg-plasma text-pitch',
+  PARTY: 'bg-acid text-pitch',
+  WORK: 'bg-hyperpurple text-white',
+  FAMILY: 'bg-pets text-white',
   ROMANCE: 'bg-slap-pink text-white',
+  WELLNESS: 'bg-success text-white',
   ADVENTURE: 'bg-solar text-white',
-  RESET: 'bg-hyperpurple text-white',
-  BASH: 'bg-acid text-pitch',
-  PETS: 'bg-pets text-white',
 }
 
 /** "CHILL" → "Chill". Backend sends the enum key; guests see title case. */

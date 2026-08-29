@@ -84,7 +84,7 @@ describe('PropertiesPage (B.2 grid)', () => {
       meta: { total: 0, page: 1, limit: 20, totalPages: 0 },
     })
 
-    render(await PropertiesPage({ searchParams: { mood: 'pets' } }))
+    render(await PropertiesPage({ searchParams: { mood: 'family' } }))
 
     expect(screen.queryByRole('article')).not.toBeInTheDocument()
     expect(screen.queryByText(/something went wrong/i)).not.toBeInTheDocument()

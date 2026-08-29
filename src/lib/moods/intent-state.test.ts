@@ -17,7 +17,7 @@ describe('makeInitialState', () => {
   })
 
   it('leaves the remaining fields at their defaults', () => {
-    const state = makeInitialState('BASH')
+    const state = makeInitialState('PARTY')
     expect(state.sub).toBeNull()
     expect(state.checkin).toBeNull()
     expect(state.checkout).toBeNull()
@@ -27,7 +27,7 @@ describe('makeInitialState', () => {
   })
 
   it('does not mutate the shared initial state', () => {
-    makeInitialState('PETS')
+    makeInitialState('FAMILY')
     expect(initialIntentState.step).toBe('mood')
     expect(initialIntentState.mood).toBeNull()
   })

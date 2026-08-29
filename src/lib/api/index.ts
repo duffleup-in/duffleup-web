@@ -5,6 +5,7 @@ export type { ApiRequestOptions } from './client'
 export * from './types'
 export {
   getProperties,
+  getPropertyBySlug,
   mapIntentParamsToSearch,
   type IntentSearchParams,
 } from './properties'
