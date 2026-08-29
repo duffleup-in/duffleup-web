@@ -49,7 +49,13 @@ export default async function PropertiesPage({
   let error = false
   try {
     const res = await getProperties(mapIntentParamsToSearch(intent))
-    properties = res.data
+    // Guard the envelope: an unexpected shape (e.g. a backend still on the old
+    // {results} contract) must surface as an error, never crash rendering.
+    if (Array.isArray(res?.data)) {
+      properties = res.data
+    } else {
+      error = true
+    }
   } catch {
     error = true
   }

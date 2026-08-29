@@ -45,7 +45,7 @@ describe('getProperties', () => {
 
   it('hits the /search endpoint, not /properties', async () => {
     await getProperties({})
-    expect(apiFetch).toHaveBeenCalledWith('/search', undefined)
+    expect(apiFetch).toHaveBeenCalledWith('/search', { cache: 'no-store' })
   })
 
   it('serializes moods as a comma list and renames guest/date params', async () => {

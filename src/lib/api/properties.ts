@@ -79,7 +79,14 @@ export function getProperties(
   options?: Parameters<typeof apiFetch>[1]
 ): Promise<PropertyListResponse> {
   const qs = toQueryString(params)
-  return apiFetch<PropertyListResponse>(`/search${qs ? `?${qs}` : ''}`, options)
+  // Search is query-driven and must never be served from Next's Data Cache —
+  // a stale body (e.g. one fetched while the backend was on the old shape)
+  // would otherwise be replayed on every request. Default to no-store; callers
+  // can still override via `options`.
+  return apiFetch<PropertyListResponse>(`/search${qs ? `?${qs}` : ''}`, {
+    cache: 'no-store',
+    ...options,
+  })
 }
 
 /**
