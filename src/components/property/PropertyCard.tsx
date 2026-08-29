@@ -32,8 +32,9 @@ export function PropertyCard({ property }: { property: PublicProperty }) {
   const touchStartX = useRef<number | null>(null)
 
   // Defense in depth (decision 5): the backend already drops null-price
-  // properties, but never render a card without a price.
-  if (property.priceFrom === null) return null
+  // properties, but never render a card without a price. `== null` catches
+  // both null and undefined (an older backend may omit the field entirely).
+  if (property.priceFrom == null) return null
 
   const photos = property.photos.slice(0, MAX_PHOTOS)
   const moods = propertyMoods(property)

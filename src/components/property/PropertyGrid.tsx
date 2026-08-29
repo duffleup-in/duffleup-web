@@ -31,7 +31,7 @@ export function PropertyGrid({ properties, isLoading = false }: PropertyGridProp
   // Defensive filter (decision 5): never render a null-price property.
   // `?? []` guards against a caller passing an undefined list — a bad API
   // shape should render nothing, not throw during SSR.
-  const visible = (properties ?? []).filter((p) => p.priceFrom !== null)
+  const visible = (properties ?? []).filter((p) => p.priceFrom != null)
 
   return (
     <div className={GRID}>
