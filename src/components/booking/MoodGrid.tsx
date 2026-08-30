@@ -3,7 +3,7 @@
 import { StickerMoodCard } from '@/components/marketing/StickerMoodCard'
 import type { Mood } from '@/components/ui/Chip'
 import type { MoodKey, MoodProfileConfig } from '@/lib/api/types/mood-config'
-import { moodKeyToLower } from '@/lib/moods/normalize'
+import { moodDisplayName, moodKeyToLower } from '@/lib/moods/normalize'
 
 export type MoodGridProps = {
   moods: MoodProfileConfig[]
@@ -12,9 +12,9 @@ export type MoodGridProps = {
   onSelect: (mood: MoodKey) => void
 }
 
-/** "CHILL" → "Chill". The backend sends no display name, only the enum key. */
-export const moodDisplayName = (key: MoodKey): string =>
-  key.charAt(0) + key.slice(1).toLowerCase()
+// Canonical implementation lives in lib/moods/normalize alongside the label
+// overrides; re-exported here so existing call sites keep their import path.
+export { moodDisplayName }
 
 /**
  * Step 1 of the intent collector — the six mood tiles, reusing the home page's

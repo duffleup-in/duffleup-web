@@ -44,12 +44,11 @@ function Section({
 
 const moods = [
   { mood: 'chill' as const, name: 'Chill', description: 'Slow mornings. Quiet evenings. The kind of quiet you forgot existed.' },
-  { mood: 'party' as const, name: 'Party', description: 'Bring everyone. Plan nothing. The place can handle it.', tag: 'Big group' },
-  { mood: 'work' as const, name: 'Work', description: 'Fast wifi, a good desk, and a view that beats your office.', tag: 'Workation' },
-  { mood: 'family' as const, name: 'Family', description: 'Room for everyone. Even the loud ones with four legs.', tag: 'Kids & pets' },
   { mood: 'romance' as const, name: 'Romance', description: 'For two. For nothing else. Bring the right person.', tag: 'For two' },
-  { mood: 'wellness' as const, name: 'Wellness', description: 'Disappear without explaining. Come back as someone slightly better.', tag: 'Solo OK' },
   { mood: 'adventure' as const, name: 'Adventure', description: 'Wake up where the trail starts. Sleep where the campfire ends.' },
+  { mood: 'reset' as const, name: 'Relax', description: 'Disappear without explaining. Come back as someone slightly better.', tag: 'Solo OK' },
+  { mood: 'bash' as const, name: 'Bash', description: 'Bring everyone. Plan nothing. The place can handle it.', tag: 'Big group' },
+  { mood: 'pets' as const, name: 'Pets', description: 'No apologies, no extra questions. The loud one with four legs comes too.', tag: 'Pets welcome' },
 ]
 
 export default function DesignSystemPage() {
@@ -157,12 +156,11 @@ export default function DesignSystemPage() {
           </div>
           <div className="flex flex-wrap items-center gap-2 rounded-sm border border-line bg-white p-6">
             <Chip mood="chill">Chill</Chip>
-            <Chip mood="party">Party</Chip>
-            <Chip mood="work">Work</Chip>
-            <Chip mood="family">Family</Chip>
             <Chip mood="romance">Romance</Chip>
-            <Chip mood="wellness">Wellness</Chip>
             <Chip mood="adventure">Adventure</Chip>
+            <Chip mood="reset">Relax</Chip>
+            <Chip mood="bash">Bash</Chip>
+            <Chip mood="pets">Pets</Chip>
             <Chip>Neutral</Chip>
           </div>
         </div>
@@ -210,7 +208,7 @@ export default function DesignSystemPage() {
             tier="raw"
             price="₹5,000"
             placeholderVariant="work"
-            chips={[{ label: 'Wellness', mood: 'wellness' }]}
+            chips={[{ label: 'Relax', mood: 'reset' }]}
           />
         </div>
       </Section>

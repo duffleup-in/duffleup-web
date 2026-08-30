@@ -7,14 +7,16 @@ import type { Mood } from '@/components/ui/Chip'
 import type { MoodKey } from '@/lib/api/types/mood-config'
 import { lowerToMoodKey } from '@/lib/moods/normalize'
 
+// The six moods the backend actually serves, in `mood_profiles.tileOrder`.
+// Every tile opens the collector via `lowerToMoodKey`, which rejects anything
+// outside MOOD_KEYS — so this list must never drift from the backend enum.
 const moods: { mood: Mood; name: string; description: string; tag?: string }[] = [
   { mood: 'chill', name: 'Chill', description: 'Slow mornings. Quiet evenings. The kind of quiet you forgot existed.' },
-  { mood: 'party', name: 'Party', description: 'Bring everyone. Plan nothing. The place can handle it.', tag: 'Big group' },
-  { mood: 'work', name: 'Work', description: 'Fast wifi, a good desk, and a view that beats your office.', tag: 'Workation' },
-  { mood: 'family', name: 'Family', description: 'Room for everyone. Even the loud ones with four legs.', tag: 'Kids & pets' },
   { mood: 'romance', name: 'Romance', description: 'For two. For nothing else. Bring the right person.', tag: 'For two' },
-  { mood: 'wellness', name: 'Wellness', description: 'Disappear without explaining. Come back as someone slightly better.', tag: 'Solo OK' },
   { mood: 'adventure', name: 'Adventure', description: 'Wake up where the trail starts. Sleep where the campfire ends.' },
+  { mood: 'reset', name: 'Relax', description: 'Disappear without explaining. Come back as someone slightly better.', tag: 'Solo OK' },
+  { mood: 'bash', name: 'Bash', description: 'Bring everyone. Plan nothing. The place can handle it.', tag: 'Big group' },
+  { mood: 'pets', name: 'Pets', description: 'No apologies, no extra questions. The loud one with four legs comes too.', tag: 'Pets welcome' },
 ]
 
 export function MoodDiscovery() {

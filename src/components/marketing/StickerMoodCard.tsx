@@ -40,12 +40,13 @@ function nameSize(name: string, compact: boolean): string {
 // bg + text + resting rotation per the v0.4 nth-child spec.
 const moodStyles: Record<Mood, { surface: string; rotate: string }> = {
   chill: { surface: 'bg-plasma text-pitch', rotate: '-rotate-2' },
-  party: { surface: 'bg-acid text-pitch', rotate: '-rotate-3' },
-  work: { surface: 'bg-hyperpurple text-white', rotate: 'rotate-3' },
-  family: { surface: 'bg-pets text-white', rotate: 'rotate-1' },
   romance: { surface: 'bg-slap-pink text-white', rotate: 'rotate-2' },
-  wellness: { surface: 'bg-success text-white', rotate: '-rotate-1' },
   adventure: { surface: 'bg-solar text-white', rotate: '-rotate-1' },
+  reset: { surface: 'bg-success text-white', rotate: '-rotate-1' },
+  bash: { surface: 'bg-acid text-pitch', rotate: '-rotate-3' },
+  pets: { surface: 'bg-pets text-white', rotate: 'rotate-1' },
+  work: { surface: 'bg-hyperpurple text-white', rotate: 'rotate-3' },
+  family: { surface: 'bg-info text-white', rotate: 'rotate-1' },
 }
 
 export function StickerMoodCard({
@@ -59,7 +60,10 @@ export function StickerMoodCard({
   compact = false,
   className,
 }: StickerMoodCardProps) {
-  const { surface, rotate } = moodStyles[mood]
+  // Fall back rather than destructure a miss: the mood list is served by the
+  // backend, so a value added there before this map is updated would otherwise
+  // throw and take the whole grid down.
+  const { surface, rotate } = moodStyles[mood] ?? moodStyles.chill
 
   const content = (
     <div

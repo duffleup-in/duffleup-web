@@ -30,7 +30,7 @@ const featured: (PropertyCardProps & { slug: string })[] = [
     tier: 'raw',
     price: '₹5,000',
     placeholderVariant: 'work',
-    chips: [{ label: 'Wellness', mood: 'wellness' }],
+    chips: [{ label: 'Relax', mood: 'reset' }],
   },
 ]
 

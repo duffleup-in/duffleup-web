@@ -4,7 +4,7 @@ import userEvent from '@testing-library/user-event'
 import type { MoodKey } from '@/lib/api/types/mood-config'
 import { SiteNav } from './SiteNav'
 
-const KEYS: MoodKey[] = ['CHILL', 'PARTY', 'WORK', 'FAMILY', 'ROMANCE', 'WELLNESS', 'ADVENTURE']
+const KEYS: MoodKey[] = ['CHILL', 'ROMANCE', 'ADVENTURE', 'RESET', 'BASH', 'PETS']
 
 // The collector's skip-to-search calls useRouter, which needs an App Router
 // context that jsdom has no way to provide.

@@ -1,14 +1,16 @@
 import * as React from 'react'
 import { cn } from '@/lib/cn'
 
+/** Lowercase UI mirror of the backend `MoodKey` union (lib/api/types/mood-config). */
 export type Mood =
   | 'chill'
-  | 'party'
+  | 'romance'
+  | 'adventure'
+  | 'reset'
+  | 'bash'
+  | 'pets'
   | 'work'
   | 'family'
-  | 'romance'
-  | 'wellness'
-  | 'adventure'
 
 export type ChipProps = {
   mood?: Mood
@@ -18,12 +20,13 @@ export type ChipProps = {
 
 const moods: Record<Mood, string> = {
   chill: 'bg-plasma text-pitch border-transparent',
-  party: 'bg-acid text-pitch border-transparent',
-  work: 'bg-hyperpurple text-white border-transparent',
-  family: 'bg-pets text-white border-transparent',
   romance: 'bg-slap-pink text-white border-transparent',
-  wellness: 'bg-success text-white border-transparent',
   adventure: 'bg-solar text-white border-transparent',
+  reset: 'bg-success text-white border-transparent',
+  bash: 'bg-acid text-pitch border-transparent',
+  pets: 'bg-pets text-white border-transparent',
+  work: 'bg-hyperpurple text-white border-transparent',
+  family: 'bg-info text-white border-transparent',
 }
 
 export function Chip({ mood, className, children }: ChipProps) {
