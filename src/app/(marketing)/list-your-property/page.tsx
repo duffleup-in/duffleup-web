@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { CheckCircle } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
+import { PageHero } from '@/components/marketing/PageHero'
 import EarlyAccessForm from '@/components/ui/EarlyAccessForm'
 
 export const metadata: Metadata = {
@@ -55,27 +56,15 @@ const steps = [
 export default function ListYourPropertyPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="bg-pitch pb-20 pt-[120px] text-white">
-        <div className="mx-auto max-w-[1200px] px-6">
-          <p className="mb-2 font-utility text-subh uppercase tracking-[0.1em] text-acid">
-            For owners
-          </p>
-          <h1 className="max-w-3xl font-display text-[clamp(48px,8vw,80px)] leading-none">
-            Got a place?
-          </h1>
-          <p className="mt-6 max-w-2xl text-subh leading-relaxed text-white/80">
-            We visit every property before it goes live. Simple economics: 7%
-            commission, no monthly fees, no lock-in. Currently focused on
-            Maharashtra, expanding across India.
-          </p>
-          <div className="mt-8">
-            <Button asChild variant="primary" size="lg">
-              <Link href="#apply">Tell us about your place</Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        eyebrow="For owners"
+        title="Got a place?"
+        subtitle="We visit every property before it goes live. Simple economics: 7% commission, no monthly fees, no lock-in. Currently focused on Maharashtra, expanding across India."
+      >
+        <Button asChild variant="primary" size="lg">
+          <Link href="#apply">Tell us about your place</Link>
+        </Button>
+      </PageHero>
 
       {/* Benefits */}
       <section className="border-b border-line bg-sterling-warm py-16">

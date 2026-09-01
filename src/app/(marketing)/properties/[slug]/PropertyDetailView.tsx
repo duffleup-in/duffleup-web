@@ -280,22 +280,21 @@ export function PropertyDetailView({ property }: { property: PropertyDetail }) {
     !!selectedUnit && selectedUnit.hasActiveRates && selectedUnit.currentRate !== null
 
   return (
-    <div className="mx-auto max-w-[1200px] px-6 py-10">
-      <Link
-        href="/properties"
-        className="mb-6 inline-flex items-center gap-1.5 font-utility text-subtitle uppercase tracking-[0.08em] text-pitch-soft no-underline transition-colors hover:text-pitch"
-      >
-        <ChevronLeft size={16} /> All stays
-      </Link>
+    <>
+      {/* Dark masthead — shares the SiteNav bleed-logo clearance (pt-[120px])
+          with every other page, so the oversized logo never overlaps content. */}
+      <div className="bg-pitch pb-10 pt-[120px] text-white">
+        <div className="mx-auto max-w-[1200px] px-6">
+          <Link
+            href="/properties"
+            className="mb-6 inline-flex items-center gap-1.5 font-utility text-subtitle uppercase tracking-[0.08em] text-white/60 no-underline transition-colors hover:text-white"
+          >
+            <ChevronLeft size={16} /> All stays
+          </Link>
 
-      <Gallery photos={photos} name={property.displayName} />
-
-      <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_360px]">
-        {/* Main column */}
-        <div>
           <div className="flex flex-wrap items-center gap-3">
             {tier && <Badge tier={tier} />}
-            <span className="font-utility text-subtitle uppercase tracking-[0.08em] text-pitch-soft">
+            <span className="font-utility text-subtitle uppercase tracking-[0.08em] text-white/60">
               {humanize(String(property.propertyType))}
             </span>
           </div>
@@ -304,18 +303,26 @@ export function PropertyDetailView({ property }: { property: PropertyDetail }) {
             {property.displayName}
           </h1>
 
-          <p className="mt-3 inline-flex items-center gap-1.5 text-[15px] text-pitch-soft">
+          <p className="mt-3 inline-flex items-center gap-1.5 text-[15px] text-white/70">
             <MapPin size={16} aria-hidden="true" />
             {locationLine(property)}
           </p>
+        </div>
+      </div>
 
-          {moods.length > 0 && (
-            <div className="mt-5 flex flex-wrap gap-1.5">
-              {moods.map((mood) => (
-                <MoodChip key={mood} mood={mood} />
-              ))}
-            </div>
-          )}
+      <div className="mx-auto max-w-[1200px] px-6 py-10">
+        <Gallery photos={photos} name={property.displayName} />
+
+        <div className="mt-8 grid grid-cols-1 gap-10 lg:grid-cols-[1fr_360px]">
+          {/* Main column */}
+          <div>
+            {moods.length > 0 && (
+              <div className="flex flex-wrap gap-1.5">
+                {moods.map((mood) => (
+                  <MoodChip key={mood} mood={mood} />
+                ))}
+              </div>
+            )}
 
           {description && (
             <section className="mt-8">
@@ -407,6 +414,7 @@ export function PropertyDetailView({ property }: { property: PropertyDetail }) {
           </div>
         </aside>
       </div>
-    </div>
+      </div>
+    </>
   )
 }

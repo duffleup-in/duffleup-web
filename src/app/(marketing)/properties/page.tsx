@@ -5,6 +5,7 @@ import {
   type IntentSearchParams,
 } from '@/lib/api'
 import type { PublicProperty } from '@/lib/api/types/property'
+import { PageHero } from '@/components/marketing/PageHero'
 import { PropertiesResults } from './PropertiesResults'
 
 export const metadata: Metadata = {
@@ -61,8 +62,15 @@ export default async function PropertiesPage({
   }
 
   return (
-    <main className="mx-auto max-w-[1200px] px-6 py-12">
-      <PropertiesResults properties={properties} error={error} />
-    </main>
+    <>
+      <PageHero
+        eyebrow="Verified · Mood-first"
+        title="Stays"
+        subtitle="Every property is visited before it goes live."
+      />
+      <section className="mx-auto max-w-[1200px] px-6 py-12">
+        <PropertiesResults properties={properties} error={error} />
+      </section>
+    </>
   )
 }

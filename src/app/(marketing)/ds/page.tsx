@@ -11,8 +11,6 @@ import { EmptyState } from '@/components/ui/EmptyState'
 import { PropertyCard } from '@/components/marketing/PropertyCard'
 import { StickerMoodCard } from '@/components/marketing/StickerMoodCard'
 import { SocialCard } from '@/components/marketing/SocialCard'
-import { SiteNav } from '@/components/marketing/SiteNav'
-import { Footer } from '@/components/marketing/Footer'
 import { EarlyAccessBand } from '@/components/marketing/EarlyAccessBand'
 
 export const metadata: Metadata = {
@@ -54,9 +52,9 @@ const moods = [
 
 export default function DesignSystemPage() {
   return (
-    <main className="bg-sterling-warm">
+    <div className="bg-sterling-warm">
       {/* Header */}
-      <div className="bg-pitch py-10 text-white">
+      <div className="bg-pitch pb-10 pt-[120px] text-white">
         <div className="mx-auto max-w-[1200px] px-6">
           <Logo size="sm" />
           <h1 className="mt-4 font-display text-h4">Design System</h1>
@@ -256,16 +254,8 @@ export default function DesignSystemPage() {
         </div>
       </Section>
 
-      {/* Site nav + Footer */}
-      <Section eyebrow="Marketing" title="Site nav & footer">
-        <div className="overflow-hidden rounded-md border border-line">
-          <SiteNav />
-          <div className="bg-sterling-warm py-16 text-center font-utility uppercase tracking-[0.1em] text-pitch-soft">
-            Scroll the page — the nav sticks to the top.
-          </div>
-          <Footer />
-        </div>
-      </Section>
-    </main>
+      {/* The live SiteNav + Footer wrap this page via the marketing layout —
+          scroll to see them in situ rather than embedding duplicates here. */}
+    </div>
   )
 }

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { getPropertyBySlug } from '@/lib/api'
 import { ApiError } from '@/lib/api/client'
 import type { PropertyDetail } from '@/lib/api/types/property'
+import { PageHero } from '@/components/marketing/PageHero'
 import { PropertyDetailView } from './PropertyDetailView'
 
 // SP-F1 — property DETAIL. Server Component fetches the property by slug from
@@ -73,18 +74,13 @@ export default async function PropertyDetailPage({
 
   if (result.status === 'error') {
     return (
-      <main className="mx-auto max-w-[1200px] px-6 py-20">
-        <h1 className="font-display text-h4">Something went wrong.</h1>
-        <p className="mt-3 text-body text-pitch-soft">
-          We couldn&apos;t load this stay right now. Please try again in a moment.
-        </p>
-      </main>
+      <PageHero
+        eyebrow="Stay"
+        title="Something went wrong."
+        subtitle="We couldn't load this stay right now. Please try again in a moment."
+      />
     )
   }
 
-  return (
-    <main>
-      <PropertyDetailView property={result.property} />
-    </main>
-  )
+  return <PropertyDetailView property={result.property} />
 }

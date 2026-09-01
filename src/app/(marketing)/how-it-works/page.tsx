@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
+import { PageHero } from '@/components/marketing/PageHero'
 
 export const metadata: Metadata = {
   title: 'How It Works',
@@ -27,17 +28,7 @@ const tiers = [
 export default function HowItWorksPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="bg-pitch pb-20 pt-[120px] text-white">
-        <div className="mx-auto max-w-[1200px] px-6">
-          <p className="mb-2 font-utility text-subh uppercase tracking-[0.1em] text-acid">
-            How it works
-          </p>
-          <h1 className="max-w-4xl font-display text-[clamp(48px,8vw,80px)] leading-none">
-            We find stays before they find you.
-          </h1>
-        </div>
-      </section>
+      <PageHero eyebrow="How it works" title="We find stays before they find you." />
 
       {/* Universal promise */}
       <section className="border-b border-line bg-acid py-16 text-pitch">

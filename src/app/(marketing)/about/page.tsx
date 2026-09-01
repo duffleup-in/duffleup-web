@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { ArrowRight, Quote } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
+import { PageHero } from '@/components/marketing/PageHero'
 
 export const metadata: Metadata = {
   title: 'About',
@@ -31,24 +32,17 @@ const values = [
 export default function AboutPage() {
   return (
     <>
-      {/* Hero */}
-      <section className="bg-pitch pb-20 pt-[120px] text-white">
-        <div className="mx-auto max-w-[1200px] px-6">
-          <p className="mb-2 font-utility text-subh uppercase tracking-[0.1em] text-acid">
-            Our story
-          </p>
-          <h1 className="max-w-3xl font-display text-[clamp(48px,8vw,80px)] leading-none">
+      <PageHero
+        eyebrow="Our story"
+        title={
+          <>
             Built by an operator,
             <br />
             <span className="text-acid">not a tech company</span>
-          </h1>
-          <p className="mt-6 max-w-xl text-subh leading-relaxed text-white/80">
-            Duffleup exists because someone has been on both ends of the same
-            WhatsApp thread. The one asking if the place is really like the
-            photos. And the one answering.
-          </p>
-        </div>
-      </section>
+          </>
+        }
+        subtitle="Duffleup exists because someone has been on both ends of the same WhatsApp thread. The one asking if the place is really like the photos. And the one answering."
+      />
 
       {/* Founder narrative */}
       <section className="border-b border-line bg-sterling-warm py-16">
