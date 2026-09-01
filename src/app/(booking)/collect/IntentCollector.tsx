@@ -39,7 +39,7 @@ const STEP_NAMES: Record<Step, string> = {
 }
 
 const STEP_DESCRIPTIONS: Record<Step, string> = {
-  mood: 'Six ways to spend a weekend. Start with how you want to feel.',
+  mood: 'Eight ways to spend a weekend. Start with how you want to feel.',
   sub: 'Narrow it down — or see everything and filter later.',
   dates: 'Pick your nights — or skip ahead and browse.',
   guests: "Who's making the trip?",

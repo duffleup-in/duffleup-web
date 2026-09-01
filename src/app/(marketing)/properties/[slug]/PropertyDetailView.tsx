@@ -13,13 +13,14 @@ import { cn } from '@/lib/cn'
 
 /** Stable chip order, mirroring PropertyCard.MOOD_ORDER / the home mood grid. */
 const MOOD_ORDER: MoodKey[] = [
-  'CHILL',
-  'PARTY',
-  'WORK',
-  'FAMILY',
   'ROMANCE',
-  'WELLNESS',
+  'CHILL',
+  'BASH',
+  'PETS',
+  'FAMILY',
   'ADVENTURE',
+  'WORKATION',
+  'WELLNESS',
 ]
 
 /** Backend tier enum → Badge's lowercase tier. */

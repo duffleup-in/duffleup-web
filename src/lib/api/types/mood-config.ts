@@ -5,16 +5,20 @@
 // Verified against the live prod response at
 // https://api.duffleup.in/api/v1/mood-config on 2026-07-19.
 
-/** Backend `Mood` Prisma enum. Uppercase — distinct from the lowercase UI
- * `Mood` union in components/ui/Chip. */
+/** Backend `Mood` enum. Uppercase — distinct from the lowercase UI
+ * `Mood` union in components/ui/Chip.
+ *
+ * Mirrors the canonical 8-mood taxonomy in order:
+ * ROMANCE, CHILL, BASH, PETS, FAMILY, ADVENTURE, WORKATION, WELLNESS. */
 export type MoodKey =
-  | 'CHILL'
-  | 'PARTY'
-  | 'WORK'
-  | 'FAMILY'
   | 'ROMANCE'
-  | 'WELLNESS'
+  | 'CHILL'
+  | 'BASH'
+  | 'PETS'
+  | 'FAMILY'
   | 'ADVENTURE'
+  | 'WORKATION'
+  | 'WELLNESS'
 
 export interface MoodProfileConfig {
   mood: MoodKey

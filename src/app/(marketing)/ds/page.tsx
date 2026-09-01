@@ -40,14 +40,24 @@ function Section({
   )
 }
 
+function Swatch({ bg, name, hex, text }: { bg: string, name: string, hex: string, text: string }) {
+  return (
+    <div className={`${bg} rounded-sm p-4 h-24 flex flex-col justify-end ${text}`}>
+      <p className="font-display text-small">{name}</p>
+      <p className="font-mono text-caption opacity-70">{hex}</p>
+    </div>
+  )
+}
+
 const moods = [
-  { mood: 'chill' as const, name: 'Chill', description: 'Slow mornings. Quiet evenings. The kind of quiet you forgot existed.' },
-  { mood: 'party' as const, name: 'Party', description: 'Bring everyone. Plan nothing. The place can handle it.', tag: 'Big group' },
-  { mood: 'work' as const, name: 'Work', description: 'Fast wifi, a good desk, and a view that beats your office.', tag: 'Workation' },
-  { mood: 'family' as const, name: 'Family', description: 'Room for everyone. Even the loud ones with four legs.', tag: 'Kids & pets' },
   { mood: 'romance' as const, name: 'Romance', description: 'For two. For nothing else. Bring the right person.', tag: 'For two' },
-  { mood: 'wellness' as const, name: 'Wellness', description: 'Disappear without explaining. Come back as someone slightly better.', tag: 'Solo OK' },
+  { mood: 'chill' as const, name: 'Chill', description: 'Slow mornings. Quiet evenings. The kind of quiet you forgot existed.' },
+  { mood: 'bash' as const, name: 'Bash', description: 'Bring everyone. Plan nothing. The place can handle it.', tag: 'Big group' },
+  { mood: 'pets' as const, name: 'Pets', description: 'No apologies, no extra questions. The loud one with four legs comes too.', tag: 'Pets welcome' },
+  { mood: 'family' as const, name: 'Family', description: 'Space to spread out, kitchens that work, beds for every generation.', tag: 'All ages' },
   { mood: 'adventure' as const, name: 'Adventure', description: 'Wake up where the trail starts. Sleep where the campfire ends.' },
+  { mood: 'workation' as const, name: 'Workation', description: 'Desk by the window, reliable wifi, coffee that actually works.', tag: 'WFH ready' },
+  { mood: 'wellness' as const, name: 'Wellness', description: 'Disappear without explaining. Come back as someone slightly better.', tag: 'Reset' },
 ]
 
 export default function DesignSystemPage() {
@@ -82,45 +92,46 @@ export default function DesignSystemPage() {
       </Section>
 
       {/* Typography */}
-      <Section eyebrow="Typography" title="Three fonts, locked roles">
-        <div className="space-y-6">
-          <div className="rounded-md border border-line bg-white p-8">
-            <p className="mb-2 font-mono text-caption text-pitch-soft">BUNGEE — DISPLAY</p>
-            <p className="font-display text-h3">Book a weekend.</p>
+      <Section eyebrow="Typography" title="Font stack & scale">
+        <div className="space-y-6 rounded-sm border border-line bg-white p-8">
+          <div>
+            <p className="font-utility text-caption uppercase tracking-[0.15em] text-pitch/50">Display — Bungee</p>
+            <p className="font-display text-h3">DUFFLEUP</p>
           </div>
-          <div className="rounded-md border border-line bg-white p-8">
-            <p className="mb-2 font-mono text-caption text-pitch-soft">BEBAS NEUE — UTILITY</p>
-            <p className="font-utility text-h4 uppercase tracking-[0.02em]">2 nights · 1 duffle · zero apologies</p>
+          <div>
+            <p className="font-utility text-caption uppercase tracking-[0.15em] text-pitch/50">Utility — Bebas Neue</p>
+            <p className="font-utility text-h4 uppercase tracking-[0.05em]">PACK YOUR BAGS · FIND YOUR SPOT</p>
           </div>
-          <div className="rounded-md border border-line bg-white p-8">
-            <p className="mb-2 font-mono text-caption text-pitch-soft">ARIAL — BODY</p>
-            <p className="max-w-2xl text-subh leading-relaxed">
-              Duffleup is a marketplace for offbeat properties across Maharashtra. Honest
-              pricing. No hidden fees. No fake reviews.
+          <div>
+            <p className="font-utility text-caption uppercase tracking-[0.15em] text-pitch/50">Body — Arial / System</p>
+            <p className="max-w-xl text-body text-pitch-soft">
+              Curated stays for the restless. Handpicked by verified locals across Maharashtra.
             </p>
           </div>
         </div>
       </Section>
 
+      {/* Color palette */}
+      <Section eyebrow="Color" title="Palette & tokens">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+          <Swatch bg="bg-hyperpurple" name="Hyperpurple" hex="#7B2FFF" text="text-white" />
+          <Swatch bg="bg-slap-pink" name="Slap Pink" hex="#FF1B8D" text="text-white" />
+          <Swatch bg="bg-acid" name="Acid" hex="#CCFF00" text="text-pitch" />
+          <Swatch bg="bg-plasma" name="Plasma" hex="#00D0FF" text="text-pitch" />
+          <Swatch bg="bg-solar" name="Solar" hex="#FF6B00" text="text-white" />
+          <Swatch bg="bg-pitch" name="Pitch" hex="#0A0A0A" text="text-white" />
+        </div>
+      </Section>
+
       {/* Buttons */}
       <Section eyebrow="Components" title="Buttons">
-        <div className="space-y-6">
-          <div className="flex flex-wrap items-center gap-3 rounded-sm border border-line bg-white p-6">
-            <Button variant="primary">Pack my duffle</Button>
-            <Button variant="secondary-dark">Got a place?</Button>
-            <Button variant="ghost">Learn more</Button>
-            <Button variant="destructive">Cancel booking</Button>
-            <Button variant="primary" disabled>Disabled</Button>
-          </div>
-          <div className="flex flex-wrap items-center gap-3 rounded-sm bg-pitch p-6">
-            <Button variant="primary">Primary</Button>
-            <Button variant="secondary">Secondary</Button>
-          </div>
-          <div className="flex flex-wrap items-center gap-3 rounded-sm border border-line bg-white p-6">
-            <Button variant="primary" size="sm">Small</Button>
-            <Button variant="primary" size="md">Medium</Button>
-            <Button variant="primary" size="lg">Large</Button>
-          </div>
+        <div className="flex flex-wrap items-center gap-4 rounded-sm border border-line bg-white p-8">
+          <Button variant="primary">Primary</Button>
+          <Button variant="secondary">Secondary</Button>
+          <Button variant="secondary-dark">Secondary Dark</Button>
+          <Button variant="ghost">Ghost</Button>
+          <Button variant="primary" size="sm">Small</Button>
+          <Button variant="primary" size="lg">Large</Button>
         </div>
       </Section>
 
@@ -145,7 +156,7 @@ export default function DesignSystemPage() {
         </div>
       </Section>
 
-      {/* Badges + Chips */}
+      {/* Badges & Chips */}
       <Section eyebrow="Components" title="Badges & chips">
         <div className="space-y-6">
           <div className="flex flex-wrap items-center gap-3 rounded-sm border border-line bg-white p-6">
@@ -154,13 +165,14 @@ export default function DesignSystemPage() {
             <Badge tier="rare" />
           </div>
           <div className="flex flex-wrap items-center gap-2 rounded-sm border border-line bg-white p-6">
-            <Chip mood="chill">Chill</Chip>
-            <Chip mood="party">Party</Chip>
-            <Chip mood="work">Work</Chip>
-            <Chip mood="family">Family</Chip>
             <Chip mood="romance">Romance</Chip>
-            <Chip mood="wellness">Wellness</Chip>
+            <Chip mood="chill">Chill</Chip>
+            <Chip mood="bash">Bash</Chip>
+            <Chip mood="pets">Pets</Chip>
+            <Chip mood="family">Family</Chip>
             <Chip mood="adventure">Adventure</Chip>
+            <Chip mood="workation">Workation</Chip>
+            <Chip mood="wellness">Wellness</Chip>
             <Chip>Neutral</Chip>
           </div>
         </div>
@@ -215,7 +227,7 @@ export default function DesignSystemPage() {
 
       {/* Sticker mood cards */}
       <Section eyebrow="Marketing" title="Sticker mood cards">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {moods.map((m) => (
             <StickerMoodCard key={m.mood} {...m} />
           ))}

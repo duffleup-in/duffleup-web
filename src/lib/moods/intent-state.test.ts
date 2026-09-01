@@ -17,7 +17,7 @@ describe('makeInitialState', () => {
   })
 
   it('leaves the remaining fields at their defaults', () => {
-    const state = makeInitialState('PARTY')
+    const state = makeInitialState('BASH')
     expect(state.sub).toBeNull()
     expect(state.checkin).toBeNull()
     expect(state.checkout).toBeNull()

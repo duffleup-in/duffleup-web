@@ -2,14 +2,22 @@ import type { MoodKey } from '@/lib/api/types/mood-config'
 
 /** All valid backend mood keys. Mirrors the `MoodKey` union in mood-config.ts. */
 export const MOOD_KEYS: MoodKey[] = [
-  'CHILL',
-  'PARTY',
-  'WORK',
-  'FAMILY',
   'ROMANCE',
-  'WELLNESS',
+  'CHILL',
+  'BASH',
+  'PETS',
+  'FAMILY',
   'ADVENTURE',
+  'WORKATION',
+  'WELLNESS',
 ]
+
+/**
+ * "ROMANCE" → "Romance", "WORKATION" → "Workation".
+ * The backend sends enum keys; guests see title case.
+ */
+export const moodDisplayName = (key: MoodKey): string =>
+  key.charAt(0) + key.slice(1).toLowerCase()
 
 /**
  * Converts a backend uppercase MoodKey to its lowercase URL/UI form.

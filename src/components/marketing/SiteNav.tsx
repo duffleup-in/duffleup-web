@@ -59,13 +59,29 @@ export function SiteNav({ links = defaultLinks, actions, className }: SiteNavPro
   return (
     <nav
       className={cn(
-        'sticky top-0 z-50 border-b border-pitch-soft bg-pitch transition-shadow',
-        scrolled && 'shadow-sm',
+        'sticky top-0 z-50 transition-[background-color,border-color,padding] duration-300 ease-out',
+        // At rest the nav is a full-bleed solid band. Once scrolled it hands its
+        // surface to the inner container, which becomes a floating glass pill —
+        // so the band itself goes transparent and gains inset padding.
+        scrolled
+          ? 'border-b border-transparent bg-transparent px-3 pt-3'
+          : 'border-b border-pitch-soft bg-pitch',
         className
       )}
     >
       {/* Fixed-height band; the bleed logo overflows below it onto the hero. */}
-      <div className="relative mx-auto flex h-16 max-w-[1200px] items-center justify-between px-6">
+      <div
+        className={cn(
+          'relative mx-auto flex h-16 max-w-[1200px] items-center justify-between px-6',
+          'transition-[background-color,border-color,border-radius,box-shadow] duration-300 ease-out',
+          scrolled &&
+            // Glassmorphism: translucent pitch + blur, a 1px light hairline to
+            // catch the edge, and a soft drop shadow to lift it off the page.
+            // The `supports-` fallback keeps it legible where backdrop-filter is
+            // unavailable, since 55% black alone would let text show through.
+            'rounded-pill border border-white/15 bg-pitch/90 shadow-lg backdrop-blur-xl supports-[backdrop-filter]:bg-pitch/55'
+        )}
+      >
         <Link
           href="/"
           className={cn(
@@ -111,7 +127,16 @@ export function SiteNav({ links = defaultLinks, actions, className }: SiteNavPro
       </div>
 
       {open && (
-        <div className="border-t border-pitch-soft bg-pitch px-6 py-4 md:hidden">
+        <div
+          className={cn(
+            'px-6 py-4 md:hidden',
+            // Matches the band: flush and solid at rest, floating glass panel
+            // once the nav has detached from the top of the page.
+            scrolled
+              ? 'mt-2 rounded-md border border-white/15 bg-pitch/90 shadow-lg backdrop-blur-xl supports-[backdrop-filter]:bg-pitch/70'
+              : 'border-t border-pitch-soft bg-pitch'
+          )}
+        >
           <ul className="flex flex-col gap-4">
             {links.map((l) => (
               <li key={l.href}>
