@@ -2,29 +2,22 @@ import type { MoodKey } from '@/lib/api/types/mood-config'
 
 /** All valid backend mood keys. Mirrors the `MoodKey` union in mood-config.ts. */
 export const MOOD_KEYS: MoodKey[] = [
-  'CHILL',
   'ROMANCE',
-  'ADVENTURE',
-  'RESET',
+  'CHILL',
   'BASH',
   'PETS',
-  'WORK',
   'FAMILY',
+  'ADVENTURE',
+  'WORKATION',
+  'WELLNESS',
 ]
 
-/** Guest-facing labels that are not just title-cased enum keys. The backend
- * stores RESET; guests are shown "Relax". Keep this the only place that
- * override lives, so a rename never has to be chased across components. */
-const MOOD_LABEL_OVERRIDES: Partial<Record<MoodKey, string>> = {
-  RESET: 'Relax',
-}
-
 /**
- * "CHILL" → "Chill", "RESET" → "Relax". The backend sends no display name,
- * only the enum key.
+ * "ROMANCE" → "Romance", "WORKATION" → "Workation".
+ * The backend sends enum keys; guests see title case.
  */
 export const moodDisplayName = (key: MoodKey): string =>
-  MOOD_LABEL_OVERRIDES[key] ?? key.charAt(0) + key.slice(1).toLowerCase()
+  key.charAt(0) + key.slice(1).toLowerCase()
 
 /**
  * Converts a backend uppercase MoodKey to its lowercase URL/UI form.

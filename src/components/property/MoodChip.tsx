@@ -7,14 +7,14 @@ import { cn } from '@/lib/cn'
 // carries the StickerMoodCard language (black border + shadow-pop) at chip size.
 // Colour map mirrors StickerMoodCard.moodStyles / ui/Chip, keyed by backend MoodKey.
 const MOOD_STYLES: Record<MoodKey, string> = {
-  CHILL: 'bg-plasma text-pitch',
   ROMANCE: 'bg-slap-pink text-white',
-  ADVENTURE: 'bg-solar text-white',
-  RESET: 'bg-success text-white',
+  CHILL: 'bg-plasma text-pitch',
   BASH: 'bg-acid text-pitch',
   PETS: 'bg-pets text-white',
-  WORK: 'bg-hyperpurple text-white',
   FAMILY: 'bg-info text-white',
+  ADVENTURE: 'bg-solar text-white',
+  WORKATION: 'bg-hyperpurple text-white',
+  WELLNESS: 'bg-success text-white',
 }
 
 export function MoodChip({ mood, className }: { mood: MoodKey; className?: string }) {

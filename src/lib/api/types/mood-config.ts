@@ -5,22 +5,20 @@
 // Verified against the live prod response at
 // https://api.duffleup.in/api/v1/mood-config on 2026-07-19.
 
-/** Backend `Mood` Prisma enum. Uppercase — distinct from the lowercase UI
+/** Backend `Mood` enum. Uppercase — distinct from the lowercase UI
  * `Mood` union in components/ui/Chip.
  *
- * The first six mirror the live Postgres `Mood` enum exactly. `RESET` is
- * surfaced to guests as "Relax" — see `moodDisplayName` in lib/moods/normalize.
- * `WORK` and `FAMILY` are retained for forward-compatibility only: no property
- * can carry them today because the backend enum has no such values. */
+ * Mirrors the canonical 8-mood taxonomy in order:
+ * ROMANCE, CHILL, BASH, PETS, FAMILY, ADVENTURE, WORKATION, WELLNESS. */
 export type MoodKey =
-  | 'CHILL'
   | 'ROMANCE'
-  | 'ADVENTURE'
-  | 'RESET'
+  | 'CHILL'
   | 'BASH'
   | 'PETS'
-  | 'WORK'
   | 'FAMILY'
+  | 'ADVENTURE'
+  | 'WORKATION'
+  | 'WELLNESS'
 
 export interface MoodProfileConfig {
   mood: MoodKey

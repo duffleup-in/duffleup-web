@@ -17,15 +17,15 @@ export type MoodGridProps = {
 export { moodDisplayName }
 
 /**
- * Step 1 of the intent collector — the six mood tiles, reusing the home page's
+ * Step 1 of the intent collector — the eight mood tiles, reusing the home page's
  * StickerMoodCard so the modal and the home grid read as the same surface.
- * 2×3 on mobile, 3×2 from `sm` up.
+ * 2×4 on mobile, 4×2 from `sm` up.
  */
 export function MoodGrid({ moods, selected, onSelect }: MoodGridProps) {
   const ordered = [...moods].sort((a, b) => a.tileOrder - b.tileOrder)
 
   return (
-    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
       {ordered.map((profile) => (
         <StickerMoodCard
           key={profile.mood}

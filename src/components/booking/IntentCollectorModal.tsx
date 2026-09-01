@@ -97,8 +97,8 @@ export function IntentCollectorModal({
                   : 'One moment.'}
               </Dialog.Description>
               {!failed && (
-                <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
-                  {Array.from({ length: 6 }, (_, i) => (
+                <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+                  {Array.from({ length: 8 }, (_, i) => (
                     <div
                       key={i}
                       className="aspect-[4/5] animate-pulse rounded-lg bg-white/10"
