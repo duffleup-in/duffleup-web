@@ -131,4 +131,6 @@ export interface PropertySearchParams {
   page?: number
   limit?: number
   sortBy?: string
+  /** Restrict to admin-curated homepage picks (sb-admin "show on homepage"). */
+  showOnHomepage?: boolean
 }

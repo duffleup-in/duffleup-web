@@ -65,6 +65,7 @@ function toQueryString(params: PropertySearchParams): string {
   if (params.propertyType?.length)
     q.set('propertyType', params.propertyType.join(','))
   if (params.petsAllowed) q.set('petsAllowed', 'true')
+  if (params.showOnHomepage) q.set('showOnHomepage', 'true')
   if (params.area) q.set('area', params.area)
   if (params.location) q.set('location', params.location)
   if (params.page != null) q.set('page', String(params.page))
