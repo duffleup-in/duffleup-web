@@ -6,7 +6,7 @@ import { Chip, type Mood } from '@/components/ui/Chip'
 import { cn } from '@/lib/cn'
 import { HeartButton } from './HeartButton'
 
-type PlaceholderVariant = 'default' | 'chill' | 'adventure' | 'work'
+type PlaceholderVariant = 'default' | 'chill' | 'adventure' | 'workation'
 
 export type PropertyCardProps = {
   name: string
@@ -29,7 +29,7 @@ const placeholders: Record<PlaceholderVariant, string> = {
   default: 'bg-gradient-to-br from-hyperpurple to-slap-pink',
   chill: 'bg-gradient-to-br from-plasma to-hyperpurple',
   adventure: 'bg-gradient-to-br from-solar to-slap-pink',
-  work: 'bg-gradient-to-br from-pitch to-hyperpurple',
+  workation: 'bg-gradient-to-br from-pitch to-hyperpurple',
 }
 
 export function PropertyCard({

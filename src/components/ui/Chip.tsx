@@ -2,13 +2,14 @@ import * as React from 'react'
 import { cn } from '@/lib/cn'
 
 export type Mood =
-  | 'chill'
-  | 'party'
-  | 'work'
-  | 'family'
   | 'romance'
-  | 'wellness'
+  | 'chill'
+  | 'bash'
+  | 'pets'
+  | 'family'
   | 'adventure'
+  | 'workation'
+  | 'wellness'
 
 export type ChipProps = {
   mood?: Mood
@@ -17,13 +18,14 @@ export type ChipProps = {
 }
 
 const moods: Record<Mood, string> = {
-  chill: 'bg-plasma text-pitch border-transparent',
-  party: 'bg-acid text-pitch border-transparent',
-  work: 'bg-hyperpurple text-white border-transparent',
-  family: 'bg-pets text-white border-transparent',
   romance: 'bg-slap-pink text-white border-transparent',
-  wellness: 'bg-success text-white border-transparent',
+  chill: 'bg-plasma text-pitch border-transparent',
+  bash: 'bg-acid text-pitch border-transparent',
+  pets: 'bg-pets text-white border-transparent',
+  family: 'bg-warning text-pitch border-transparent',
   adventure: 'bg-solar text-white border-transparent',
+  workation: 'bg-hyperpurple text-white border-transparent',
+  wellness: 'bg-success text-white border-transparent',
 }
 
 export function Chip({ mood, className, children }: ChipProps) {

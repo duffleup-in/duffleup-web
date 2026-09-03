@@ -29,7 +29,7 @@ const featured: (PropertyCardProps & { slug: string })[] = [
     area: 'Bhandardara, MH',
     tier: 'raw',
     price: '₹5,000',
-    placeholderVariant: 'work',
+    placeholderVariant: 'workation',
     chips: [{ label: 'Wellness', mood: 'wellness' }],
   },
 ]

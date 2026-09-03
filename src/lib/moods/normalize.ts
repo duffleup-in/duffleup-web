@@ -2,13 +2,14 @@ import type { MoodKey } from '@/lib/api/types/mood-config'
 
 /** All valid backend mood keys. Mirrors the `MoodKey` union in mood-config.ts. */
 export const MOOD_KEYS: MoodKey[] = [
-  'CHILL',
-  'PARTY',
-  'WORK',
-  'FAMILY',
   'ROMANCE',
-  'WELLNESS',
+  'CHILL',
+  'BASH',
+  'PETS',
+  'FAMILY',
   'ADVENTURE',
+  'WORKATION',
+  'WELLNESS',
 ]
 
 /**

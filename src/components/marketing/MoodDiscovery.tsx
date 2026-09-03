@@ -8,13 +8,14 @@ import type { MoodKey } from '@/lib/api/types/mood-config'
 import { lowerToMoodKey } from '@/lib/moods/normalize'
 
 const moods: { mood: Mood; name: string; description: string; tag?: string }[] = [
-  { mood: 'chill', name: 'Chill', description: 'Slow mornings. Quiet evenings. The kind of quiet you forgot existed.' },
-  { mood: 'party', name: 'Party', description: 'Bring everyone. Plan nothing. The place can handle it.', tag: 'Big group' },
-  { mood: 'work', name: 'Work', description: 'Fast wifi, a good desk, and a view that beats your office.', tag: 'Workation' },
-  { mood: 'family', name: 'Family', description: 'Room for everyone. Even the loud ones with four legs.', tag: 'Kids & pets' },
   { mood: 'romance', name: 'Romance', description: 'For two. For nothing else. Bring the right person.', tag: 'For two' },
-  { mood: 'wellness', name: 'Wellness', description: 'Disappear without explaining. Come back as someone slightly better.', tag: 'Solo OK' },
+  { mood: 'chill', name: 'Chill', description: 'Slow mornings. Quiet evenings. The kind of quiet you forgot existed.' },
+  { mood: 'bash', name: 'Bash', description: 'Bring everyone. Plan nothing. The place can handle it.', tag: 'Big group' },
+  { mood: 'pets', name: 'Pets', description: 'The whole pack comes too. Four legs welcome.', tag: 'Pet-friendly' },
+  { mood: 'family', name: 'Family', description: 'Room for everyone. Even the loud little ones.', tag: 'Kids OK' },
   { mood: 'adventure', name: 'Adventure', description: 'Wake up where the trail starts. Sleep where the campfire ends.' },
+  { mood: 'workation', name: 'Workation', description: 'Fast wifi, a good desk, and a view that beats your office.', tag: 'Long stay' },
+  { mood: 'wellness', name: 'Wellness', description: 'Disappear without explaining. Come back as someone slightly better.', tag: 'Solo OK' },
 ]
 
 export function MoodDiscovery() {

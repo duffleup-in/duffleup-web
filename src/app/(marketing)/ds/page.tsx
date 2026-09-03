@@ -41,13 +41,14 @@ function Section({
 }
 
 const moods = [
-  { mood: 'chill' as const, name: 'Chill', description: 'Slow mornings. Quiet evenings. The kind of quiet you forgot existed.' },
-  { mood: 'party' as const, name: 'Party', description: 'Bring everyone. Plan nothing. The place can handle it.', tag: 'Big group' },
-  { mood: 'work' as const, name: 'Work', description: 'Fast wifi, a good desk, and a view that beats your office.', tag: 'Workation' },
-  { mood: 'family' as const, name: 'Family', description: 'Room for everyone. Even the loud ones with four legs.', tag: 'Kids & pets' },
   { mood: 'romance' as const, name: 'Romance', description: 'For two. For nothing else. Bring the right person.', tag: 'For two' },
-  { mood: 'wellness' as const, name: 'Wellness', description: 'Disappear without explaining. Come back as someone slightly better.', tag: 'Solo OK' },
+  { mood: 'chill' as const, name: 'Chill', description: 'Slow mornings. Quiet evenings. The kind of quiet you forgot existed.' },
+  { mood: 'bash' as const, name: 'Bash', description: 'Bring everyone. Plan nothing. The place can handle it.', tag: 'Big group' },
+  { mood: 'pets' as const, name: 'Pets', description: 'The whole pack comes too. Four legs welcome.', tag: 'Pet-friendly' },
+  { mood: 'family' as const, name: 'Family', description: 'Room for everyone. Even the loud little ones.', tag: 'Kids OK' },
   { mood: 'adventure' as const, name: 'Adventure', description: 'Wake up where the trail starts. Sleep where the campfire ends.' },
+  { mood: 'workation' as const, name: 'Workation', description: 'Fast wifi, a good desk, and a view that beats your office.', tag: 'Long stay' },
+  { mood: 'wellness' as const, name: 'Wellness', description: 'Disappear without explaining. Come back as someone slightly better.', tag: 'Solo OK' },
 ]
 
 export default function DesignSystemPage() {
@@ -154,13 +155,14 @@ export default function DesignSystemPage() {
             <Badge tier="rare" />
           </div>
           <div className="flex flex-wrap items-center gap-2 rounded-sm border border-line bg-white p-6">
-            <Chip mood="chill">Chill</Chip>
-            <Chip mood="party">Party</Chip>
-            <Chip mood="work">Work</Chip>
-            <Chip mood="family">Family</Chip>
             <Chip mood="romance">Romance</Chip>
-            <Chip mood="wellness">Wellness</Chip>
+            <Chip mood="chill">Chill</Chip>
+            <Chip mood="bash">Bash</Chip>
+            <Chip mood="pets">Pets</Chip>
+            <Chip mood="family">Family</Chip>
             <Chip mood="adventure">Adventure</Chip>
+            <Chip mood="workation">Workation</Chip>
+            <Chip mood="wellness">Wellness</Chip>
             <Chip>Neutral</Chip>
           </div>
         </div>
@@ -207,7 +209,7 @@ export default function DesignSystemPage() {
             area="Bhandardara, MH"
             tier="raw"
             price="₹5,000"
-            placeholderVariant="work"
+            placeholderVariant="workation"
             chips={[{ label: 'Wellness', mood: 'wellness' }]}
           />
         </div>

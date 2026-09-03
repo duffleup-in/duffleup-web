@@ -8,13 +8,14 @@
 /** Backend `Mood` Prisma enum. Uppercase — distinct from the lowercase UI
  * `Mood` union in components/ui/Chip. */
 export type MoodKey =
-  | 'CHILL'
-  | 'PARTY'
-  | 'WORK'
-  | 'FAMILY'
   | 'ROMANCE'
-  | 'WELLNESS'
+  | 'CHILL'
+  | 'BASH'
+  | 'PETS'
+  | 'FAMILY'
   | 'ADVENTURE'
+  | 'WORKATION'
+  | 'WELLNESS'
 
 export interface MoodProfileConfig {
   mood: MoodKey
