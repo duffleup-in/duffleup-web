@@ -9,6 +9,14 @@ vi.mock('@/lib/api', async () => {
   return { ...actual, getProperties: vi.fn() }
 })
 
+// PropertiesFilters uses useRouter/useSearchParams which require the Next.js
+// app router context — stub them out for the unit test environment.
+vi.mock('next/navigation', () => ({
+  useRouter: () => ({ push: vi.fn(), replace: vi.fn(), prefetch: vi.fn() }),
+  useSearchParams: () => new URLSearchParams(),
+  usePathname: () => '/properties',
+}))
+
 import PropertiesPage from './page'
 import { getProperties } from '@/lib/api'
 
