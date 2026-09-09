@@ -3,11 +3,11 @@
 import { Suspense, useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
-import { CheckCircle2, ChevronLeft, Loader2, MapPin } from 'lucide-react'
+import { AlertCircle, CheckCircle2, ChevronLeft, Loader2, MapPin } from 'lucide-react'
 import { useAuth } from '@/lib/auth/AuthProvider'
 import { getAccessToken } from '@/lib/auth/storage'
 import { getPropertyBySlug } from '@/lib/api/properties'
-import { getQuote, createBooking } from '@/lib/api/bookings'
+import { getQuote, createBooking, initiatePayment } from '@/lib/api/bookings'
 import type { QuoteResponse, BookingResponse } from '@/lib/api/bookings'
 import type { PropertyDetail, PublicUnit } from '@/lib/api/types/property'
 import { ApiError } from '@/lib/api/client'
@@ -132,7 +132,7 @@ function validateForm(values: FormValues): FormErrors {
 }
 
 // ---------------------------------------------------------------------------
-// Confirmed state
+// Confirmed / payment-initiating state
 // ---------------------------------------------------------------------------
 
 function BookingConfirmed({ booking, checkIn, checkOut }: {
@@ -156,6 +156,65 @@ function BookingConfirmed({ booking, checkIn, checkOut }: {
         <Loader2 size={16} className="animate-spin" />
         <span>Setting up your payment…</span>
       </div>
+    </div>
+  )
+}
+
+// ---------------------------------------------------------------------------
+// Payment error state
+// ---------------------------------------------------------------------------
+
+function PaymentError({
+  booking,
+  onRetry,
+  retrying,
+}: {
+  booking: BookingResponse
+  onRetry: () => void
+  retrying: boolean
+}) {
+  return (
+    <div className="flex min-h-[60vh] flex-col items-center justify-center py-16 text-center">
+      <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-danger-bg">
+        <AlertCircle size={36} className="text-danger" />
+      </div>
+      <h1 className="font-display text-h5">Payment could not be initiated</h1>
+      <p className="mt-2 text-[16px] text-pitch-soft">
+        Your booking is confirmed — don&apos;t worry, it&apos;s saved.
+      </p>
+      <p className="mt-1 text-[16px] text-pitch-soft">
+        Booking ref:{' '}
+        <span className="font-utility text-subh tracking-[0.05em]">{booking.ref}</span>
+      </p>
+      <p className="mt-6 max-w-[420px] text-[14px] text-pitch-soft leading-relaxed">
+        We couldn&apos;t connect to the payment provider. You can retry below, or reach
+        out and we&apos;ll sort it out for you.
+      </p>
+      <Button
+        variant="primary"
+        size="md"
+        className="mt-8"
+        onClick={onRetry}
+        disabled={retrying}
+      >
+        {retrying ? (
+          <span className="flex items-center gap-2">
+            <Loader2 size={16} className="animate-spin" />
+            Retrying…
+          </span>
+        ) : (
+          'Retry Payment'
+        )}
+      </Button>
+      <p className="mt-4 text-[13px] text-pitch-soft">
+        Need help?{' '}
+        <a
+          href="mailto:support@duffleup.in"
+          className="underline hover:text-hyperpurple"
+        >
+          support@duffleup.in
+        </a>
+      </p>
     </div>
   )
 }
@@ -200,6 +259,10 @@ function BookPageInner() {
   const [submitLoading, setSubmitLoading] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
   const [confirmedBooking, setConfirmedBooking] = useState<BookingResponse | null>(null)
+
+  // Payment state
+  const [paymentError, setPaymentError] = useState(false)
+  const [paymentRetrying, setPaymentRetrying] = useState(false)
 
   // Prefill form from auth user
   useEffect(() => {
@@ -251,6 +314,24 @@ function BookPageInner() {
   useEffect(() => {
     fetchQuote()
   }, [fetchQuote])
+
+  // Trigger payment initiation once booking is confirmed
+  const triggerPayment = useCallback(async (booking: BookingResponse) => {
+    const token = getAccessToken()
+    if (!token) return
+    try {
+      const result = await initiatePayment(booking.id, token)
+      window.location.href = result.redirectUrl
+    } catch {
+      setPaymentError(true)
+      setPaymentRetrying(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!confirmedBooking) return
+    triggerPayment(confirmedBooking)
+  }, [confirmedBooking, triggerPayment])
 
   // Derived
   const selectedUnit: PublicUnit | null =
@@ -372,10 +453,26 @@ function BookPageInner() {
   }
 
   // --------------------------
-  // Confirmed state
+  // Confirmed / payment states
   // --------------------------
 
   if (confirmedBooking) {
+    if (paymentError) {
+      return (
+        <main className="mx-auto max-w-[900px] px-6 py-8">
+          <PaymentError
+            booking={confirmedBooking}
+            retrying={paymentRetrying}
+            onRetry={() => {
+              setPaymentError(false)
+              setPaymentRetrying(true)
+              triggerPayment(confirmedBooking)
+            }}
+          />
+        </main>
+      )
+    }
+
     return (
       <main className="mx-auto max-w-[900px] px-6 py-8">
         <BookingConfirmed
