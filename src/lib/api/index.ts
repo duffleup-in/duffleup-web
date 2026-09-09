@@ -4,11 +4,13 @@ export {
   createBooking,
   getBooking,
   getBookingConfirmation,
+  initiatePayment,
   type QuoteRequest,
   type QuoteResponse,
   type CreateBookingRequest,
   type BookingResponse,
   type BookingConfirmation,
+  type InitiatePaymentResponse,
 } from './bookings'
 
 export { apiFetch, apiMutate, ApiError } from './client'

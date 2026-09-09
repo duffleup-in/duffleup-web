@@ -125,3 +125,22 @@ export function getBookingConfirmation(
     authToken ? { authToken, cache: 'no-store' } : { cache: 'no-store' }
   )
 }
+
+// ---------------------------------------------------------------------------
+// Initiate payment
+// ---------------------------------------------------------------------------
+
+export interface InitiatePaymentResponse {
+  redirectUrl: string
+  transactionId: string
+}
+
+export function initiatePayment(
+  bookingId: string,
+  authToken: string
+): Promise<InitiatePaymentResponse> {
+  return apiMutate<InitiatePaymentResponse>(
+    `/bookings/${bookingId}/payment/initiate`,
+    { authToken, body: {} }
+  )
+}
