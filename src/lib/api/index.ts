@@ -3,7 +3,6 @@ export {
   getQuote,
   createBooking,
   getBooking,
-<<<<<<< HEAD
   getBookingConfirmation,
   type QuoteRequest,
   type QuoteResponse,
