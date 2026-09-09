@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import {
   getProperties,
   mapIntentParamsToSearch,
@@ -7,6 +8,7 @@ import {
 import type { PublicProperty } from '@/lib/api/types/property'
 import { PageHero } from '@/components/marketing/PageHero'
 import { PropertiesResults } from './PropertiesResults'
+import { PropertiesFilters } from './PropertiesFilters'
 
 export const metadata: Metadata = {
   title: 'Stays — Duffleup',
@@ -69,6 +71,11 @@ export default async function PropertiesPage({
         subtitle="Every property is visited before it goes live."
       />
       <section className="mx-auto max-w-[1200px] px-6 py-12">
+        {/* PropertiesFilters uses useSearchParams() which requires a Suspense
+            boundary in the Server Component tree (Next.js 14+ requirement). */}
+        <Suspense>
+          <PropertiesFilters intent={intent} />
+        </Suspense>
         <PropertiesResults properties={properties} error={error} />
       </section>
     </>
