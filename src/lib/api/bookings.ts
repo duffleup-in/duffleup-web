@@ -99,6 +99,7 @@ export interface BookingConfirmation {
   currency?: string
 }
 
+
 export function createBooking(
   data: CreateBookingRequest,
   authToken: string
