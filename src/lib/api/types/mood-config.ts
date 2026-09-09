@@ -6,16 +6,12 @@
 // https://api.duffleup.in/api/v1/mood-config on 2026-07-19.
 
 /** Backend `Mood` Prisma enum. Uppercase — distinct from the lowercase UI
- * `Mood` union in components/ui/Chip. */
-export type MoodKey =
-  | 'ROMANCE'
-  | 'CHILL'
-  | 'BASH'
-  | 'PETS'
-  | 'FAMILY'
-  | 'ADVENTURE'
-  | 'WORKATION'
-  | 'WELLNESS'
+ * `Mood` union in components/ui/Chip.
+ *
+ * Widened to `string` so the client handles moods added on the backend without
+ * a frontend deploy. Validation against known values lives at the API/backend
+ * level, not here. */
+export type MoodKey = string
 
 export interface MoodProfileConfig {
   mood: MoodKey

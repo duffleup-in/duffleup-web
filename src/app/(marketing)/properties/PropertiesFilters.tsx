@@ -5,12 +5,13 @@ import { useCallback } from 'react'
 import { X, Minus, Plus } from 'lucide-react'
 import { cn } from '@/lib/cn'
 import type { IntentSearchParams } from '@/lib/api'
-import type { MoodKey } from '@/lib/api/types/mood-config'
-import { MOOD_KEYS, moodKeyToLower } from '@/lib/moods/normalize'
+import type { MoodKey, MoodProfileConfig } from '@/lib/api/types/mood-config'
+import { moodKeyToLower } from '@/lib/moods/normalize'
 import type { Mood } from '@/components/ui/Chip'
 
-// Mood emoji map for compact display
-const MOOD_EMOJI: Record<MoodKey, string> = {
+// Mood emoji map for compact display — covers the known 8 moods; unknown moods
+// from future backend additions fall back to a neutral sparkle.
+const MOOD_EMOJI: Record<string, string> = {
   ROMANCE: '💕',
   CHILL: '🌊',
   BASH: '🎉',
@@ -36,6 +37,7 @@ const MOOD_ACTIVE_CLASS: Record<Mood, string> = {
 
 export type PropertiesFiltersProps = {
   intent: IntentSearchParams
+  moodProfiles: MoodProfileConfig[]
 }
 
 /**
@@ -44,7 +46,7 @@ export type PropertiesFiltersProps = {
  * via `router.push` so the page re-renders with fresh results without a full
  * navigation.
  */
-export function PropertiesFilters({ intent }: PropertiesFiltersProps) {
+export function PropertiesFilters({ intent, moodProfiles }: PropertiesFiltersProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -167,12 +169,13 @@ export function PropertiesFilters({ intent }: PropertiesFiltersProps) {
           Mood
         </span>
         <div className="flex flex-wrap gap-1.5">
-          {MOOD_KEYS.map((key) => {
-            const lowerMood = moodKeyToLower(key) as Mood
-            const isActive = currentMood === key
+          {moodProfiles.map((p) => {
+            const lowerMood = moodKeyToLower(p.mood) as Mood
+            const isActive = currentMood === p.mood
+            const activeCls = MOOD_ACTIVE_CLASS[lowerMood] ?? 'bg-gray-600 text-white border-gray-600'
             return (
               <button
-                key={key}
+                key={p.mood}
                 type="button"
                 aria-pressed={isActive}
                 onClick={() =>
@@ -181,12 +184,12 @@ export function PropertiesFilters({ intent }: PropertiesFiltersProps) {
                 className={cn(
                   'flex h-9 items-center gap-1 rounded-pill border px-3 font-utility text-caption uppercase tracking-[0.08em] transition-all duration-150',
                   isActive
-                    ? MOOD_ACTIVE_CLASS[lowerMood]
+                    ? activeCls
                     : 'border-line bg-sterling text-pitch hover:border-line-strong'
                 )}
               >
-                <span aria-hidden="true">{MOOD_EMOJI[key]}</span>
-                {key.charAt(0) + key.slice(1).toLowerCase()}
+                <span aria-hidden="true">{MOOD_EMOJI[p.mood] ?? '✨'}</span>
+                {p.mood.charAt(0) + p.mood.slice(1).toLowerCase()}
               </button>
             )
           })}

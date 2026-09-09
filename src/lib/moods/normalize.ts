@@ -1,6 +1,10 @@
 import type { MoodKey } from '@/lib/api/types/mood-config'
 
-/** All valid backend mood keys. Mirrors the `MoodKey` union in mood-config.ts. */
+/**
+ * @deprecated No longer the source of truth. Moods are now fetched dynamically
+ * from GET /api/v1/mood-config. This array is kept only for reference and will
+ * be removed in a future cleanup.
+ */
 export const MOOD_KEYS: MoodKey[] = [
   'ROMANCE',
   'CHILL',
@@ -20,12 +24,6 @@ export const moodKeyToLower = (key: MoodKey): string => key.toLowerCase()
 
 /**
  * Converts a lowercase URL/UI mood string back to a backend MoodKey.
- * Throws if the input isn't a valid MoodKey.
+ * Validation against known moods belongs at the API/backend level, not here.
  */
-export const lowerToMoodKey = (lower: string): MoodKey => {
-  const upper = lower.toUpperCase() as MoodKey
-  if (!MOOD_KEYS.includes(upper)) {
-    throw new Error(`Invalid mood key: ${lower}`)
-  }
-  return upper
-}
+export const lowerToMoodKey = (lower: string): MoodKey => lower.toUpperCase()
