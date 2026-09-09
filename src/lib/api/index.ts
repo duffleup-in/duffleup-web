@@ -1,4 +1,15 @@
 // Public surface of the API client. Import from '@/lib/api'.
+export {
+  getQuote,
+  createBooking,
+  getBooking,
+  getBookingConfirmation,
+  type QuoteRequest,
+  type QuoteResponse,
+  type CreateBookingRequest,
+  type BookingResponse,
+  type BookingConfirmation,
+} from './bookings'
 
 export { apiFetch, apiMutate, ApiError } from './client'
 export type { ApiRequestOptions } from './client'
