@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Suspense } from 'react'
 import {
   getProperties,
+  getMoodConfig,
   mapIntentParamsToSearch,
   type IntentSearchParams,
 } from '@/lib/api'
@@ -50,16 +51,18 @@ export default async function PropertiesPage({
 
   let properties: PublicProperty[] = []
   let error = false
-  try {
-    const res = await getProperties(mapIntentParamsToSearch(intent))
-    // Guard the envelope: an unexpected shape (e.g. a backend still on the old
-    // {results} contract) must surface as an error, never crash rendering.
-    if (Array.isArray(res?.data)) {
-      properties = res.data
-    } else {
-      error = true
-    }
-  } catch {
+  const [propertiesResult, moodConfig] = await Promise.all([
+    getProperties(mapIntentParamsToSearch(intent)).catch(() => null),
+    getMoodConfig().catch(() => ({ moodProfiles: [], moodContexts: [] })),
+  ])
+
+  // Guard the envelope: an unexpected shape (e.g. a backend still on the old
+  // {results} contract) must surface as an error, never crash rendering.
+  if (propertiesResult === null) {
+    error = true
+  } else if (Array.isArray(propertiesResult?.data)) {
+    properties = propertiesResult.data
+  } else {
     error = true
   }
 
@@ -74,7 +77,7 @@ export default async function PropertiesPage({
         {/* PropertiesFilters uses useSearchParams() which requires a Suspense
             boundary in the Server Component tree (Next.js 14+ requirement). */}
         <Suspense>
-          <PropertiesFilters intent={intent} />
+          <PropertiesFilters intent={intent} moodProfiles={moodConfig.moodProfiles} />
         </Suspense>
         <PropertiesResults properties={properties} error={error} />
       </section>

@@ -6,7 +6,11 @@ import type { PublicProperty } from '@/lib/api/types/property'
 // (the real fetch + param mapping is covered in properties.test.ts).
 vi.mock('@/lib/api', async () => {
   const actual = await vi.importActual<typeof import('@/lib/api')>('@/lib/api')
-  return { ...actual, getProperties: vi.fn() }
+  return {
+    ...actual,
+    getProperties: vi.fn(),
+    getMoodConfig: vi.fn().mockResolvedValue({ moodProfiles: [], moodContexts: [] }),
+  }
 })
 
 // PropertiesFilters uses useRouter/useSearchParams which require the Next.js

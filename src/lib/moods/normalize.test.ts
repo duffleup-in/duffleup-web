@@ -8,11 +8,11 @@ describe('moodKeyToLower', () => {
 })
 
 describe('lowerToMoodKey', () => {
-  it('uppercases a valid lowercase mood string', () => {
+  it('uppercases a lowercase mood string', () => {
     expect(lowerToMoodKey('chill')).toBe('CHILL')
   })
 
-  it('throws on an invalid mood string', () => {
-    expect(() => lowerToMoodKey('invalid')).toThrow(/invalid mood key/i)
+  it('returns uppercase for any string — no longer throws on unknown moods', () => {
+    expect(lowerToMoodKey('invalid')).toBe('INVALID')
   })
 })
