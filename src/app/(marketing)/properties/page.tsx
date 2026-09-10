@@ -56,7 +56,7 @@ export default async function PropertiesPage({
 
   const [propertiesResult, moodConfig] = await Promise.all([
     getProperties(mapIntentParamsToSearch(intent)).catch(() => null),
-    getMoodConfig({ cache: 'force-cache', next: { revalidate: 300 } }).catch(() => ({ moodProfiles: [], moodContexts: [] })),
+    getMoodConfig({ cache: 'no-store' }).catch(() => ({ moodProfiles: [], moodContexts: [] })),
   ])
 
   // Guard the envelope: an unexpected shape (e.g. a backend still on the old

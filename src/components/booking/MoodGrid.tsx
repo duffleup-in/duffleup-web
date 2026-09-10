@@ -12,9 +12,8 @@ export type MoodGridProps = {
   onSelect: (mood: MoodKey) => void
 }
 
-/** Returns the profile's display name, falling back to title-casing the key. */
-export const moodDisplayName = (key: MoodKey, displayName?: string): string =>
-  displayName || (key.charAt(0) + key.slice(1).toLowerCase())
+export const moodDisplayName = (_key: MoodKey, displayName?: string): string =>
+  displayName ?? ''
 
 /**
  * Step 1 of the intent collector — the six mood tiles, reusing the home page's

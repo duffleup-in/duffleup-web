@@ -48,7 +48,7 @@ function unitMoods(
   return moodProfiles
     .filter((p) => set.has(p.mood))
     .sort((a, b) => a.tileOrder - b.tileOrder)
-    .map((p) => ({ mood: p.mood, displayName: p.displayName || undefined }))
+    .map((p) => ({ mood: p.mood, displayName: p.displayName }))
 }
 
 /** Gathers property photos first, then each unit's photos, de-duplicated. */
