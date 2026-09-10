@@ -15,6 +15,7 @@ export type MoodKey = string
 
 export interface MoodProfileConfig {
   mood: MoodKey
+  displayName: string
   calloutText: string
   heroImageUrl: string | null
   featuredPropertyId: string | null

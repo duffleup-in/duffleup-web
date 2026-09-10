@@ -7,24 +7,10 @@ import { cn } from '@/lib/cn'
 import type { IntentSearchParams } from '@/lib/api'
 import type { MoodKey, MoodProfileConfig } from '@/lib/api/types/mood-config'
 import { moodKeyToLower } from '@/lib/moods/normalize'
-import type { Mood } from '@/components/ui/Chip'
-
-// Mood emoji map for compact display — covers the known 8 moods; unknown moods
-// from future backend additions fall back to a neutral sparkle.
-const MOOD_EMOJI: Record<string, string> = {
-  ROMANCE: '💕',
-  CHILL: '🌊',
-  BASH: '🎉',
-  PETS: '🐾',
-  FAMILY: '👨‍👩‍👧',
-  ADVENTURE: '🏔️',
-  WORKATION: '💻',
-  WELLNESS: '🧘',
-}
 
 // Mood chip colours — mirrors Chip.tsx moods but applied inline so we can
 // support active vs inactive states without a separate component.
-const MOOD_ACTIVE_CLASS: Record<Mood, string> = {
+const MOOD_ACTIVE_CLASS: Record<string, string> = {
   romance: 'bg-slap-pink text-white border-slap-pink',
   chill: 'bg-plasma text-pitch border-plasma',
   bash: 'bg-acid text-pitch border-acid',
@@ -34,6 +20,8 @@ const MOOD_ACTIVE_CLASS: Record<Mood, string> = {
   workation: 'bg-hyperpurple text-white border-hyperpurple',
   wellness: 'bg-success text-white border-success',
 }
+
+const DEFAULT_ACTIVE_CLASS = 'bg-pitch text-white border-pitch'
 
 export type PropertiesFiltersProps = {
   intent: IntentSearchParams
@@ -164,37 +152,39 @@ export function PropertiesFilters({ intent, moodProfiles }: PropertiesFiltersPro
       <div className="hidden h-9 w-px self-end bg-line sm:block" />
 
       {/* Mood chips */}
-      <div className="flex flex-col gap-1">
-        <span className="font-utility text-caption uppercase tracking-[0.1em] text-pitch-soft">
-          Mood
-        </span>
-        <div className="flex flex-wrap gap-1.5">
-          {moodProfiles.map((p) => {
-            const lowerMood = moodKeyToLower(p.mood) as Mood
-            const isActive = currentMood === p.mood
-            const activeCls = MOOD_ACTIVE_CLASS[lowerMood] ?? 'bg-gray-600 text-white border-gray-600'
-            return (
-              <button
-                key={p.mood}
-                type="button"
-                aria-pressed={isActive}
-                onClick={() =>
-                  pushParams({ mood: isActive ? undefined : lowerMood })
-                }
-                className={cn(
-                  'flex h-9 items-center gap-1 rounded-pill border px-3 font-utility text-caption uppercase tracking-[0.08em] transition-all duration-150',
-                  isActive
-                    ? activeCls
-                    : 'border-line bg-sterling text-pitch hover:border-line-strong'
-                )}
-              >
-                <span aria-hidden="true">{MOOD_EMOJI[p.mood] ?? '✨'}</span>
-                {p.mood.charAt(0) + p.mood.slice(1).toLowerCase()}
-              </button>
-            )
-          })}
+      {moodProfiles.length > 0 && (
+        <div className="flex flex-col gap-1">
+          <span className="font-utility text-caption uppercase tracking-[0.1em] text-pitch-soft">
+            Mood
+          </span>
+          <div className="flex flex-wrap gap-1.5">
+            {[...moodProfiles].sort((a, b) => a.tileOrder - b.tileOrder).map((profile) => {
+              const lowerMood = moodKeyToLower(profile.mood)
+              const isActive = currentMood === profile.mood
+              const activeClass = MOOD_ACTIVE_CLASS[lowerMood] ?? DEFAULT_ACTIVE_CLASS
+              const label = profile.displayName || (profile.mood.charAt(0) + profile.mood.slice(1).toLowerCase())
+              return (
+                <button
+                  key={profile.mood}
+                  type="button"
+                  aria-pressed={isActive}
+                  onClick={() =>
+                    pushParams({ mood: isActive ? undefined : lowerMood })
+                  }
+                  className={cn(
+                    'flex h-9 items-center rounded-pill border px-3 font-utility text-caption uppercase tracking-[0.08em] transition-all duration-150',
+                    isActive
+                      ? activeClass
+                      : 'border-line bg-sterling text-pitch hover:border-line-strong'
+                  )}
+                >
+                  {label}
+                </button>
+              )
+            })}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Clear button — only shown when there's something to clear */}
       {hasFilters && (

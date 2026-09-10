@@ -12,9 +12,9 @@ export type MoodGridProps = {
   onSelect: (mood: MoodKey) => void
 }
 
-/** "CHILL" → "Chill". The backend sends no display name, only the enum key. */
-export const moodDisplayName = (key: MoodKey): string =>
-  key.charAt(0) + key.slice(1).toLowerCase()
+/** Returns the profile's display name, falling back to title-casing the key. */
+export const moodDisplayName = (key: MoodKey, displayName?: string): string =>
+  displayName || (key.charAt(0) + key.slice(1).toLowerCase())
 
 /**
  * Step 1 of the intent collector — the six mood tiles, reusing the home page's
@@ -30,7 +30,7 @@ export function MoodGrid({ moods, selected, onSelect }: MoodGridProps) {
         <StickerMoodCard
           key={profile.mood}
           mood={moodKeyToLower(profile.mood) as Mood}
-          name={moodDisplayName(profile.mood)}
+          name={moodDisplayName(profile.mood, profile.displayName)}
           description={profile.calloutText}
           cta="Pick this →"
           onClick={() => onSelect(profile.mood)}

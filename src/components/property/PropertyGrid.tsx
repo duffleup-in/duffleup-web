@@ -1,9 +1,11 @@
 import type { PublicProperty } from '@/lib/api/types/property'
+import type { MoodProfileConfig } from '@/lib/api/types/mood-config'
 import { PropertyCard } from './PropertyCard'
 import { PropertyCardSkeleton } from './PropertyCardSkeleton'
 
 export type PropertyGridProps = {
   properties: PublicProperty[]
+  moodProfiles?: MoodProfileConfig[]
   isLoading?: boolean
 }
 
@@ -15,7 +17,7 @@ const GRID = 'grid grid-cols-1 gap-6 md:grid-cols-2'
 // hide the last two below md so the mobile stack shows exactly two.
 const SKELETON_COUNT = 4
 
-export function PropertyGrid({ properties, isLoading = false }: PropertyGridProps) {
+export function PropertyGrid({ properties, moodProfiles, isLoading = false }: PropertyGridProps) {
   if (isLoading) {
     return (
       <div className={GRID}>
@@ -36,7 +38,7 @@ export function PropertyGrid({ properties, isLoading = false }: PropertyGridProp
   return (
     <div className={GRID}>
       {visible.map((property) => (
-        <PropertyCard key={property.id} property={property} />
+        <PropertyCard key={property.id} property={property} moodProfiles={moodProfiles} />
       ))}
     </div>
   )

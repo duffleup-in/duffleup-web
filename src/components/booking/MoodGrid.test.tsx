@@ -8,6 +8,7 @@ const KEYS: MoodKey[] = ['ROMANCE', 'CHILL', 'BASH', 'PETS', 'FAMILY', 'ADVENTUR
 
 const profiles: MoodProfileConfig[] = KEYS.map((mood, i) => ({
   mood,
+  displayName: mood.charAt(0) + mood.slice(1).toLowerCase(),
   calloutText: `${mood} callout`,
   heroImageUrl: null,
   featuredPropertyId: null,
