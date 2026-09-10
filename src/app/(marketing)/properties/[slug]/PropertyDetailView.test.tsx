@@ -4,15 +4,31 @@ import userEvent from '@testing-library/user-event'
 import { PropertyDetailView } from './PropertyDetailView'
 import { mockProperty, mockUnit } from '@/components/property/test-fixtures'
 import type { PropertyDetail } from '@/lib/api/types/property'
+import type { MoodProfileConfig } from '@/lib/api/types/mood-config'
 
 const detail = (over: Partial<PropertyDetail> = {}): PropertyDetail =>
   ({ ...mockProperty(), ...over } as PropertyDetail)
+
+const NO_MOODS: MoodProfileConfig[] = []
+
+const ALL_MOODS: MoodProfileConfig[] = [
+  'ROMANCE', 'CHILL', 'BASH', 'PETS', 'FAMILY', 'ADVENTURE', 'WORKATION', 'WELLNESS',
+].map((mood, i) => ({
+  mood,
+  displayName: mood.charAt(0) + mood.slice(1).toLowerCase(),
+  calloutText: '',
+  heroImageUrl: null,
+  featuredPropertyId: null,
+  tileOrder: i + 1,
+  contextCopy: '',
+}))
 
 describe('PropertyDetailView', () => {
   it('renders the property name, location, and amenities', () => {
     render(
       <PropertyDetailView
         property={detail({ amenities: ['Wifi', 'Pool'], area: 'Lonavala', state: 'MH' })}
+        moodProfiles={NO_MOODS}
       />
     )
     expect(screen.getByRole('heading', { name: 'Fog & Pine', level: 1 })).toBeInTheDocument()
@@ -30,6 +46,7 @@ describe('PropertyDetailView', () => {
             mockUnit({ id: 'u2', name: 'Loft', currentRate: 6200 }),
           ],
         })}
+        moodProfiles={NO_MOODS}
       />
     )
 
@@ -44,6 +61,7 @@ describe('PropertyDetailView', () => {
     render(
       <PropertyDetailView
         property={detail({ slug: 'fog-and-pine', units: [mockUnit({ id: 'u9' })] })}
+        moodProfiles={NO_MOODS}
       />
     )
     const cta = screen.getByRole('link', { name: /book now/i })
@@ -54,6 +72,7 @@ describe('PropertyDetailView', () => {
     render(
       <PropertyDetailView
         property={detail({ units: [mockUnit({ moods: ['CHILL', 'ADVENTURE'] })] })}
+        moodProfiles={ALL_MOODS}
       />
     )
     // Chips appear both in the header and on the unit card; assert presence.
@@ -62,7 +81,7 @@ describe('PropertyDetailView', () => {
   })
 
   it('shows a photos-coming placeholder when there are no images', () => {
-    render(<PropertyDetailView property={detail({ photos: [], coverPhoto: null })} />)
+    render(<PropertyDetailView property={detail({ photos: [], coverPhoto: null })} moodProfiles={NO_MOODS} />)
     expect(screen.getByText(/photos coming/i)).toBeInTheDocument()
   })
 })

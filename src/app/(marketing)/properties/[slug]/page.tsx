@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { getPropertyBySlug } from '@/lib/api'
+import { getPropertyBySlug, getMoodConfig } from '@/lib/api'
 import { ApiError } from '@/lib/api/client'
 import type { PropertyDetail } from '@/lib/api/types/property'
 import { PageHero } from '@/components/marketing/PageHero'
@@ -66,7 +66,10 @@ export default async function PropertyDetailPage({
 }: {
   params: Params
 }) {
-  const result = await loadProperty(params.slug)
+  const [result, moodConfig] = await Promise.all([
+    loadProperty(params.slug),
+    getMoodConfig({ cache: 'force-cache', next: { revalidate: 300 } }).catch(() => ({ moodProfiles: [] })),
+  ])
 
   if (result.status === 'not-found') {
     notFound()
@@ -82,5 +85,10 @@ export default async function PropertyDetailPage({
     )
   }
 
-  return <PropertyDetailView property={result.property} />
+  return (
+    <PropertyDetailView
+      property={result.property}
+      moodProfiles={moodConfig.moodProfiles ?? []}
+    />
+  )
 }

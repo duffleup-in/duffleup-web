@@ -7,21 +7,9 @@ import { ChevronLeft, ChevronRight, MapPin, Users } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { MoodChip } from '@/components/property/MoodChip'
-import type { MoodKey } from '@/lib/api/types/mood-config'
+import type { MoodProfileConfig } from '@/lib/api/types/mood-config'
 import type { PropertyDetail, PublicUnit } from '@/lib/api/types/property'
 import { cn } from '@/lib/cn'
-
-/** Stable chip order, mirroring PropertyCard.MOOD_ORDER / the home mood grid. */
-const MOOD_ORDER: MoodKey[] = [
-  'ROMANCE',
-  'CHILL',
-  'BASH',
-  'PETS',
-  'FAMILY',
-  'ADVENTURE',
-  'WORKATION',
-  'WELLNESS',
-]
 
 /** Backend tier enum → Badge's lowercase tier. */
 function tierProp(tier: string): 'raw' | 'real' | 'rare' | null {
@@ -50,11 +38,17 @@ function rupees(amount: number): string {
   return `₹${amount.toLocaleString('en-IN')}`
 }
 
-/** Union of every unit's moods, in the canonical chip order. */
-function unitMoods(units: PublicUnit[]): MoodKey[] {
-  const set = new Set<MoodKey>()
+/** Union of every unit's moods, ordered by tileOrder. */
+function unitMoods(
+  units: PublicUnit[],
+  moodProfiles: MoodProfileConfig[]
+): { mood: string; displayName?: string }[] {
+  const set = new Set<string>()
   for (const unit of units) for (const m of unit.moods) set.add(m)
-  return MOOD_ORDER.filter((m) => set.has(m))
+  return moodProfiles
+    .filter((p) => set.has(p.mood))
+    .sort((a, b) => a.tileOrder - b.tileOrder)
+    .map((p) => ({ mood: p.mood, displayName: p.displayName || undefined }))
 }
 
 /** Gathers property photos first, then each unit's photos, de-duplicated. */
@@ -176,14 +170,18 @@ function Gallery({ photos, name }: { photos: string[]; name: string }) {
 
 function UnitCard({
   unit,
+  moodProfiles,
   selected,
   onSelect,
 }: {
   unit: PublicUnit
+  moodProfiles: MoodProfileConfig[]
   selected: boolean
   onSelect: () => void
 }) {
-  const moods = MOOD_ORDER.filter((m) => unit.moods.includes(m))
+  const moods = moodProfiles
+    .filter((p) => unit.moods.includes(p.mood))
+    .sort((a, b) => a.tileOrder - b.tileOrder)
   const bookable = unit.hasActiveRates && unit.currentRate !== null
 
   return (
@@ -233,8 +231,8 @@ function UnitCard({
 
       {moods.length > 0 && (
         <div className="mt-3 flex flex-wrap gap-1.5">
-          {moods.map((mood) => (
-            <MoodChip key={mood} mood={mood} />
+          {moods.map((p) => (
+            <MoodChip key={p.mood} mood={p.mood} displayName={p.displayName} />
           ))}
         </div>
       )}
@@ -255,9 +253,15 @@ function UnitCard({
   )
 }
 
-export function PropertyDetailView({ property }: { property: PropertyDetail }) {
+export function PropertyDetailView({
+  property,
+  moodProfiles,
+}: {
+  property: PropertyDetail
+  moodProfiles: MoodProfileConfig[]
+}) {
   const photos = useMemo(() => galleryPhotos(property), [property])
-  const moods = useMemo(() => unitMoods(property.units), [property.units])
+  const moods = useMemo(() => unitMoods(property.units, moodProfiles), [property.units, moodProfiles])
 
   // Prefer the first bookable unit as the default selection.
   const bookableUnits = property.units.filter(
@@ -319,8 +323,8 @@ export function PropertyDetailView({ property }: { property: PropertyDetail }) {
           <div>
             {moods.length > 0 && (
               <div className="flex flex-wrap gap-1.5">
-                {moods.map((mood) => (
-                  <MoodChip key={mood} mood={mood} />
+                {moods.map(({ mood, displayName }) => (
+                  <MoodChip key={mood} mood={mood} displayName={displayName} />
                 ))}
               </div>
             )}
@@ -368,6 +372,7 @@ export function PropertyDetailView({ property }: { property: PropertyDetail }) {
                   <UnitCard
                     key={unit.id}
                     unit={unit}
+                    moodProfiles={moodProfiles}
                     selected={unit.id === selectedUnitId}
                     onSelect={() => setSelectedUnitId(unit.id)}
                   />

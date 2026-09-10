@@ -1,15 +1,17 @@
 'use client'
 
 import type { PublicProperty } from '@/lib/api/types/property'
+import type { MoodProfileConfig } from '@/lib/api/types/mood-config'
 import { PropertyGrid } from '@/components/property/PropertyGrid'
 
 export type PropertiesResultsProps = {
   properties: PublicProperty[]
+  moodProfiles?: MoodProfileConfig[]
   /** Set when the server-side search threw. Richer error UX is B.4. */
   error?: boolean
 }
 
-export function PropertiesResults({ properties, error }: PropertiesResultsProps) {
+export function PropertiesResults({ properties, moodProfiles, error }: PropertiesResultsProps) {
   if (error) {
     return (
       <p className="text-body text-pitch-soft">
@@ -18,5 +20,5 @@ export function PropertiesResults({ properties, error }: PropertiesResultsProps)
     )
   }
 
-  return <PropertyGrid properties={properties} />
+  return <PropertyGrid properties={properties} moodProfiles={moodProfiles} />
 }

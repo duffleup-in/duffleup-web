@@ -4,7 +4,7 @@ import { useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import type { MoodKey } from '@/lib/api/types/mood-config'
+import type { MoodKey, MoodProfileConfig } from '@/lib/api/types/mood-config'
 import type { PublicProperty } from '@/lib/api/types/property'
 import { cn } from '@/lib/cn'
 import { MoodChip } from './MoodChip'
@@ -12,21 +12,36 @@ import { MoodChip } from './MoodChip'
 /** Carousel shows at most this many photos per card (decision 4). */
 const MAX_PHOTOS = 5
 
-/** Order moods stably for chip rendering; matches the home mood-tile order. */
-const MOOD_ORDER: MoodKey[] = ['ROMANCE', 'CHILL', 'BASH', 'PETS', 'FAMILY', 'ADVENTURE', 'WORKATION', 'WELLNESS']
-
-/** Union all unit-level moods (Phase-2.5.1 moved moods off the property). */
-function propertyMoods(property: PublicProperty): MoodKey[] {
+/**
+ * Union all unit-level moods. If moodProfiles is provided, order by tileOrder
+ * and include displayName; otherwise sort alphabetically.
+ */
+function propertyMoods(
+  property: PublicProperty,
+  moodProfiles?: MoodProfileConfig[]
+): { mood: MoodKey; displayName?: string }[] {
   const set = new Set<MoodKey>()
   for (const unit of property.units) for (const m of unit.moods) set.add(m)
-  return MOOD_ORDER.filter((m) => set.has(m))
+  if (moodProfiles) {
+    return moodProfiles
+      .filter((p) => set.has(p.mood))
+      .sort((a, b) => a.tileOrder - b.tileOrder)
+      .map((p) => ({ mood: p.mood, displayName: p.displayName }))
+  }
+  return Array.from(set).sort().map((mood) => ({ mood }))
 }
 
 function locationLine(property: PublicProperty): string {
   return [property.area, property.state].filter(Boolean).join(', ')
 }
 
-export function PropertyCard({ property }: { property: PublicProperty }) {
+export function PropertyCard({
+  property,
+  moodProfiles,
+}: {
+  property: PublicProperty
+  moodProfiles?: MoodProfileConfig[]
+}) {
   // Hooks must run before any early return (Rules of Hooks).
   const [index, setIndex] = useState(0)
   const touchStartX = useRef<number | null>(null)
@@ -37,7 +52,7 @@ export function PropertyCard({ property }: { property: PublicProperty }) {
   if (property.priceFrom == null) return null
 
   const photos = property.photos.slice(0, MAX_PHOTOS)
-  const moods = propertyMoods(property)
+  const moods = propertyMoods(property, moodProfiles)
 
   const clamp = (i: number) => Math.max(0, Math.min(i, photos.length - 1))
   const go = (delta: number) => setIndex((i) => clamp(i + delta))
@@ -133,8 +148,8 @@ export function PropertyCard({ property }: { property: PublicProperty }) {
 
           {moods.length > 0 && (
             <div className="mb-4 flex flex-wrap gap-1.5">
-              {moods.map((mood) => (
-                <MoodChip key={mood} mood={mood} />
+              {moods.map(({ mood, displayName }) => (
+                <MoodChip key={mood} mood={mood} displayName={displayName} />
               ))}
             </div>
           )}

@@ -7,6 +7,7 @@ import {
   type IntentSearchParams,
 } from '@/lib/api'
 import type { PublicProperty } from '@/lib/api/types/property'
+import type { MoodProfileConfig } from '@/lib/api/types/mood-config'
 import { PageHero } from '@/components/marketing/PageHero'
 import { PropertiesResults } from './PropertiesResults'
 import { PropertiesFilters } from './PropertiesFilters'
@@ -50,10 +51,12 @@ export default async function PropertiesPage({
   }
 
   let properties: PublicProperty[] = []
+  let moodProfiles: MoodProfileConfig[] = []
   let error = false
+
   const [propertiesResult, moodConfig] = await Promise.all([
     getProperties(mapIntentParamsToSearch(intent)).catch(() => null),
-    getMoodConfig().catch(() => ({ moodProfiles: [], moodContexts: [] })),
+    getMoodConfig({ cache: 'force-cache', next: { revalidate: 300 } }).catch(() => ({ moodProfiles: [], moodContexts: [] })),
   ])
 
   // Guard the envelope: an unexpected shape (e.g. a backend still on the old
@@ -65,6 +68,7 @@ export default async function PropertiesPage({
   } else {
     error = true
   }
+  moodProfiles = moodConfig.moodProfiles ?? []
 
   return (
     <>
@@ -77,9 +81,9 @@ export default async function PropertiesPage({
         {/* PropertiesFilters uses useSearchParams() which requires a Suspense
             boundary in the Server Component tree (Next.js 14+ requirement). */}
         <Suspense>
-          <PropertiesFilters intent={intent} moodProfiles={moodConfig.moodProfiles} />
+          <PropertiesFilters intent={intent} moodProfiles={moodProfiles} />
         </Suspense>
-        <PropertiesResults properties={properties} error={error} />
+        <PropertiesResults properties={properties} moodProfiles={moodProfiles} error={error} />
       </section>
     </>
   )
