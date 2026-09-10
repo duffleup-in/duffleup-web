@@ -162,7 +162,7 @@ export function PropertiesFilters({ intent, moodProfiles }: PropertiesFiltersPro
               const lowerMood = moodKeyToLower(profile.mood)
               const isActive = currentMood === profile.mood
               const activeClass = MOOD_ACTIVE_CLASS[lowerMood] ?? DEFAULT_ACTIVE_CLASS
-              const label = profile.displayName || (profile.mood.charAt(0) + profile.mood.slice(1).toLowerCase())
+              const label = profile.displayName
               return (
                 <button
                   key={profile.mood}

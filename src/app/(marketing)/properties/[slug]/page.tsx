@@ -68,7 +68,7 @@ export default async function PropertyDetailPage({
 }) {
   const [result, moodConfig] = await Promise.all([
     loadProperty(params.slug),
-    getMoodConfig({ cache: 'force-cache', next: { revalidate: 300 } }).catch(() => ({ moodProfiles: [] })),
+    getMoodConfig({ cache: 'no-store' }).catch(() => ({ moodProfiles: [] })),
   ])
 
   if (result.status === 'not-found') {

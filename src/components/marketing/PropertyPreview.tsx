@@ -20,7 +20,7 @@ function propertyChips(
     .sort((a, b) => a.tileOrder - b.tileOrder)
     .slice(0, 2)
     .map((p) => ({
-      label: p.displayName || (p.mood.charAt(0) + p.mood.slice(1).toLowerCase()),
+      label: p.displayName,
       mood: p.mood.toLowerCase() as Mood,
     }))
 }
@@ -49,7 +49,7 @@ export async function PropertyPreview() {
         { showOnHomepage: true, limit: MAX_CARDS },
         { cache: 'force-cache', next: { revalidate: 300 } }
       ),
-      getMoodConfig({ cache: 'force-cache', next: { revalidate: 300 } }),
+      getMoodConfig({ cache: 'no-store' }),
     ])
     const moodProfiles = moodConfig.moodProfiles ?? []
     cards = res.data.map((p) => toCard(p, moodProfiles)).filter((c): c is PropertyCardProps & { slug: string } => c !== null)

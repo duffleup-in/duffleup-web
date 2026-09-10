@@ -24,7 +24,7 @@ export function MoodChip({
   displayName?: string
   className?: string
 }) {
-  const label = displayName || (mood.charAt(0) + mood.slice(1).toLowerCase())
+  const label = displayName ?? ''
   return (
     <span
       className={cn(
