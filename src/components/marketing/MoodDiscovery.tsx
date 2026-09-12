@@ -28,6 +28,7 @@ export function MoodDiscovery({ moodProfiles }: { moodProfiles: MoodProfileConfi
               mood={moodKeyToLower(p.mood) as Mood}
               name={p.displayName}
               description={p.calloutText}
+              imageUrl={p.heroImageUrl}
               onClick={() => setOpenMood(p.mood)}
             />
           ))}

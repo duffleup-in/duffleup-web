@@ -7,6 +7,9 @@ export type StickerMoodCardProps = {
   mood: Mood
   name: string
   description: string
+  /** Full-bleed background photo. When provided the card switches to the
+   * image layout: colored border, dark gradient overlay, all-white text. */
+  imageUrl?: string | null
   tag?: string
   cta?: string
   href?: string
@@ -37,22 +40,23 @@ function nameSize(name: string, compact: boolean): string {
   return 'text-[clamp(40px,20cqi,64px)]'
 }
 
-// bg + text + resting rotation per the v0.4 nth-child spec.
-const moodStyles: Record<Mood, { surface: string; rotate: string }> = {
-  romance: { surface: 'bg-slap-pink text-white', rotate: 'rotate-2' },
-  chill: { surface: 'bg-plasma text-pitch', rotate: '-rotate-2' },
-  bash: { surface: 'bg-acid text-pitch', rotate: '-rotate-3' },
-  pets: { surface: 'bg-pets text-white', rotate: 'rotate-1' },
-  family: { surface: 'bg-warning text-pitch', rotate: 'rotate-1' },
-  adventure: { surface: 'bg-solar text-white', rotate: '-rotate-1' },
-  workation: { surface: 'bg-hyperpurple text-white', rotate: 'rotate-3' },
-  wellness: { surface: 'bg-success text-white', rotate: '-rotate-1' },
+// Solid-color surface + text color + resting rotation (no-image mode).
+const moodStyles: Record<Mood, { surface: string; rotate: string; borderColor: string }> = {
+  romance:   { surface: 'bg-slap-pink text-white',    rotate: 'rotate-2',   borderColor: '#FF1B8D' },
+  chill:     { surface: 'bg-plasma text-pitch',       rotate: '-rotate-2',  borderColor: '#00D0FF' },
+  bash:      { surface: 'bg-acid text-pitch',         rotate: '-rotate-3',  borderColor: '#CCFF00' },
+  pets:      { surface: 'bg-pets text-white',         rotate: 'rotate-1',   borderColor: '#FF6FBC' },
+  family:    { surface: 'bg-warning text-pitch',      rotate: 'rotate-1',   borderColor: '#F5B339' },
+  adventure: { surface: 'bg-solar text-white',        rotate: '-rotate-1',  borderColor: '#FF6B00' },
+  workation: { surface: 'bg-hyperpurple text-white',  rotate: 'rotate-3',   borderColor: '#7B2FFF' },
+  wellness:  { surface: 'bg-success text-white',      rotate: '-rotate-1',  borderColor: '#1FC156' },
 }
 
 export function StickerMoodCard({
   mood,
   name,
   description,
+  imageUrl,
   tag,
   cta = 'Take me there →',
   href,
@@ -60,44 +64,68 @@ export function StickerMoodCard({
   compact = false,
   className,
 }: StickerMoodCardProps) {
-  const { surface, rotate } = moodStyles[mood]
+  const { surface, rotate, borderColor } = moodStyles[mood]
+  const hasImage = Boolean(imageUrl)
 
   const content = (
     <div
       className={cn(
-        'relative flex aspect-[4/5] cursor-pointer flex-col justify-between rounded-lg border-[3px] border-pitch p-6 shadow-pop transition-transform duration-200',
+        'relative flex aspect-[4/5] cursor-pointer flex-col justify-between rounded-lg border-[4px] p-6 shadow-pop transition-transform duration-200',
         '[container-type:inline-size]',
         compact && 'p-4',
         'hover:-translate-y-1 hover:rotate-0 hover:shadow-pop-lg',
-        surface,
+        hasImage ? 'overflow-hidden' : surface,
         rotate,
         className
       )}
+      style={hasImage ? { borderColor } : undefined}
     >
+      {hasImage && (
+        <>
+          <img
+            src={imageUrl!}
+            alt={name}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          {/* gradient heavier at top so the title/description stay legible */}
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/75 via-black/40 to-black/10" />
+        </>
+      )}
+
       {tag && (
         <span className="absolute -top-3 right-3 rotate-[5deg] rounded-xsm bg-pitch px-2.5 py-1 font-utility text-[11px] uppercase tracking-[0.15em] text-acid">
           {tag}
         </span>
       )}
-      <div>
+
+      <div className={cn('relative z-10 flex flex-col justify-between', compact ? 'gap-2' : 'gap-3')}>
         {/* leading- must follow the size class: cn()'s tailwind-merge treats a
             font-size as overriding line-height (our fontSize tokens carry one). */}
-        <p className={cn('font-display', nameSize(name, compact), 'leading-[0.9]')}>
+        <p
+          className={cn(
+            'font-display leading-[0.9]',
+            nameSize(name, compact),
+            hasImage && 'text-white',
+          )}
+        >
           {name}
         </p>
         <p
           className={cn(
-            'mt-2 font-medium leading-snug',
-            compact ? 'text-[12px]' : 'text-[15px]'
+            'font-medium leading-snug',
+            compact ? 'text-[12px]' : 'text-[15px]',
+            hasImage && 'text-white/90',
           )}
         >
           {description}
         </p>
       </div>
+
       <span
         className={cn(
-          'mt-auto self-start font-utility uppercase tracking-[0.15em]',
-          compact ? 'pt-3 text-subtitle' : 'pt-6 text-base'
+          'relative z-10 mt-auto self-start font-utility uppercase tracking-[0.15em]',
+          compact ? 'pt-3 text-subtitle' : 'pt-6 text-base',
+          hasImage && 'text-white',
         )}
       >
         {cta}

@@ -31,6 +31,7 @@ export function MoodGrid({ moods, selected, onSelect }: MoodGridProps) {
           mood={moodKeyToLower(profile.mood) as Mood}
           name={moodDisplayName(profile.mood, profile.displayName)}
           description={profile.calloutText}
+          imageUrl={profile.heroImageUrl}
           cta="Pick this →"
           onClick={() => onSelect(profile.mood)}
           compact
