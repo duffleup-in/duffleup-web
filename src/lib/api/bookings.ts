@@ -144,3 +144,56 @@ export function initiatePayment(
     { authToken, body: {} }
   )
 }
+
+// ---------------------------------------------------------------------------
+// Guest booking history
+// ---------------------------------------------------------------------------
+
+export interface GuestBooking {
+  id: string
+  ref: string
+  status: string
+  propertyName?: string
+  unitName?: string
+  checkIn: string
+  checkOut: string
+  numNights: number
+  numGuests?: number
+  amount: number
+  currency?: string
+  createdAt: string
+  cancellationPolicy?: string
+}
+
+export interface GuestBookingsResponse {
+  results: GuestBooking[]
+  count: number
+}
+
+export function getMyBookings(authToken: string): Promise<GuestBookingsResponse> {
+  return apiFetch<GuestBookingsResponse>('/bookings/my-bookings', {
+    authToken,
+    cache: 'no-store',
+  })
+}
+
+export function cancelGuestBooking(
+  bookingId: string,
+  reason: string,
+  authToken: string
+): Promise<{ status: string; message: string }> {
+  return apiMutate('/bookings/' + bookingId + '/cancel', {
+    authToken,
+    body: { reason },
+  })
+}
+
+export function retryPayment(
+  bookingId: string,
+  authToken: string
+): Promise<InitiatePaymentResponse> {
+  return apiMutate<InitiatePaymentResponse>(
+    `/bookings/${bookingId}/payment/initiate`,
+    { authToken, body: {} }
+  )
+}

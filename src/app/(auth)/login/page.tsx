@@ -2,15 +2,18 @@
 
 import { useState, type FormEvent } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { Suspense } from 'react'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { Alert } from '@/components/ui/Alert'
 import { useAuth } from '@/lib/auth/AuthProvider'
 import GoogleAuthButton from '@/components/auth/GoogleAuthButton'
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const next = searchParams.get('next') || '/'
   const { login } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -23,18 +26,20 @@ export default function LoginPage() {
     setLoading(true)
     try {
       await login({ email: email.trim(), password })
-      router.push('/')
+      router.push(next)
     } catch {
       setError('Invalid email or password.')
       setLoading(false)
     }
   }
 
+  const handleGoogleSuccess = () => router.push(next)
+
   return (
     <div className="flex flex-col gap-5">
       <h1 className="font-utility text-subh uppercase tracking-[0.1em] text-pitch">Sign in</h1>
 
-      <GoogleAuthButton onSuccess={() => router.push('/')} onError={setError} />
+      <GoogleAuthButton onSuccess={handleGoogleSuccess} onError={setError} />
 
       <div className="flex items-center gap-3">
         <div className="h-px flex-1 bg-line-strong" />
@@ -90,5 +95,13 @@ export default function LoginPage() {
         </Link>
       </p>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   )
 }

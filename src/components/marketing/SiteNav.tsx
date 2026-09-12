@@ -2,10 +2,11 @@
 
 import * as React from 'react'
 import Link from 'next/link'
-import { Menu, X } from 'lucide-react'
+import { Menu, X, User, CalendarDays, LogOut, ChevronDown } from 'lucide-react'
 import { Logo } from '@/components/ui/Logo'
 import { Button } from '@/components/ui/Button'
 import { IntentCollectorModal } from '@/components/booking/IntentCollectorModal'
+import { useAuth } from '@/lib/auth/AuthProvider'
 import { cn } from '@/lib/cn'
 
 export type NavLink = { label: string; href: string }
@@ -24,29 +25,112 @@ const defaultLinks: NavLink[] = [
   { label: 'For owners', href: '/list-your-property' },
 ]
 
+// ---------------------------------------------------------------------------
+// Auth-aware user menu
+// ---------------------------------------------------------------------------
+
+function UserMenu() {
+  const { user, logout } = useAuth()
+  const [open, setOpen] = React.useState(false)
+  const ref = React.useRef<HTMLDivElement>(null)
+
+  React.useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const initials = user?.firstName?.charAt(0) ?? user?.email?.charAt(0)?.toUpperCase() ?? 'U'
+
+  return (
+    <div className="relative" ref={ref}>
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-white/10 transition-colors"
+        aria-haspopup="true"
+        aria-expanded={open}
+      >
+        <span className="w-7 h-7 rounded-full bg-acid text-pitch flex items-center justify-center text-xs font-bold uppercase">
+          {initials}
+        </span>
+        <span className="hidden sm:block font-utility text-sm uppercase tracking-wider text-white max-w-[100px] truncate">
+          {user?.firstName ?? 'Account'}
+        </span>
+        <ChevronDown size={14} className={cn('text-white/60 transition-transform', open && 'rotate-180')} />
+      </button>
+
+      {open && (
+        <div className="absolute right-0 top-full mt-1 w-48 bg-white rounded shadow-lg border border-line py-1 z-50">
+          <Link
+            href="/account/bookings"
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-2 px-4 py-2.5 text-sm text-pitch hover:bg-sterling-warm transition-colors"
+          >
+            <CalendarDays size={14} />
+            My Bookings
+          </Link>
+          <Link
+            href="/properties"
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-2 px-4 py-2.5 text-sm text-pitch hover:bg-sterling-warm transition-colors"
+          >
+            <User size={14} />
+            Browse stays
+          </Link>
+          <hr className="my-1 border-line" />
+          <button
+            onClick={() => { void logout(); setOpen(false) }}
+            className="flex items-center gap-2 px-4 py-2.5 text-sm text-danger hover:bg-red-50 transition-colors w-full text-left"
+          >
+            <LogOut size={14} />
+            Sign out
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ---------------------------------------------------------------------------
+// Main SiteNav
+// ---------------------------------------------------------------------------
+
 export function SiteNav({ links = defaultLinks, actions, className }: SiteNavProps) {
+  const { isAuthenticated, status } = useAuth()
   const [open, setOpen] = React.useState(false)
   const [collectorOpen, setCollectorOpen] = React.useState(false)
   const [scrolled, setScrolled] = React.useState(false)
 
-  // The collector lives at nav level, not inside the action cluster: the burger
-  // menu unmounts its children when it closes, which would tear down the modal
-  // at the moment we want it to appear. Hoisting it lets one handler both open
-  // the collector and dismiss the burger.
   const openCollector = () => {
     setCollectorOpen(true)
     setOpen(false)
   }
 
+  // Build the right-side action cluster based on auth state
   const actionCluster = actions ?? (
-    <>
-      <Button asChild variant="secondary" size="sm">
-        <Link href="/list-your-property">Got a place?</Link>
-      </Button>
-      <Button variant="primary" size="sm" onClick={openCollector}>
-        Pack my duffle
-      </Button>
-    </>
+    status === 'loading' ? (
+      <div className="w-24 h-9 rounded bg-white/10 animate-pulse" />
+    ) : isAuthenticated ? (
+      <>
+        <Button variant="primary" size="sm" onClick={openCollector}>
+          Pack my duffle
+        </Button>
+        <UserMenu />
+      </>
+    ) : (
+      <>
+        <Button asChild variant="secondary" size="sm">
+          <Link href="/login">Sign in</Link>
+        </Button>
+        <Button variant="primary" size="sm" onClick={openCollector}>
+          Pack my duffle
+        </Button>
+      </>
+    )
   )
 
   React.useEffect(() => {
@@ -70,9 +154,6 @@ export function SiteNav({ links = defaultLinks, actions, className }: SiteNavPro
           href="/"
           className={cn(
             'relative z-20 inline-flex self-center leading-none',
-            // Top of page on desktop only: pull flush to the container edge
-            // (cancels the row's px-6 gutter) and top-align so the oversized
-            // mark bleeds downward. Mobile keeps the gutter + contained 48px.
             !scrolled && 'md:-ml-6 md:self-start'
           )}
           aria-label="duffleup home"
@@ -124,6 +205,17 @@ export function SiteNav({ links = defaultLinks, actions, className }: SiteNavPro
                 </Link>
               </li>
             ))}
+            {isAuthenticated && (
+              <li>
+                <Link
+                  href="/account/bookings"
+                  onClick={() => setOpen(false)}
+                  className="font-utility text-subh uppercase tracking-[0.08em] text-acid no-underline"
+                >
+                  My Bookings
+                </Link>
+              </li>
+            )}
           </ul>
           <div className="mt-4 flex flex-col gap-2">{actionCluster}</div>
         </div>

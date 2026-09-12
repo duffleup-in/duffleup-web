@@ -5,13 +5,25 @@ export {
   getBooking,
   getBookingConfirmation,
   initiatePayment,
+  getMyBookings,
+  cancelGuestBooking,
+  retryPayment,
   type QuoteRequest,
   type QuoteResponse,
   type CreateBookingRequest,
   type BookingResponse,
   type BookingConfirmation,
   type InitiatePaymentResponse,
+  type GuestBooking,
+  type GuestBookingsResponse,
 } from './bookings'
+
+export {
+  submitReview,
+  getPropertyReviews,
+  type GuestReview,
+  type SubmitReviewPayload,
+} from './reviews'
 
 export { apiFetch, apiMutate, ApiError } from './client'
 export type { ApiRequestOptions } from './client'
