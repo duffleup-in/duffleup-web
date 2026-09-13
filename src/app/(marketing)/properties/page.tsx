@@ -13,8 +13,13 @@ import { PropertiesResults } from './PropertiesResults'
 import { PropertiesFilters } from './PropertiesFilters'
 
 export const metadata: Metadata = {
-  title: 'Stays — Duffleup',
-  robots: { index: false, follow: false },
+  title: 'Offbeat Stays in Maharashtra — Duffleup',
+  description:
+    'Browse verified offbeat stays across Maharashtra — farmstays, treehouses, hill retreats, and more. Every property physically inspected before listing.',
+  openGraph: {
+    title: 'Offbeat Stays in Maharashtra — Duffleup',
+    description: 'Verified offbeat stays — farmstays, treehouses, hill retreats, and more.',
+  },
 }
 
 // SP-F1 B.2 — search results. Server Component reads the intent-collector URL

@@ -49,15 +49,33 @@ export async function generateMetadata({
       next: { revalidate: 300 },
     })
     const location = [property.area, property.state].filter(Boolean).join(', ')
+    const title = `${property.displayName}${location ? ` in ${location}` : ''} — Duffleup`
+    const description =
+      property.description ??
+      `Stay at ${property.displayName}${location ? ` in ${location}` : ''} — a verified offbeat property on Duffleup.`
+    const coverImage = (property as { coverImageUrl?: string }).coverImageUrl
     return {
-      title: `${property.displayName} — Duffleup`,
-      description:
-        property.description ??
-        `${property.displayName}${location ? ` in ${location}` : ''} on Duffleup.`,
-      robots: { index: false, follow: false },
+      title,
+      description,
+      alternates: { canonical: `https://duffleup.in/properties/${params.slug}` },
+      openGraph: {
+        title,
+        description,
+        url: `https://duffleup.in/properties/${params.slug}`,
+        type: 'website',
+        ...(coverImage && {
+          images: [{ url: coverImage, width: 1200, height: 630, alt: property.displayName }],
+        }),
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description,
+        ...(coverImage && { images: [coverImage] }),
+      },
     }
   } catch {
-    return { title: 'Stay — Duffleup', robots: { index: false, follow: false } }
+    return { title: 'Stay — Duffleup' }
   }
 }
 

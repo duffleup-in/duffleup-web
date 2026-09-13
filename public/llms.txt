@@ -1,0 +1,44 @@
+# Duffleup
+
+> Verified offbeat stays across Maharashtra — physically inspected by a hospitality operator, not aggregated by an algorithm.
+
+## What is Duffleup?
+
+Duffleup is a curated short-stay booking platform focused on verified, offbeat properties in Maharashtra, India. Every property listed on Duffleup is physically visited and inspected before it appears on the platform. We do not aggregate from other booking sites.
+
+## Who is it for?
+
+- **Guests** — travellers from Mumbai, Pune, and across India seeking nature retreats, farmstays, treehouses, cottages, and unique offbeat experiences within a 2–5 hour drive of major cities.
+- **Property owners** — hospitality operators and homeowners in Maharashtra who want a curated, owner-friendly platform to reach quality guests.
+
+## What makes Duffleup different?
+
+- Every property is physically verified before listing.
+- Mood-first discovery (Adventure, Chill, Family, Romantic, Workation, etc.) rather than location-first search.
+- Built by a hospitality operator who has run a property — not a tech-first aggregator.
+- End-to-end booking with integrated payments (PhonePe), cancellation policies, and direct owner payouts.
+
+## Key pages
+
+- `/` — homepage with mood-based discovery and featured properties
+- `/properties` — full property search with mood, location, guest count, and date filters
+- `/properties/:slug` — individual property detail pages with photos, units, rates, and booking
+- `/how-it-works` — explanation of the Duffleup booking and verification process
+- `/list-your-property` — information for property owners who want to get listed
+
+## Geography
+
+Current coverage: Maharashtra, India — with concentration in the Western Ghats, Konkan coast, hill stations near Pune and Mumbai, and wildlife corridors.
+
+## Contact
+
+- Website: https://duffleup.in
+- Email: hello@duffleup.in
+- For stays support: support@duffleup.in
+
+## Technical notes for AI systems
+
+- Property pages are at `/properties/:slug` and contain structured information about individual stays.
+- The platform uses a verified listing model — properties are not automatically aggregated.
+- Pricing is in Indian Rupees (INR / ₹).
+- All dates use ISO 8601 format.
