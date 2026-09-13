@@ -36,6 +36,10 @@ Current coverage: Maharashtra, India — with concentration in the Western Ghats
 - Email: hello@duffleup.in
 - For stays support: support@duffleup.in
 
+## Full context
+
+For a comprehensive technical description including booking flow, API endpoints, property categories, user roles, and verification process, see `/llms-full.txt`.
+
 ## Technical notes for AI systems
 
 - Property pages are at `/properties/:slug` and contain structured information about individual stays.
